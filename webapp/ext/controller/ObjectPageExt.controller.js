@@ -27,7 +27,7 @@ sap.ui.define([
         Button,
         ButtonType,
         Text,
-        History, MessageBox, MessageToast,mLibrary) {
+        History, MessageBox, MessageToast, mLibrary) {
         "use strict";
         var pressDialog;
         var pressDialog2;
@@ -35,6 +35,10 @@ sap.ui.define([
         var gRowID;
         var gMaterial;
         var File = [];
+        var removedFileDamage = [];
+        var removedFileQuality = [];
+        var uploadedFileDamage = [];
+        var uploadedFileQuality = [];
         var DraftStatusFlg = false;
         var oAttachmentsModel, oAttachmentsModel2, oAttachmentUpl, oAttachmentUpl2;
         return {
@@ -107,7 +111,7 @@ sap.ui.define([
                         StatusType = oEvent.context.getObject().StatusType;
                         BTP_CRNO = oEvent.context.getObject().BTPCRNO;
                         invoiceNo = oEvent.context.getObject().PsplInvoice;
-                       var invoiceNoHdr = oEvent.context.getObject().PSInvoiceHdr_PsplInvoice;
+                        var invoiceNoHdr = oEvent.context.getObject().PSInvoiceHdr_PsplInvoice;
                         OrgStrucEleCode_Id = oEvent.context.getObject().OrgStrucEleCode_Id;
                         this.getView().setModel(new sap.ui.model.json.JSONModel({
                             items: [oEvent.context.getObject()]
@@ -118,7 +122,7 @@ sap.ui.define([
 
                         //  this.InvoiceDate=oDateFormat.format(this.InvoiceDate);                   
 
-                        if(invoiceNoHdr == null){
+                        if (invoiceNoHdr == null) {
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(true);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(false);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(false);
@@ -181,7 +185,7 @@ sap.ui.define([
 
                     }.bind(this)
                 );
-               
+
                 // this.busyDialog = formatter.createBusyDialog();
                 // this.getOwnerComponent().getRouter().getRoute("ChangeLog").attachPatternMatched(this.onRouteMatch, this);
             },
@@ -530,12 +534,14 @@ sap.ui.define([
                     );
 
                     this.getView().addDependent(pressDialog);
+                    sap.ui.getCore().byId("ListDialog").setTitle("CR Details for Item "+pathdata.Material);
                     sap.ui.getCore().byId("DeliveryDate").setMaxDate(new Date());
                     var oModel = this.getOwnerComponent().getModel();
 
                     var oFilterR = new sap.ui.model.Filter({
                         filters: [
-                            new sap.ui.model.Filter("BTPCRItem", "EQ", pathdata.BTPCRItem)
+                            new sap.ui.model.Filter("BTPCRItem", "EQ", pathdata.BTPCRItem),
+                            new sap.ui.model.Filter("StatusCode_Id", "NE", 10),
                         ],
                         and: true
                     });
@@ -650,8 +656,8 @@ sap.ui.define([
 
                                     }
                                     if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review") {
-                                        that.QualityApprovedData=data;
-        
+                                        that.QualityApprovedData = data;
+
                                     }
                                     // if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "DraftSCC") {
                                     if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusType == "DraftSCC") {
@@ -662,6 +668,7 @@ sap.ui.define([
                                         sap.ui.getCore().byId("coments").setEnabled(true);
                                         sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(true);
                                         sap.ui.getCore().byId("Idsave").setEnabled(true);
+                                        sap.ui.getCore().byId("Expdate").setEnabled(true);
                                         DraftStatusFlg = true;
                                         sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
 
@@ -675,9 +682,12 @@ sap.ui.define([
                                     }
 
                                     var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-                                        pattern: "yyyy-MM-dd"
+                                        pattern: "yyyy-MM-dd",
+                                        UTC:'true'
+
                                     });
                                     var d = data.Attachment.results[0].ExpDate
+                                    
                                     if (d != null) {
                                         d = oDateFormat.format(new Date(d));
                                         sap.ui.getCore().byId("Expdate").setValue(d);
@@ -697,8 +707,9 @@ sap.ui.define([
                                                 fileName: "{FileName}",
                                                 mediaType: "{MediaType}",
                                                 visibleEdit: false,
-                                                visibleRemove: that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription === 'Draft' ? true : false ,
-                                                url: "/AttachmentRow",
+                                                visibleRemove: that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription === 'Draft' ? true : false,
+                                                url: "{Url}",
+                                                openPressed: that.onOpenPressed,
                                             })
                                         );
                                 },
@@ -730,7 +741,7 @@ sap.ui.define([
 
                             }
                             if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review") {
-                                that.QualityApprovedData=data;
+                                that.QualityApprovedData = data;
 
                             }
                             if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusType == "DraftSCC") {
@@ -756,7 +767,8 @@ sap.ui.define([
 
 
                             var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-                                pattern: "yyyy-MM-dd"
+                                pattern: "yyyy-MM-dd",
+                                UTC:'true'
                             });
                             var d = data.Attachment.results[0].DeliveryDate
                             if (d != null) {
@@ -812,7 +824,7 @@ sap.ui.define([
 
                             }
                             if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review") {
-                                that.QualityApprovedData=data;
+                                that.QualityApprovedData = data;
 
                             }
                             if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusType == "DraftSCC") {
@@ -864,7 +876,7 @@ sap.ui.define([
 
                                 sap.ui.getCore().byId("idReClasiLabel").setVisible(true);
                                 sap.ui.getCore().byId("idReClasi").setVisible(true);
-                                that.QualityApprovedData=data;
+                                that.QualityApprovedData = data;
                                 sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
                                 sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
 
@@ -904,7 +916,8 @@ sap.ui.define([
                             var Attachmentid = data.Attachment.results[0].AttachmentId;
                             var DamageId_Id = data.Attachment.results[0].DamageId_Id;
                             var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-                                pattern: "yyyy-MM-dd"
+                                pattern: "yyyy-MM-dd",
+                                UTC:'true'
                             });
                             sap.ui.getCore().byId("Quality").getContent()[2].setValue(data.ProductType);
                             sap.ui.getCore().byId("Quality").getContent()[6].setValue(data.Attachment.results[0].UseByDate == null ? "" : oDateFormat.format(new Date(data.Attachment.results[0].UseByDate)));
@@ -936,8 +949,9 @@ sap.ui.define([
                                                 fileName: "{FileName}",
                                                 mediaType: "{MediaType}",
                                                 visibleEdit: false,
-                                                visibleRemove: that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription === 'Draft' ? true : false ,
-                                                url: "/AttachmentRow",
+                                                visibleRemove: that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription === 'Draft' ? true : false,
+                                                url: "{Url}",
+                                                openPressed: that.onOpenPressed,
                                             })
                                         );
                                     pressDialog.open();
@@ -984,7 +998,8 @@ sap.ui.define([
                                                 mediaType: "{MediaType}",
                                                 visibleEdit: false,
                                                 visibleRemove: false,
-                                                url: "/AttachmentRow",
+                                                url: "{Url}",
+                                                openPressed: that.onOpenPressed,
                                             })
                                         );
                                     pressDialog2.open();
@@ -1252,22 +1267,162 @@ sap.ui.define([
                 File = [];
             },
             onAfterItemAdded: function (oEvent) {
-                //  File = [];
+                var oCalledEvent = oEvent.getParameter("id");
                 var item = oEvent.getParameter("item");
-                var obj = {};
-                (obj.MediaType = item.getMediaType()),
-                    (obj.FileName = item.getFileName()),
-                    (obj.Size = item.getFileObject().size);
-                File.push(obj);
-                if (oEvent.getParameter("item").getModel().getData() !== null) {
-                    if (oEvent.getParameter("item").getModel().getData().results.length > 0) {
-                        for (var i in oEvent.getParameter("item").getModel().getData().results) {
-                            File.push(oEvent.getParameter("item").getModel().getData().results[i]);
-                        }
+                this._createEntity(item, oCalledEvent);
+            },
+            onUploadCompleted: function (oEvent) {
+                oAttachmentUpl.removeAllIncompleteItems();
+            },
+            _uploadContent: function (item, result, oCalledEvent) {
+                var Url = result.__metadata.media_src.replaceAll("'", "");
+                Url = Url.replace("$value", "Content");
+                Url = Url.replace("guid", "");
+                item.setUploadUrl(Url);
+                item.setUrl(Url);
+                oAttachmentUpl.setHttpRequestMethod("PUT");
+                oAttachmentUpl.uploadItem(item);
+                if (oCalledEvent === "attachmentUpl") {
+                    var data = {
+                        id: result.Id,
+                        MediaType: item.getMediaType(),
+                        FileName: item.getFileName(),
+                        Size: item.getFileObject().size,
+                    };
+                    uploadedFileDamage.push(data);
+                } else if (oCalledEvent === "attachmentUpl1") {
+                    data = {
+                        id: result.Id,
+                        MediaType: item.getMediaType(),
+                        FileName: item.getFileName(),
+                        Size: item.getFileObject().size,
+                    };
+                    uploadedFileQuality.push(data);
+                }
+            },
+            _createEntity: function (item, oCalledEvent) {
+                var data = {
+                    MediaType: item.getMediaType(),
+                    FileName: item.getFileName(),
+                    Size: item.getFileObject().size,
+                };
+                var that = this;
+                var oModel = that.getOwnerComponent().getModel();
+                oModel.create("/AttachmentRow", data, {
+                    method: "POST",
+                    success: function (data) {
+                        that._uploadContent(item, data, oCalledEvent);
+                    },
+                    error: function (data) {
+                        sap.m.MessageBox.error("Error");
+                    },
+                });
+            },
+            onBeforeItemAdded: function (oEvent) {
+                oAttachmentUpl = sap.ui.getCore().byId(oEvent.getParameter("id"));
+                var oItem = oEvent.getParameter("item");
+                oItem.setVisibleEdit(false);
+                var Data = oAttachmentUpl.getModel().getData();
+                if (Data !== null) {
+                    var fileIndex = Data.results.findIndex(
+                        (x) => x.FileName === oItem.getFileName()
+                    );
+                    if (fileIndex >= 0) {
+                        oEvent.preventDefault();
+                        sap.m.MessageToast.show("File with same name already exists");
+                        return;
+                    }
+                }
+                if (uploadedFileDamage.length > 0) {
+                    fileIndex = uploadedFileDamage.findIndex(
+                        (x) => x.FileName === oItem.getFileName()
+                    );
+                    if (fileIndex >= 0) {
+                        oEvent.preventDefault();
+                        sap.m.MessageToast.show("File with same name already exists");
+                        return;
                     }
                 }
             },
+            onRemoveItem: function (evt) {
+                var oItem = evt.getParameter("item");
+                var oCalledEvent = sap.ui.getCore().byId(evt.getParameter("id")).sId;
+                var Data = sap.ui
+                    .getCore()
+                    .byId(evt.getParameter("id"))
+                    .getModel()
+                    .getData();
+                if (Data !== null) {
+                    var ID = Data.results.filter(
+                        (x) => x.FileName === oItem.getFileName()
+                    )[0].Id;
+                    if (oCalledEvent === "attachmentUpl") {
+                        removedFileDamage.push(ID);
+                    } else if (oCalledEvent === "attachmentUpl1") {
+                        removedFileQuality.push(ID);
+                    }
+                    sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
+                } else {
+                    sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
+                    if (oCalledEvent === "attachmentUpl") {
+                        var fileIndex = uploadedFileDamage.findIndex(
+                            (x) => x.FileName === oItem.getFileName()
+                        );
+                        uploadedFileDamage.splice(fileIndex, 1);
+                    } else if (oCalledEvent === "attachmentUpl1") {
+                        var fileIndex = uploadedFileQuality.findIndex(
+                            (x) => x.FileName === oItem.getFileName()
+                        );
+                        uploadedFileQuality.splice(fileIndex, 1);
+                    }
+                }
+            },
+            updateAttachmentID: function (attachmentID, CRType) {
+                var that=this;
+                var oModel = that.getOwnerComponent().getModel();
+                oModel.setUseBatch(true);
+                if (CRType === 1) {
+                    var uploadedFile = uploadedFileDamage;
+                } else if (CRType === 3) {
+                    uploadedFile = uploadedFileQuality;
+                } else {
+                    uploadedFile = [];
+                }
+                for (var i = 0; i < uploadedFile.length; i++) {
+                    var sPath = "/AttachmentRow(" + uploadedFile[i].id + ")";
+                    var obj = {
+                        AttachmentID_AttachmentId: attachmentID,
+                    };
+                    oModel.update(sPath, obj, {
+                        success: function (oData) { },
+                        error: function (Error) {
+                            var errorMsg = JSON.parse(Error.responseText).error.message.value;
+                            sap.m.MessageBox.error(errorMsg);
+                        },
+                    });
+                }
+            },
+            onOpenPressed: function (oEvent) {
+                var oItem = oEvent.getParameter("item");
+                var oCalledEvent = oEvent.getParameters().item.getParent().getId();
+                if (oCalledEvent === "attachmentUpl") {
+                    var oData = this.getModel("oAttachmentsModel").getData().results;
+                } else if (oCalledEvent === "attachmentUpl1") {
+                    oData = this.getModel("oAttachmentsModel2").getData().results;
+                }
+                else if(oCalledEvent==="CustomUpload"){
+                    oData = this.getModel("oAttachmentsModel2").getData().results;
+
+                }
+                var Url = oData.find((x) => x.FileName === oItem.getFileName())
+                    .__metadata.media_src;
+                oItem.setUrl(Url);
+            },
             _itemDialogDestroy() {
+                removedFileDamage = [];
+                removedFileQuality = [];
+                uploadedFileDamage = [];
+                uploadedFileQuality = [];
                 sap.ui.getCore().byId("DeliveryDate").destroy();
                 if (sap.ui.getCore().byId("idstep") !== undefined) {
                     sap.ui.getCore().byId("idstep").destroy();
@@ -1377,22 +1532,22 @@ sap.ui.define([
                         if (oAction === "OK") {
                             var oModel = that.getOwnerComponent().getModel();
                             var ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
-                         
-                                that.QualityApprovedData.ApproveQty=sap.ui.getCore().byId("apprQty").getValue();
-                                that.QualityApprovedData.Attachment.results[0].Classification=reClassify;
+
+                            that.QualityApprovedData.ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
+                            that.QualityApprovedData.Attachment.results[0].Classification = reClassify;
 
                             // var obj = {
                             //     "ApproveQty": ApproveQty
                             // };
 
-                         //   console.log(obj1);
-//                            oModel.sDefaultUpdateMethod = "PATCH";
+                            //   console.log(obj1);
+                            //                            oModel.sDefaultUpdateMethod = "PATCH";
                             oModel.update(path, that.QualityApprovedData, {
                                 success: function (oSuccess) {
                                     DraftStatusFlg = false;
                                     oModel.refresh();
                                     sap.m.MessageToast.show("Quantity Approved  ");
-//                                     oModel.sDefaultUpdateMethod = "MERGE";
+                                    //                                     oModel.sDefaultUpdateMethod = "MERGE";
                                     pressDialog.close();
                                     that._itemDialogDestroy();
                                     pressDialog.destroy();
@@ -1400,7 +1555,7 @@ sap.ui.define([
                                 },
                                 error: function (oError) {
                                     sap.m.MessageBox.alert("Techincal Error Occured -");
-//                                     oModel.sDefaultUpdateMethod = "MERGE";
+                                    //                                     oModel.sDefaultUpdateMethod = "MERGE";
                                     pressDialog.close();
                                     that._itemDialogDestroy();
                                     pressDialog.destroy();
@@ -1421,14 +1576,174 @@ sap.ui.define([
                 var that = this;
                 var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
 
-                // if (sap.ui.getCore().byId("idcbox").getValue() == "Damage" && File.length === 0) {
-                //     sap.m.MessageBox.error("Please Fill Required Feilds");
-                //     return;
-                // }
-                // if (sap.ui.getCore().byId("idcbox").getValue() == "Quality" && File.length === 0) {
-                //     sap.m.MessageBox.error("Please Fill Required Feilds");
-                //     return;
-                // }
+                var oModel = this.getOwnerComponent().getModel();
+
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("BTPCRItem", "EQ", this.selectedBTPCRItem),
+                        new sap.ui.model.Filter("StatusCode_Id", "NE", 10),
+                    ],
+                    and: true
+                });
+                oModel.read("/CreditReqItem", {
+                    filters: [oFilterR],
+                    urlParameters: {
+                        $expand: "Attachment/AttachmentPIssue",
+                    },
+                    success: function (oResponse) {
+                        console.log(oResponse.results);
+                        // var BTPCRItem = oData.results[0].BTPCRItem;
+                        // Attachmentid =
+                        //     oData.results[0].Attachment.results[0].AttachmentId;
+                            var oModel = that.getOwnerComponent().getModel();
+                        oModel.setUseBatch(true);
+                        for (var i = 0; i < removedFileDamage.length; i++) {
+                            var sPath = "/AttachmentRow(" + removedFileDamage[i] + ")";
+                            oModel.remove(sPath, {
+                                method: "POST",
+                                success: function (data) { },
+                                error: function (e) { },
+                            });
+                        }
+                        for (var i = 0; i < removedFileQuality.length; i++) {
+                            var sPath = "/AttachmentRow(" + removedFileQuality[i] + ")";
+                            oModel.remove(sPath, {
+                                method: "POST",
+                                success: function (data) { },
+                                error: function (e) { },
+                            });
+                        }
+
+                        if (sap.ui.getCore().byId("NotShipped").getVisible() == true) {
+                            var comment = sap.ui.getCore().byId("Nscomments").getValue()
+                        }
+                        else {
+                            var comment = sap.ui.getCore().byId("coments").getValue()
+
+                        }
+                        var MfgDate = null,
+                            UseByDate = null,
+                            JulianDate = null,
+                            BestBeforeDate = null,
+                            LotCode = null,
+                            ExpirationDate = null;
+                        if (sap.ui.getCore().byId("Quality").getVisible() == true) {
+
+                            var qualityModel = that.getOwnerComponent().getModel("qualityModel");
+                            ExpirationDate = qualityModel.getProperty("/ExpirationDate");
+                            MfgDate = qualityModel.getProperty("/ManufactureDate");
+                            UseByDate = qualityModel.getProperty("/UseByDate");
+                            JulianDate = qualityModel.getProperty("/JulianDate");
+                            BestBeforeDate = qualityModel.getProperty("/BestBeforeDate");
+                            LotCode = qualityModel.getProperty("/LotCode");
+                        }
+                        if (sap.ui.getCore().byId("Damage").getVisible() == true) {
+                            LotCode = sap.ui.getCore().byId("LotCode").getValue();
+
+                        }
+                        var AttachmentPIssue = [];
+                        for (var i in that.PISelectedkeys) {
+                            var obj = {
+                                ProductIssueMaster_Id: that.PISelectedkeys[i]
+                            }
+                            AttachmentPIssue.push(obj);
+                        }
+                        var obj1 = {
+                            Qty: sap.ui.getCore().byId("idstep").getValue(),
+                            "StatusCode_Id": 1,
+                            CRType_Id: sap.ui.getCore().byId("idcbox").getSelectedKey(),
+                            ProductType: that.PType,
+                            Attachment: [
+                                {
+                                    CRType_Id: sap.ui.getCore().byId("idcbox").getSelectedKey(),
+                                    DamageId_Id: 1,
+                                    LotCode: LotCode,
+                                    Comment: comment,
+                                    ExpDate: sap.ui.getCore().byId("Expdate").getValue()
+                                        ? sap.ui.getCore().byId("Expdate").getValue()
+                                        : null,
+
+                                    DeliveryDate: sap.ui.getCore().byId("DeliveryDate").getValue()
+                                        ? sap.ui.getCore().byId("DeliveryDate").getValue()
+                                        : null,
+                                    ExpirationDate: ExpirationDate,
+                                    Reason: null,
+                                    ProductName_Id: null,
+                                    MfgDate: MfgDate,
+                                    UseByDate: UseByDate,
+                                    JulianDate: JulianDate,
+                                    BestBeforeDate: BestBeforeDate,
+                                    //BestBeforeDate: "2021-06-27",
+                                    CreditReqItem_BTPCRItem: that.selectedBTPCRItem,
+                                    // AttachmentRow: File,
+                                    Classification: reClassify,
+                                    AttachmentPIssue: AttachmentPIssue
+                                },
+                            ],
+                        };
+                        if(oResponse.results[0].Attachment.results.length>0){
+                            var BTPCRItem = oResponse.results[0].BTPCRItem;
+                           var Attachmentid =
+                               oResponse.results[0].Attachment.results[0].AttachmentId;
+                           obj1.Attachment[0]["AttachmentId"] = Attachmentid;
+   
+                           }               
+                        var Path = "/CreditReqItem" + "(" + that.selectedBTPCRItem + ")";
+                        var oModel = that.getOwnerComponent().getModel();
+                        oModel.update(Path, obj1, {
+                            success: function (oData) {
+                                File = [];
+                                var oTable1 = that
+                                    .getView()
+                                    .byId(
+                                        "sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--ItemId::responsiveTable"
+                                    );
+
+                                if (oData.Attachment.results.length > 0) {
+                                    that.updateAttachmentID(
+                                        oData.Attachment.results[0].AttachmentId,
+                                        oData.CRType_Id
+                                    );
+                                }
+                                sap.m.MessageBox.success(
+                                    "Item updated to CR No." + BTP_CRNO + "",
+                                    {
+                                        actions: [sap.m.MessageBox.Action.OK],
+
+                                        onClose: function (sAction) {
+                                            //  MessageToast.show("Action selected: " + sAction);
+                                            if (sAction == "OK") {
+                                                that.extensionAPI.refresh(oTable1.sId);
+                                                // oTable1.rerender()
+                                            }
+                                        },
+                                    }
+                                );
+
+                                oTable1.getModel().refresh();
+
+                                that.extensionAPI.refresh(oTable1.sId);
+                                // oTable1.rerender()
+                                pressDialog.close();
+                                that._itemDialogDestroy();
+                                pressDialog.destroy();
+                            },
+                            error: function (Error) {
+                                var errorMsg = JSON.parse(Error.responseText).error
+                                    .message.value;
+                                sap.m.MessageBox.error(errorMsg);
+                            },
+                        });
+
+                    },
+                    error: function (err) { }
+                });
+
+            },
+            addCRItems_old: function () {
+                var that = this;
+                var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
+
                 if (sap.ui.getCore().byId("NotShipped").getVisible() == true) {
                     var comment = sap.ui.getCore().byId("Nscomments").getValue()
                 }
@@ -1490,7 +1805,7 @@ sap.ui.define([
                             BestBeforeDate: BestBeforeDate,
                             //BestBeforeDate: "2021-06-27",
                             CreditReqItem_BTPCRItem: this.selectedBTPCRItem,
-                            AttachmentRow: File,
+                            // AttachmentRow: File,
                             Classification: reClassify,
                             AttachmentPIssue: AttachmentPIssue
                         },
@@ -1506,13 +1821,7 @@ sap.ui.define([
                             .byId(
                                 "sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--ItemId::responsiveTable"
                             );
-                        //   for (var i = 0; i < Item.length; i++) {
-                        //     if (Item[i].CRItem == itemdata.ItemNo) {
-                        //       (Item[i].CRItem = itemdata.ItemNo),
-                        //         (Item[i].CRTYPe = critm),
-                        //         (Item[i].CRQty = crqty);
-                        //     }
-                        //   }
+
 
                         sap.m.MessageBox.success(
                             "Item updated to CR No." + BTP_CRNO + "",
@@ -1690,10 +1999,10 @@ sap.ui.define([
                 var model = this.getView().getModel("ItemListModel").getData();
                 var ItemList = model.ItemList;
                 var selectedindices = this.getView().byId("tableid")._oLegacySelectionPlugin.oSelectionModel.aSelectedIndices;
-                if(selectedindices.length == 0){
+                if (selectedindices.length == 0) {
                     sap.m.MessageBox.alert("Please select atleast one Item.");
                 }
-                else{
+                else {
                     var selectedData = [];
                     for (var i = 0; i < selectedindices.length; i++) {
                         selectedData.push(ItemList[selectedindices[i]]);
@@ -1789,9 +2098,9 @@ sap.ui.define([
                 }
                 this.pDialog.then(function (oDialog) {
                     oDialog
-                    .setFilterSearchCallback(null)
-                    .setFilterSearchOperator(mLibrary.StringFilterOperator.Contains)
-                    .open();
+                        .setFilterSearchCallback(null)
+                        .setFilterSearchOperator(mLibrary.StringFilterOperator.Contains)
+                        .open();
 
                 });
             },
@@ -2164,47 +2473,47 @@ sap.ui.define([
                 });
                 oModel.read("/CreditReqItem", {
                     filters: [oFilterR],
-                
+
                     success: function (oResponse) {
                         console.log(oResponse.results);
-                        for(var i=0;i<oResponse.results.length;i++){
-                                    if(oResponse.results[i].Qty==null || oResponse.results[i].CRTypeDesc==null){
-                                            sap.m.MessageBox.error("Credit Quantity/Type should not be Null");    
-                                            return; 
-                                    }
-                               
-                        }
-             
-                         sap.m.MessageBox.show("Are you sure, you want to submit?", {
-                    icon: sap.m.MessageBox.Icon.QUESTION,
-                    title: "Confirm",
-                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-                    onClose: function (oAction) {
-                        if (oAction === "OK") {
-                            var oFilterR = new sap.ui.model.Filter({
-                                filters: [
-                                    new sap.ui.model.Filter("StatusType", "EQ", "submit"),
-                                    new sap.ui.model.Filter("StatusDescription", "EQ", "Submitted")
-                                ],
-                                and: true
-                            });
-                            oModel.read("/CRStatus", {
-                                filters: [oFilterR],
-                                success: function (oResponse) {
-                                    console.log(oResponse.results);
-                                    that.CR_Status = oResponse.results;
-                                    that.onFinalSumbit();
-                                },
-                                error: function (err) { }
-                            });
+                        for (var i = 0; i < oResponse.results.length; i++) {
+                            if (oResponse.results[i].Qty == null || oResponse.results[i].CRTypeDesc == null) {
+                                sap.m.MessageBox.error("Credit Quantity/Type should not be Null");
+                                return;
+                            }
 
                         }
-                    }
-                });
+
+                        sap.m.MessageBox.show("Are you sure, you want to submit?", {
+                            icon: sap.m.MessageBox.Icon.QUESTION,
+                            title: "Confirm",
+                            actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                            onClose: function (oAction) {
+                                if (oAction === "OK") {
+                                    var oFilterR = new sap.ui.model.Filter({
+                                        filters: [
+                                            new sap.ui.model.Filter("StatusType", "EQ", "submit"),
+                                            new sap.ui.model.Filter("StatusDescription", "EQ", "Submitted")
+                                        ],
+                                        and: true
+                                    });
+                                    oModel.read("/CRStatus", {
+                                        filters: [oFilterR],
+                                        success: function (oResponse) {
+                                            console.log(oResponse.results);
+                                            that.CR_Status = oResponse.results;
+                                            that.onFinalSumbit();
+                                        },
+                                        error: function (err) { }
+                                    });
+
+                                }
+                            }
+                        });
                     },
                     error: function (err) { }
                 });
-               
+
             },
             onFinalSumbit: function () {
                 var that = this;
@@ -2301,7 +2610,7 @@ sap.ui.define([
                         CRNO_OrgStrucEleCode_Id: 1,
                         Material: material,
                         Comment: commentText,
-                        CreditReqItem_BTPCRItem:this.LocObjPage.BTPCRItem
+                        CreditReqItem_BTPCRItem: this.LocObjPage.BTPCRItem
                     };
                 oDataModel.create(Path, obj, {
                     method: "POST",
@@ -2366,30 +2675,30 @@ sap.ui.define([
                 var CRNOData = new Filter("BTPCRNo_BTPCRNO", FilterOperator.EQ, BTP_CRNO);
                 var rowIDData = new Filter("Material", FilterOperator.EQ, material);
                 var StatusCode = new Filter("StatusCode_Id", FilterOperator.NE, 10);
-                uFilters.push(CRNOData, rowIDData,StatusCode);
+                uFilters.push(CRNOData, rowIDData, StatusCode);
                 var path = "/CreditReqItem";
                 var that = this;
                 oDataModel.read(path, {
-                  filters: uFilters,
-                  urlParameters: {
-                    $expand: "CRCommit",
-                  },
-                  success: function (oData) {
-                    if (oData.results.length > 0) {
-                      that
-                        .getOwnerComponent()
-                        .getModel("itemCommentsModel")
-                        .setProperty("/", oData.results[0].CRCommit);
-                    } else {
-                      that
-                        .getOwnerComponent()
-                        .getModel("itemCommentsModel")
-                        .setProperty("/",oData);
-                    }
-                    that.CreditReqItem_BTPCRItem = oData.results[0].BTPCRItem;
-                    that.openItemsDialog();
-                  },
-                  error: function (error) {},
+                    filters: uFilters,
+                    urlParameters: {
+                        $expand: "CRCommit",
+                    },
+                    success: function (oData) {
+                        if (oData.results.length > 0) {
+                            that
+                                .getOwnerComponent()
+                                .getModel("itemCommentsModel")
+                                .setProperty("/", oData.results[0].CRCommit);
+                        } else {
+                            that
+                                .getOwnerComponent()
+                                .getModel("itemCommentsModel")
+                                .setProperty("/", oData);
+                        }
+                        that.CreditReqItem_BTPCRItem = oData.results[0].BTPCRItem;
+                        that.openItemsDialog();
+                    },
+                    error: function (error) { },
                 });
             },
             openItemsDialog: function () {
@@ -2407,20 +2716,20 @@ sap.ui.define([
                 this.extensionAPI.refresh(this._table.sId);
 
             },
-            TextAreaChange: function(oEvent){
+            TextAreaChange: function (oEvent) {
 
-                if(oEvent.getSource().getValue().length>0){
-        
+                if (oEvent.getSource().getValue().length > 0) {
+
                     this.getView().byId("savbtn").setEnabled(true);
-        
+
                 }
-        
-                else{
-        
-                    this.getView().byId("savbtn").setEnabled(false);          
-        
-              }
-        
+
+                else {
+
+                    this.getView().byId("savbtn").setEnabled(false);
+
+                }
+
             },
             OnSelectionchange: function (oEvent) {
                 var that = this;
@@ -2536,7 +2845,14 @@ sap.ui.define([
             bindPSInvoiceHdr: function (oEvent) {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("StoreId", "EQ", that.getView().getModel("CreditReqHdrModel").getData().items[0].PSInvoiceStoreId)
+                    ],
+                    and: true
+                });
                 oModel.read("/PSInvoiceHdr", {
+                    filters: [oFilterR],
                     success: function (oResponse) {
                         var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
                             pattern: "MM-dd-yyyy"
@@ -2552,7 +2868,7 @@ sap.ui.define([
                     error: function (err) { }
                 });
             },
-            showMore:function(){
+            showMore: function () {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
                 oModel.read("/PSInvoiceHdr", {
@@ -2563,7 +2879,7 @@ sap.ui.define([
                         for (var i in oResponse.results) {
                             oResponse.results[i].InvoiceDate = oDateFormat.format((oResponse.results[i].InvoiceDate));
                         }
-                        var model=that.getView().getModel("HeaderListModel").getData().HeaderList;
+                        var model = that.getView().getModel("HeaderListModel").getData().HeaderList;
                         model.push(oResponse.results);
                         model.refresh();
                     },
@@ -2575,10 +2891,10 @@ sap.ui.define([
                 var model = this.getView().getModel("HeaderListModel").getData();
                 var HeaderList = model.HeaderList;
                 var selectedindices = this.getView().byId("tableHdrid")._oLegacySelectionPlugin.oSelectionModel.aSelectedIndices;
-                if(selectedindices.length == 0){
+                if (selectedindices.length == 0) {
                     sap.m.MessageBox.alert("Please select record.");
                 }
-                else{
+                else {
                     var selectedData = [];
                     for (var i = 0; i < selectedindices.length; i++) {
                         selectedData.push(HeaderList[selectedindices[i]]);
@@ -2628,7 +2944,7 @@ sap.ui.define([
                     });
                 }
             },
-            GetList:function(){
+            GetList: function () {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
                 var btpcrno = this.getView().getModel("CreditReqHdrModel").getData().items[0].BTPCRNO;
@@ -2643,7 +2959,7 @@ sap.ui.define([
                     filters: [oFilterR],
                     success: function (oResponse) {
                         console.log(oResponse.results);
-                        that.getView().getModel("CreditReqHdrModel").getData().items=[];
+                        that.getView().getModel("CreditReqHdrModel").getData().items = [];
                         that.getView().getModel("CreditReqHdrModel").getData().items.push(oResponse.results[0]);
                         invoiceNo = oResponse.results[0].PsplInvoice;
                         that.checkInvoiceHdr();
@@ -2687,9 +3003,9 @@ sap.ui.define([
                 }
                 this.pDialog1.then(function (oDialog1) {
                     oDialog1
-                    .setFilterSearchCallback(null)
-                    .setFilterSearchOperator(mLibrary.StringFilterOperator.Contains)
-                    .open();
+                        .setFilterSearchCallback(null)
+                        .setFilterSearchOperator(mLibrary.StringFilterOperator.Contains)
+                        .open();
                 });
             },
             onAssignItemFilter: function (oEvent) {

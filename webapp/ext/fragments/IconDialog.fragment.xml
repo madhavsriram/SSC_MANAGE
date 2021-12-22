@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m"  xmlns:layout="sap.ui.layout"
  xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"  	xmlns:up="sap.m.upload">
- <Dialog title="CR Details" class="bgHeader dialogbgText" contentWidth="40rem" titleAlignment="Center" id="ListDialog"  afterClose="onAfterClose" >
+ <Dialog title="" class="bgHeader dialogbgText" contentWidth="40rem" titleAlignment="Center" id="ListDialog"  afterClose="onAfterClose" >
   <!-- id="ListDialog" -->
     <layout:VerticalLayout  width="100%">
 
@@ -73,7 +73,7 @@
                  <TextArea id="coments" enabled="false"/>
                 	
 				<Label text="Photo" />
-                <up:UploadSet uploadEnabled="false" afterItemAdded="onAfterItemAdded"  id="attachmentUpl" afterItemRemoved="onRemoveItem"> 
+                <up:UploadSet afterItemAdded="onAfterItemAdded" uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false" id="attachmentUpl" > 
 					
 					
                 </up:UploadSet >
@@ -193,8 +193,8 @@
 				
                 	
 				<Label text="Photo" />
-                <up:UploadSet  afterItemAdded="onAfterItemAdded" id="attachmentUpl1" uploadEnabled="false" 
-                	 >
+                <up:UploadSet  afterItemAdded="onAfterItemAdded" id="attachmentUpl1" 
+                uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false"	 >
                 	<!-- <up:items>
 				<up:UploadSetItem
 						fileName="{QualityPhoto>FileName}"
