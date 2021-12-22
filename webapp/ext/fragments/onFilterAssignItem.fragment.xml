@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <ViewSettingsDialog confirm="onAssignItemFilter" id="idAssignFilterDialog" cancel="onAssignCancel" resetFilters="onAssignCancel">
+        <filterItems>
+            <ViewSettingsFilterItem text="Invoice" key="PsplInvoice" items="{path:'HeaderListModel>/HeaderList',length:100000}">
+                <items>
+                    <ViewSettingsItem text="{HeaderListModel>PsplInvoice}"/>
+                </items>
+            </ViewSettingsFilterItem>
+
+            <ViewSettingsFilterItem text="Invoice Date" key="InvoiceDate" items="{path:'HeaderListModel>/HeaderList',length:100000}">
+                <items>
+                    <ViewSettingsItem  text="{HeaderListModel>InvoiceDate}"/>
+                </items>
+            </ViewSettingsFilterItem>
+
+        </filterItems>
+    </ViewSettingsDialog>
+</core:FragmentDefinition>
+

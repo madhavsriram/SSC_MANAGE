@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+    <!--Column 1 Header-->
+    <Column id="c1" >
+        <Text text="Status Update" />
+        <customData>
+            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn1&quot;, &quot;columnIndex&quot;: &quot;101&quot;, &quot;leadingProperty&quot;: &quot;StatusDescription&quot;}"/>
+        </customData>
+    </Column>
+    <!-- <Column id="c2" >
+        <Text text="Status Update"/>
+        <customData>
+            <core:CustomData key="p12nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;101&quot;, &quot;leadingProperty&quot;: &quot;StatusDescription&quot;}"/>
+        </customData>
+    </Column> -->
+</core:FragmentDefinition>

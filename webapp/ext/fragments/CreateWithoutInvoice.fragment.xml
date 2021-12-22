@@ -1,0 +1,31 @@
+<core:FragmentDefinition id="CreateWithoutInvoice" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:up="sap.m.upload">
+
+<Dialog id="DialogPopUp"  afterClose="afterClose" beforeOpen="onBeforeOpenDialog"  titleAlignment="Center" class="bgHeader dialogbgText sapUiPopupWithPadding" contentWidth="500px"
+
+title="Create Credit Request Without Invoice">
+
+<l:VerticalLayout id="Vertical" width="100%">
+
+<Label id="RemarkLabel" text="Remark" required="true" width="100%" class="blackText"/>
+
+<TextArea id="Remark" showExceededText="true" maxLength="100" width="100%" valueLiveUpdate="{/valueLiveUpdate}" enabled="false" liveChange="handleLiveChange"/>
+
+<Label text="Photo" required="true" width="100%" class="blackText"/>
+
+<up:UploadSet id="CustomUpload" afterItemAdded="onAfterItemAdded" uploadEnabled="false"></up:UploadSet>
+
+</l:VerticalLayout>
+
+<buttons>
+
+<Button id="Save" text="Save" type="Emphasized" press="onSavePressed" visible="false"/>
+
+<Button id="Submit" text="Submit" type="Emphasized" press="onSubmitPressed" visible="false"/>
+
+<Button id="Close" text ="Close" type="Emphasized" press="onClosePressed"/>
+
+</buttons>
+
+</Dialog>
+
+</core:FragmentDefinition>

@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" 
+    xmlns="sap.m">
+	<!--Column 1 Cell-->
+	<!-- <Label text="Status" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop"/> -->
+            <!-- <ComboBox class="sapUiLargeMarginEnd" enabled="false"  id ="idcbox" textAlign="Center" selectionChange ="oSelectionchange" items="{/CRType}" >
+                <items>
+                    <core:Item  key="{Id}" text="{Description}"/>
+                </items>
+            </ComboBox> -->
+              <ComboBox xmlns="sap.m" id="box0" selectionChange ="oSelectionchange" placeholder="Select" >
+    <items>
+      <core:Item xmlns:core="sap.ui.core" key="Under" 
+           text="Under Review"  id="item0"/>
+      <core:Item xmlns:core="sap.ui.core" key="Reject" 
+           text="Rejected" id="item1"/>
+             <core:Item xmlns:core="sap.ui.core" key="Cancel" 
+           text="Cancelled" id="item2"/>
+    </items>
+   </ComboBox>
+</core:FragmentDefinition>

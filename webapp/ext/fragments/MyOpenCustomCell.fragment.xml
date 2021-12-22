@@ -1,0 +1,23 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" 
+    xmlns="sap.m">
+	
+              <ComboBox xmlns="sap.m" id="_box0" selectionChange ="oSelectionchange" placeholder="Select" enabled="{= ${StatusDescription} === 'Draft' ? false : true }">
+    <items>
+      <core:Item xmlns:core="sap.ui.core" key="Under" 
+           text="Under Review"  id="_item0" enabled="{= ${StatusDescription} === 'Submitted' ? true : false }"/>
+      <core:Item xmlns:core="sap.ui.core" key="Reject" 
+           text="Rejected" id="_item1"/>
+             <core:Item xmlns:core="sap.ui.core" key="Cancel" 
+           text="Cancelled" id="_item2"/>
+    </items>
+   </ComboBox>
+    <!-- <ComboBox xmlns="sap.m" id="_box1" selectionChange ="oSelectionchange" placeholder="Select" visible="{= ${StatusDescription} === 'Under Review' ? true : false }">
+    <items>
+     
+      <core:Item xmlns:core="sap.ui.core" key="Reject" 
+           text="Rejected" id="key1"/>
+             <core:Item xmlns:core="sap.ui.core" key="Cancel" 
+           text="Cancelled" id="key2"/>
+    </items>
+   </ComboBox> -->
+</core:FragmentDefinition>

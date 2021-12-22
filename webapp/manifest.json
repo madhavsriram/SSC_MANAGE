@@ -1,0 +1,355 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "sccmanagecr",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "tags": {
+            "keywords": []
+        },
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/v2/dominoes-manage-scctransaction/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "annotation"
+                    ],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            }
+        },
+        "offline": false,
+        "sourceTemplate": {
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "sccmanagecr-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "scccrmanagement",
+                    "action": "manage",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "icon": ""
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": [
+            "sap_hcb",
+            "sap_belize",
+            "sap_fiori_3"
+        ]
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": [
+                                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "dependencies": {
+            "minUI5Version": "1.96.0",
+            "libs": {
+                "sap.ui.core": {
+                    "lazy": false
+                },
+                "sap.ui.generic.app": {
+                    "lazy": false
+                },
+                "sap.suite.ui.generic.template": {
+                    "lazy": false
+                }
+            },
+            "components": {}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ListReport|GetCreditReqHdr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ListReport/GetCreditReqHdr/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|GetCreditReqHdr": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/GetCreditReqHdr/i18n.properties"
+            },
+            "i18n|sap.suite.ui.generic.template.ObjectPage|GetCreditReqItem": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/ObjectPage/GetCreditReqItem/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "controllerName": "sccmanagecr.ext.controller.ListReportExt",
+                        "sap.ui.generic.app": {
+                            "GetCreditReqHdr": {
+                                "EntitySet": "GetCreditReqHdr",
+                                "Actions": {
+                                    
+                                }
+                            }
+                        }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "controllerName": "sccmanagecr.ext.controller.ObjectPageExt",
+                        "sap.ui.generic.app": {
+                            "GetCreditReqHdr": {
+                                "EntitySet": "GetCreditReqHdr",
+                                "Sections": {
+                                    "ItemId": {
+                                        "id": "ItemId",
+                                        "Actions": {
+                                            "delbtn": {
+                                                "id": "delbtnButton",
+                                                "text": "Delivery Credit",
+                                                "press": "onpress1",
+                                                "requiresSelection": false
+                                            },
+                                            "revertBtn": {
+                                                "id": "revertBtnButton",
+                                                "text": "Revert Fee",
+                                                "press": "onRevertPress",
+                                                "requiresSelection": false
+                                            },
+                                            "addItemId": {
+                                                "id": "addItemIdButton",
+                                                "text": "Add Items",
+                                                "press": "onPressAddItem",
+                                                "requiresSelection": false
+                                            },
+                                               "idDeleteCRData": {
+                                                "id": "idDeleteCRDataButton",
+                                                "text": "Delete CR Data",
+                                                "press": "onPressDelete",
+                                                "requiresSelection": true
+                                            }
+                                        }
+                                    }
+                                },
+                                "Header": {
+                                    "Actions": {
+                                        "REPLACE_WITH_ACTION_ID2": {
+                                            "id": "REPLACE_WITH_ACTION_IDButton2",
+                                            "text": "Comments",
+                                            "press": "openHeaderComments",
+                                            "requiresSelection": false,
+                                            "type": "Transparent"
+                                        },
+                                        "idSubmit": {
+                                            "id": "idSubmitButton",
+                                            "text": "Submit",
+                                            "press": "onSubmit",
+                                            "requiresSelection": false
+                                        },
+                                        "idAssign": {
+                                            "id": "idAssignButton",
+                                            "text": "Assign",
+                                            "press": "onPressAssign",
+                                            "requiresSelection": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "sap.ui.viewExtensions": {
+                    "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+                        "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateColumn",
+                            "type": "XML"
+                    },
+                    "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab1": {
+                        "className": "sap.ui.core.Fragment",
+                        "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCells",
+                        "type": "XML"
+                    },
+                    "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab2": {
+                        "className": "sap.ui.core.Fragment",
+                        "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateColumnReview",
+                        "type": "XML"
+                    },
+                    "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab2": {
+                        "className": "sap.ui.core.Fragment",
+                        "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCellsReview",
+                       "type": "XML"
+                    },
+                    "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab3": {
+                        "className": "sap.ui.core.Fragment",
+                        "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomColumn",
+                        "type": "XML"
+                    },
+                    "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab3": {
+                        "className": "sap.ui.core.Fragment",
+                        "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomCell",
+                       "type": "XML"
+                    }
+                    },
+                    "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+                        "ResponsiveTableColumnsExtension|GetCreditReqItem|ItemId": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.ResponsiveTableColumns",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|GetCreditReqItem|ItemId": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.ResponsiveTableCells",
+                            "type": "XML"
+                        },
+                        "controllerName": "sccmanagecr.ext.controller.ObjectPageExt"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "considerAnalyticalParameters": true,
+            "showDraftToggle": false
+        },
+        "pages": {
+            "ListReport|GetCreditReqHdr": {
+                "entitySet": "GetCreditReqHdr",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.ListReport",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "smartVariantManagement": true,
+                        "enableTableFilterInPageVariant": true,
+                        "filterSettings": {
+                            "dateSettings": {
+                                "useDateRange": true
+                            }
+                        },
+                        "quickVariantSelectionX": {
+                            "showCounts": true,
+                            "variants": {
+                                "1": {
+                                    "key": "_tab1",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Submitted"
+                                },
+                                "2": {
+                                    "key": "_tab2",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#UnderReview"
+                                },
+                                "3": {
+                                    "key": "_tab3",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#MyOpen"
+                                },
+                                "4": {
+                                    "key": "_tab4",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#MyClosed"
+                                },
+                                "5": {
+                                    "key": "_tab5",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Closed"
+                                },
+                                "0": {
+                                    "key": "_tab6",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#All"
+                                }
+                            }
+                        },
+                        "gridTable": false,
+                        "variantManagementHidden": true,
+                        "subTitleIfVariantMgmtHidden": "{assignSCCHeaderModel>/pageTitle}",
+                        "dataLoadSettings": {
+
+                            "loadDataOnAppLaunch": "always"
+                            
+                            }
+                    }
+                },
+                "pages": {
+                    "ObjectPage|GetCreditReqHdr": {
+                        "entitySet": "GetCreditReqHdr",
+                        "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                       
+                    }
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": ""
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.platform.hcp": {
+        "uri": ""
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "sccmanagecr"
+    }
+}

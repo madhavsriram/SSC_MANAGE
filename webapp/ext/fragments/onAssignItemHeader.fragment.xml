@@ -1,0 +1,83 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout" xmlns:t="sap.ui.table">
+	<Dialog id="AssignItemsDialog" title="Invoice Header List" class="AddItemsDialogClass">
+		<Toolbar>
+            <ToolbarSpacer></ToolbarSpacer>
+                <SearchField showSearchButton="true" width="100%" search="onTableSearchAssign" liveChange="onTableSearchAssign">
+                    <layoutData>
+                        <FlexItemData growFactor="1.2"/>
+                    </layoutData>
+                </SearchField>
+                <Button class="sapUiTinyMarginBegin"  icon="sap-icon://filter" press="handleOpenAssignDialog"/>
+           
+        </Toolbar>
+        <t:Table rows="{HeaderListModel>/HeaderList}" id="tableHdrid" selectionMode="SingleSelect">
+            <t:columns>
+                <t:Column>
+                    <t:label>
+                        <Label text="Invoice" />
+                    </t:label>
+                    <t:template>
+                        <Text id="idInvoice" text="{HeaderListModel>PsplInvoice}"/>
+                    </t:template>
+                </t:Column>
+            
+                <t:Column>
+                    <t:label>
+                        <Label text="Invoice Date" />
+                    </t:label>         
+                    <t:template>
+                        <Text id="idInvoiceDate" text="{HeaderListModel>InvoiceDate}"/>
+                    </t:template>       
+                </t:Column>
+
+                <t:Column>
+                    <t:label>
+                        <Label text="SCC" />
+                    </t:label>   
+                    <t:template>
+                        <Text id="idSCC" text="{HeaderListModel>SCCDesc}"/>
+                    </t:template>             
+                </t:Column>
+
+                <t:Column>
+                    <t:label>
+                        <Label text="Amount" />
+                    </t:label>     
+                    <t:template>
+                        <Text id="idAmount" text="{HeaderListModel>TotalAmt}"/>
+                    </t:template>           
+                </t:Column>
+            
+                <!-- <t:Column>
+                    <t:label>
+                        <Label text="Unit Price" />
+                    </t:label>     
+                    <t:template>
+                        <Text id="idUnitPrice" text="{ItemListModel>UnitPrice}"/>
+                    </t:template>           
+                </t:Column>    -->
+            </t:columns>
+            <t:rows>
+                <t:Row>
+
+                </t:Row>
+            </t:rows>
+        </t:Table>
+	<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Show More" type="Emphasized"  press="showMore"/>
+<Button text="Assign" press="onAssignItemsAddBtn" id="AssignItemsAddBtn" enabled="true"
+				class="createBtnClass sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>		
+<Button text="Cancel" press="onAssignItemsCancelBtn" id="AssignItemsCancelBtn"
+				class="cancelBtnClass sapUiTinyMarginEnd sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>	
+                	</Toolbar>
+		<!-- <beginButton>
+			<Button text="Assign" press="onAssignItemsAddBtn" id="AssignItemsAddBtn" enabled="true"
+				class="createBtnClass sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>
+		</beginButton>
+		<endButton>
+			<Button text="Cancel" press="onAssignItemsCancelBtn" id="AssignItemsCancelBtn"
+				class="cancelBtnClass sapUiTinyMarginEnd sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>
+		</endButton> -->
+	</Dialog>
+</core:FragmentDefinition>

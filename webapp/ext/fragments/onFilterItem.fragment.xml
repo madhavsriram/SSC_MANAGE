@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <ViewSettingsDialog confirm="onItemFilter" id="idFilterDialog" cancel="onCancel" resetFilters="onCancel">
+        <filterItems>
+            <ViewSettingsFilterItem text="ItemNo" key="ItemNo" items="{path:'ItemListModel>/ItemList',length:100000}">
+                <items>
+                    <ViewSettingsItem text="{ItemListModel>ItemNo}"/>
+                </items>
+            </ViewSettingsFilterItem>
+
+            <ViewSettingsFilterItem text="Description" key="Description" items="{path:'ItemListModel>/ItemList',length:100000}">
+                <items>
+                    <ViewSettingsItem  text="{ItemListModel>Description}"/>
+                </items>
+            </ViewSettingsFilterItem>
+
+            <ViewSettingsFilterItem text="Unit Price" key="UnitPrice" items="{path:'ItemListModel>/ItemList',length:100000}">
+                <items>
+                    <ViewSettingsItem  text="{ItemListModel>UnitPrice}"/>
+                </items>
+            </ViewSettingsFilterItem>
+        </filterItems>
+    </ViewSettingsDialog>
+</core:FragmentDefinition>
+
