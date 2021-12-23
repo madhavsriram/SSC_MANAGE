@@ -446,15 +446,15 @@ sap.ui.define([
                             var obj = {
                                 BTPCRNo_BTPCRNO: CrModel.BTPCRNO,
                                 BTPCRNo_OrgStrucEleCode_Id: CrModel.OrgStrucEleCode_Id,
-                                "Material": that.SelectedCRType[0].ItemNo,
-                                "Description": "Delivery Credit Fee",
+                                "Material": "DC",
+                                "Description": "Delivery Service Admin Fee",
                                 "Qty": 1,
-                                "UnitPrice": parseInt(Amt),
+                                "UnitPrice": Amt,
                                 //  "Total": 1,
                                 "ItemType": ItemType,
                                 "CRType_Id": that.SelectedCRType[0].CRType_Id,
                                 // "CRTypeDesc": that.SelectedCRType[0].Description,
-                                "StatusCode_Id": 1,
+                                "StatusCode_Id": 9,
                                 "StatusCode_ObjectType_Id": 1,
                                 "UOM": "EA"
 
@@ -463,7 +463,7 @@ sap.ui.define([
                             var path = "/CreditReqHdr(BTPCRNO=" + CrModel.BTPCRNO + ",OrgStrucEleCode_Id=" + CrModel.OrgStrucEleCode_Id + ")";
 
                             var obj2 = {
-                                DeliveryFee: parseInt(Amt)
+                                DeliveryFee: Amt
                             };
                             console.log(obj);
                             console.log(obj2);
@@ -2615,7 +2615,7 @@ sap.ui.define([
                 oDataModel.create(Path, obj, {
                     method: "POST",
                     success: function (oData) {
-                        that.getView().byId("ReasonObject").setValue("");
+                        // that.getView().byId("ReasonObject").setValue("");
                         that
                             .getOwnerComponent()
                             .getModel("itemCommentsModel")
