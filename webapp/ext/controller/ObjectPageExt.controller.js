@@ -876,6 +876,7 @@ sap.ui.define([
 
                                 sap.ui.getCore().byId("idReClasiLabel").setVisible(true);
                                 sap.ui.getCore().byId("idReClasi").setVisible(true);
+                                sap.ui.getCore().byId("Idsave").setEnabled(true);
                                 that.QualityApprovedData = data;
                                 sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
                                 sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
@@ -1091,10 +1092,10 @@ sap.ui.define([
                 // }
                 if (oValue == 0) {
                     sap.ui.getCore().byId("idcbox").setEnabled(false);
-                    // sap.ui.getCore().byId("Idsave").setEnabled(false);
+                    sap.ui.getCore().byId("Idsave").setEnabled(false);
                 } else {
                     sap.ui.getCore().byId("idcbox").setEnabled(true);
-                    // sap.ui.getCore().byId("Idsave").setEnabled(true);
+                    sap.ui.getCore().byId("Idsave").setEnabled(true);
                 }
                 if (oValue > max) {
                     sap.ui.getCore().byId("idstep").setValueState("Error");

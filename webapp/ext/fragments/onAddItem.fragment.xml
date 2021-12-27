@@ -7,7 +7,7 @@
                         <FlexItemData growFactor="1.2"/>
                     </layoutData>
                 </SearchField>
-                <Button class="sapUiTinyMarginBegin"  icon="sap-icon://filter" press="handleOpenDialog"/>
+                
            
         </Toolbar>
         <t:Table rows="{ItemListModel>/ItemList}" id="tableid" mode="MultiSelect">
