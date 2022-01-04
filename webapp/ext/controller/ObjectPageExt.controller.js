@@ -456,7 +456,8 @@ sap.ui.define([
                                 // "CRTypeDesc": that.SelectedCRType[0].Description,
                                 "StatusCode_Id": 9,
                                 "StatusCode_ObjectType_Id": 1,
-                                "UOM": "EA"
+                                "UOM": "EA",
+                                "ApproveQty":1
 
                             };
 
@@ -1858,8 +1859,32 @@ sap.ui.define([
             onProductissue: function (evt) {
                 this.PISelectedkeys = sap.ui.getCore().byId("idProductIssueMCB").getSelectedKeys();
             },
-
+            
             // swaraj bhopale code
+            onChangeHeaderComment: function(oEvent){
+                if(oEvent.getSource().getValue().length>0){
+
+                    sap.ui.getCore().byId("SendBtn").setEnabled(true);
+          
+                  }
+                  else{
+          
+                      sap.ui.getCore().byId("SendBtn").setEnabled(false);       
+          
+                }
+            },
+            onChangeItemComment: function(oEvent){
+                if(oEvent.getSource().getValue().length>0){
+
+                    sap.ui.getCore().byId("ItemSendBtn").setEnabled(true);
+        
+                }
+                else{
+        
+                    sap.ui.getCore().byId("ItemSendBtn").setEnabled(false);          
+        
+              }
+            },
             onHeaderCommentPost: function (evt) {
                 var oDataModel = this.getView().getModel(),
                     Path = "/CRCommit",
@@ -1928,9 +1953,11 @@ sap.ui.define([
                     this.getView().addDependent(this._headerCommentsDialog);
                 }
                 this._headerCommentsDialog.open();
+                sap.ui.getCore().byId("SendBtn").setEnabled(false);
             },
             onHeaderCommentsClose: function () {
                 this._headerCommentsDialog.close();
+                sap.ui.getCore().byId("idHeaderCTA").setValue("");
             },
 
             // kanchan code
@@ -2711,9 +2738,11 @@ sap.ui.define([
                     this.getView().addDependent(this._itemCommentsDialog);
                 }
                 this._itemCommentsDialog.open();
+                sap.ui.getCore().byId("ItemSendBtn").setEnabled(false);
             },
             onItemsCommentsClose: function () {
                 this._itemCommentsDialog.close();
+                sap.ui.getCore().byId("idItemCTA").setValue("");
                 this.extensionAPI.refresh(this._table.sId);
 
             },
