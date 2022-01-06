@@ -14,6 +14,13 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab4").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab5").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab6").setVisible(false);
+
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab1").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab2").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab3").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab4").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab5").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab6").setSmartVariant();
         this._checkIsStoreAssigned();
         var headerCommentsModel = new sap.ui.model.json.JSONModel();
 
@@ -143,34 +150,34 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         oModel.read("/GetCreditReqItem", {
             filters: filterList,
             success: function (oResponse) {
-                for(i=0;i<oResponse.results.length;i++){
-                    if (oResponse.results[i].Qty == 0 || oResponse.results[i].Qty == null && oResponse.results[i].Description!=="Without Invoice") {
+                for (i = 0; i < oResponse.results.length; i++) {
+                    if (oResponse.results[i].Qty == 0 || oResponse.results[i].Qty == null && oResponse.results[i].Description !== "Without Invoice") {
                         sap.m.MessageBox.show("Credit Quantity should not be Zero.");
-                            that.byId("statusupdate").destroy();
-                              that.getView().byId(that.comboboxid).setSelectedKey(null);
+                        that.byId("statusupdate").destroy();
+                        that.getView().byId(that.comboboxid).setSelectedKey(null);
                         return;
                     }
-                    }
+                }
 
-                    var date = new Date();
-                    // var oModel = this.getOwnerComponent().getModel();
-                    var oFilterR = new sap.ui.model.Filter({
-                        filters: [
-                            new sap.ui.model.Filter("StatusType", "EQ", "UndRe"),
-                            new sap.ui.model.Filter("StatusDescription", "EQ", "Under Review")
-                        ],
-                        and: true
-                    });
-                    oModel.read("/CRStatus", {
-                        filters: [oFilterR],
-                        success: function (oResponse) {
-                            console.log(oResponse.results);
-                            that.CRStatus = oResponse.results;
-                            that.onReviewData();
-                        },
-                        error: function (err) { }
-                    });
-                
+                var date = new Date();
+                // var oModel = this.getOwnerComponent().getModel();
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("StatusType", "EQ", "UndRe"),
+                        new sap.ui.model.Filter("StatusDescription", "EQ", "Under Review")
+                    ],
+                    and: true
+                });
+                oModel.read("/CRStatus", {
+                    filters: [oFilterR],
+                    success: function (oResponse) {
+                        console.log(oResponse.results);
+                        that.CRStatus = oResponse.results;
+                        that.onReviewData();
+                    },
+                    error: function (err) { }
+                });
+
             },
             error: function (err) {
             }
@@ -211,8 +218,8 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                 oModel.update(path, obj, {
                     success: function (oSuccess) {
                         sap.m.MessageToast.show("Status Updated");
-                         that.byId("statusupdate").destroy();
-                         that.getView().byId(that.comboboxid).setSelectedKey(null);
+                        that.byId("statusupdate").destroy();
+                        that.getView().byId(that.comboboxid).setSelectedKey(null);
 
                         oModel.refresh();
                         oModel.sDefaultUpdateMethod = "MERGE";
@@ -492,19 +499,19 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         });
 
     },
-    TextAreaChange: function(oEvent){
+    TextAreaChange: function (oEvent) {
 
-        if(oEvent.getSource().getValue().length>0){
+        if (oEvent.getSource().getValue().length > 0) {
 
             this.getView().byId("savbtn").setEnabled(true);
 
         }
 
-        else{
+        else {
 
-            this.getView().byId("savbtn").setEnabled(false);          
+            this.getView().byId("savbtn").setEnabled(false);
 
-      }
+        }
 
     },
     oSelectionchange: function (oEvent) {

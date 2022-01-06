@@ -23,7 +23,7 @@ server:
       ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
       backend:
       - path: /v2
-        url: https://credittrackerqa-srv-wacky-squirrel-ft.cfapps.us21.hana.ondemand.com
+        url: https://credittracker-srv-unexpected-bat-wc.cfapps.us21.hana.ondemand.com
         destination: CreditTracker
   - name: fiori-tools-appreload
     afterMiddleware: compression

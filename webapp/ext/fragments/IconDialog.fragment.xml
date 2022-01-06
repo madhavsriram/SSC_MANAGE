@@ -12,7 +12,7 @@
             <ComboBox class="sapUiLargeMarginEnd" enabled="false"  id ="idcbox" textAlign="Center" selectionChange ="oSelectionchange" items="{path:'/CRType',
 			sorter: {
 				path: 'Sequence'
-			} }" >
+			},filters: { path: 'SCCCRtype', operator: 'EQ', value1: 'Y' } }" >
                 <items>
                     <core:Item  key="{Id}" text="{Description}"/>
                 </items>
@@ -26,8 +26,8 @@
             <Label  text="Max Qty" id="openQtyText" textAlign="Center" width="8em" visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false : true }" class="sapUiTinyMarginTop"/>
             <Text id="openqty" width="9em" textAlign=""  visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false : true }" class="sapUiTinyMarginTop"/>
             
-            <Label text="Re-Classify" id="idReClasiLabel" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop" visible="false"/>
-            <ComboBox id="idReClasi" class="sapUiLargeMarginEnd" textAlign="Center" visible="false" >
+            <Label text="Re-Classify" id="idReClasiLabel" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop" visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true : false }"/>
+            <ComboBox id="idReClasi" class="sapUiLargeMarginEnd" textAlign="Center" visible="false" enabled="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Submitted' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Draft' ? true : false }">
                 <core:Item key="1" text="SCS" ></core:Item>
                 <core:Item key="2" text="RTV" ></core:Item>
             </ComboBox>
@@ -192,7 +192,7 @@
     
 				
                 	
-				<Label text="Photo" />
+				<Label text="Photo" required="true"/>
                 <up:UploadSet  afterItemAdded="onAfterItemAdded" id="attachmentUpl1" 
                 uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false"	 >
                 	<!-- <up:items>
