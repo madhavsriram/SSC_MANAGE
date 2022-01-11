@@ -652,7 +652,7 @@ sap.ui.define([
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                                     }
-                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected") {
+                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved") {
                                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                                         sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(false);
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -664,6 +664,8 @@ sap.ui.define([
                                     }
                                     if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review") {
                                         that.QualityApprovedData = data;
+                                        sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(false);
+
 
                                     }
                                     // if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "DraftSCC") {
@@ -744,7 +746,7 @@ sap.ui.define([
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                             }
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" ) {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -904,6 +906,8 @@ sap.ui.define([
                                 that.QualityApprovedData = data;
                                 sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
                                 sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
+                                sap.ui.getCore().byId("attachmentUpl1").setUploadEnabled(false);
+
 
 
                             }
@@ -911,7 +915,7 @@ sap.ui.define([
                                 sap.ui.getCore().byId("idReClasi").setEnabled(false);
 
                                     }
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("attachmentUpl1").setUploadEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -1577,7 +1581,7 @@ sap.ui.define([
                     
                 }
                 if (sap.ui.getCore().byId("idcbox").getValue() == "Quality" &&  this.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription !== "Under Review") {
-                    if (sap.ui.getCore().byId("attachmentUpl1").getItems().length == 0 || sap.ui.getCore().byId("idProductIssueMCB").getSelectedItems().length == 0) {
+                    if ( sap.ui.getCore().byId("idProductIssueMCB").getSelectedItems().length == 0) {
 
                         sap.m.MessageBox.error("Please populate required fields before saving");
                         return;
@@ -2929,6 +2933,7 @@ sap.ui.define([
                 var that = this;
 
                 that.getView().byId(that.comboboxid).setValue("");
+                that.getView().byId(that.comboboxid).setSelectedKey(null);
 
                 that.byId("statusupdateObjectPage").destroy();
 
