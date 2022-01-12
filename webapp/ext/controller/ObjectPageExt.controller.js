@@ -2343,6 +2343,7 @@ sap.ui.define([
                 oModel.read("/CreditReqItem", {
                     filters: [oFilterR],
                     success: function (oResponse) {
+                        that.ItemSequence = oResponse.results[0].CRRowID;
                         var data = oResponse.results.filter(obj => obj.StatusDescription == "Created");
                         var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Ready To Approve");
                         if (oResponse.results[0].ApproveQty == 0 || oResponse.results[0].ApproveQty == null) {
@@ -2403,6 +2404,7 @@ sap.ui.define([
 
                 this.oModel.update(path, obj, {
                     success: function (oSuccess) {
+                        this.creditMemoRequest(oSuccess);
                         sap.m.MessageToast.show("CreditReqItem Updated");
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
@@ -2416,6 +2418,61 @@ sap.ui.define([
                 });
 
             },
+
+            creditMemoRequest:function(oEvent){
+               
+        //    var oModelCreditmemo = this.getOwnerComponent().getModel("creditmemoservice");
+            var headerVal =   this.getView().getModel("CreditReqHdrModel").getData().items[0];
+            var ItemVal =  this.LocObjPage; 
+            var itemSequence = this.ItemSequence        
+             var that = this;
+            var sValues = oEvent;    
+           var sd = headerVal.CRDocDate;
+           var ms = sd.valueOf();
+           var Refdate = "\/Date(" + ms + ")\/";        
+            
+                var obj1 = {
+                    DocumentType : "ZCT",
+                    ReferenceDate : Refdate,
+                    YourReference : ItemVal.Material,                    
+                    OrderReason : "ICR", //ItemVal.CRTypeDesc,                    
+                    ReferenceDocument : headerVal.SalesOrderNo,                   
+                    VersionNo : headerVal.BTPCRNO.toString(),
+                    Et_CreditItemSet : [
+                      {
+                        ItemNumber : ItemVal.Material,
+                        Material : ItemVal.Description,
+                        TargetQty : ItemVal.ApproveQty.toString(), 
+                        YourReference : ItemVal.Material,
+                        ReferenceDocument : headerVal.SalesOrderNo,
+                        ReferenceDocItem : "000001"                    
+                      }
+                    ]
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
+                    dataType: "json",
+                    crossDomain: true,
+                    headers:{
+                        "Authorization":"Basic RE9NSU5PU19QSV9VU0VSOk9wZXgjODE4OA==",
+                        "Access-Control-Allow-Origin":"*",
+                        "content-Type":"application/json",
+                        "Accept":"application/json"
+                            },
+                    data: JSON.stringify(obj1),
+                    success: function(result) {
+                                                      
+                                sap.m.MessageBox.alert(result.error.message);                          
+                        
+                    },error: function(response) {
+                          
+                    }
+                });                         
+            },   
+
+    
             onPressCancelled: function (oEvent) {
                 var that = this;
                 this.oModel = this.getView().getModel();
@@ -3036,7 +3093,8 @@ sap.ui.define([
                                     {
                                         "PSInvoiceHdr_PsplInvoice": selectedData[i].PsplInvoice,
                                         "BTPCRNO": BTP_CRNO,
-                                        "OrgStrucEleCode_Id": OrgStrucEleCode_Id
+                                        "OrgStrucEleCode_Id": OrgStrucEleCode_Id,
+                                        "SalesOrderNo" :selectedData[i].SalesOrderNo
                                     };
                                     var path = "/CreditReqHdr(BTPCRNO=" + BTP_CRNO + ",OrgStrucEleCode_Id=" + OrgStrucEleCode_Id + ")";
                                 }
