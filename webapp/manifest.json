@@ -18,6 +18,7 @@
                 "uri": "/v2/dominoes-manage-scctransaction/",
                 "type": "OData",
                 "settings": {
+                    "odataVersion": "2.0",
                     "annotations": [
                         "annotation"
                     ],
@@ -78,7 +79,7 @@
         "resources": {
             "js": [],
             "css": [
-                                {
+                {
                     "uri": "css/style.css"
                 }
             ]
@@ -125,10 +126,7 @@
                 "settings": {
                     "defaultBindingMode": "TwoWay",
                     "defaultCountMode": "Inline",
-                    "refreshAfterChange": false,
-                    "metadataUrlParams": {
-                        "sap-value-list": "none"
-                    }
+                    "refreshAfterChange": false
                 }
             }
         },
@@ -140,9 +138,7 @@
                         "sap.ui.generic.app": {
                             "GetCreditReqHdr": {
                                 "EntitySet": "GetCreditReqHdr",
-                                "Actions": {
-                                    
-                                }
+                                "Actions": {}
                             }
                         }
                     },
@@ -173,7 +169,7 @@
                                                 "press": "onPressAddItem",
                                                 "requiresSelection": false
                                             },
-                                               "idDeleteCRData": {
+                                            "idDeleteCRData": {
                                                 "id": "idDeleteCRDataButton",
                                                 "text": "Delete CR Data",
                                                 "press": "onPressDelete",
@@ -215,32 +211,32 @@
                             "className": "sap.ui.core.Fragment",
                             "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateColumn",
                             "type": "XML"
-                    },
-                    "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab1": {
-                        "className": "sap.ui.core.Fragment",
-                        "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCells",
-                        "type": "XML"
-                    },
-                    "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab2": {
-                        "className": "sap.ui.core.Fragment",
-                        "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateColumnReview",
-                        "type": "XML"
-                    },
-                    "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab2": {
-                        "className": "sap.ui.core.Fragment",
-                        "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCellsReview",
-                       "type": "XML"
-                    },
-                    "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab3": {
-                        "className": "sap.ui.core.Fragment",
-                        "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomColumn",
-                        "type": "XML"
-                    },
-                    "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab3": {
-                        "className": "sap.ui.core.Fragment",
-                        "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomCell",
-                       "type": "XML"
-                    }
+                        },
+                        "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab1": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCells",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab2": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateColumnReview",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab2": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCellsReview",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab3": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomColumn",
+                            "type": "XML"
+                        },
+                        "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab3": {
+                            "className": "sap.ui.core.Fragment",
+                            "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomCell",
+                            "type": "XML"
+                        }
                     },
                     "sap.suite.ui.generic.template.ObjectPage.view.Details": {
                         "ResponsiveTableColumnsExtension|GetCreditReqItem|ItemId": {
@@ -289,6 +285,10 @@
                         "quickVariantSelectionX": {
                             "showCounts": true,
                             "variants": {
+                                "0": {
+                                    "key": "_tab6",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#All"
+                                },
                                 "1": {
                                     "key": "_tab1",
                                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Submitted"
@@ -308,10 +308,6 @@
                                 "5": {
                                     "key": "_tab5",
                                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Closed"
-                                },
-                                "0": {
-                                    "key": "_tab6",
-                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#All"
                                 }
                             }
                         },
@@ -319,10 +315,8 @@
                         "variantManagementHidden": true,
                         "subTitleIfVariantMgmtHidden": "{assignSCCHeaderModel>/pageTitle}",
                         "dataLoadSettings": {
-
                             "loadDataOnAppLaunch": "always"
-                            
-                            }
+                        }
                     }
                 },
                 "pages": {
@@ -332,7 +326,6 @@
                         "component": {
                             "name": "sap.suite.ui.generic.template.ObjectPage"
                         }
-                       
                     }
                 }
             }
