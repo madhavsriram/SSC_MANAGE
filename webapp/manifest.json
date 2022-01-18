@@ -157,6 +157,12 @@
                                                 "press": "onpress1",
                                                 "requiresSelection": false
                                             },
+                                            "Creditbtn": {
+                                                "id": "CreditMemobtnButton",
+                                                "text": "Credit Memo",
+                                                "press": "onpressCreditMemo",
+                                                "requiresSelection": false
+                                            },
                                             "revertBtn": {
                                                 "id": "revertBtnButton",
                                                 "text": "Revert Fee",

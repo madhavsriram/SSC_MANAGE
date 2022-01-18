@@ -26,7 +26,7 @@
             <Label  text="Max Qty" id="openQtyText" textAlign="Center" width="8em" visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false : true }" class="sapUiTinyMarginTop"/>
             <Text id="openqty" width="9em" textAlign=""  visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false : true }" class="sapUiTinyMarginTop"/>
             
-            <Label text="Re-Classify" id="idReClasiLabel" required="true" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop" visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true : false }"/>
+            <Label text="Re-Classify" id="idReClasiLabel" required="true" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop" visible="false"/>
             <ComboBox id="idReClasi" class="sapUiLargeMarginEnd" textAlign="Center" visible="false" enabled="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Submitted' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Draft' ? true : false }">
                 <core:Item key="1" text="SCS" ></core:Item>
                 <core:Item key="2" text="RTV" ></core:Item>
