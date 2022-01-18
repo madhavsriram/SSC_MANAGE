@@ -2470,7 +2470,7 @@ sap.ui.define([
             },
 
             onpressCreditMemo:function(oEvent){
-                debugger;
+               
                 var stable = this._table;
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
@@ -2496,7 +2496,7 @@ sap.ui.define([
             },
 
             onpressCreditMemo1:function(selectedDataCredit){
-                debugger;
+               
             var oModelCreditmemo = this.getOwnerComponent().getModel("creditmemoservice");
             var headerVal =   this.getView().getModel("CreditReqHdrModel").getData().items[0];
             var ItemVal =  this.LocObjPage;         
@@ -2516,7 +2516,7 @@ sap.ui.define([
                         var selectedDataObj = {
                                 DocumentType: "ZCT", //sapcode
                                 ReferenceDate: Refdate,
-                                YourReference: selectedDataCredit[i].Material,
+                             //   YourReference: selectedDataCredit[i].Material,
                                 OrderReason: selectedDataCredit[i].SAPCode, //ItemVal.CRTypeDesc,                    
                                 ReferenceDocument: selectedDataCredit[i].SalesOrderNo,
                                 VersionNo: selectedDataCredit[i].BTPCRNO.toString(),
@@ -2557,7 +2557,7 @@ sap.ui.define([
                                         var selectedDataObj = {
                                             DocumentType: "ZCT", //sapcode
                                             ReferenceDate: Refdate,
-                                            YourReference: selectedDataCredit[i].Material,
+                                          //  YourReference: selectedDataCredit[i].Material,
                                             OrderReason: selectedDataCredit[i].SAPCode, //ItemVal.CRTypeDesc,                    
                                             ReferenceDocument: selectedDataCredit[i].SalesOrderNo,
                                             VersionNo: selectedDataCredit[i].BTPCRNO.toString(),
