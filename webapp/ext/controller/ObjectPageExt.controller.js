@@ -2493,16 +2493,26 @@ sap.ui.define([
                               ],
                     and: true
                 });
+                sap.ui.core.BusyIndicator.show();
                 oModel.read("/GetSAPDetails", {
                     filters: [oFilterR],
                     success: function (oResponse) {
                         console.log(oResponse.results);
+                        sap.ui.core.BusyIndicator.hide();
+                        if(oResponse.results.length <= 0){
+                            sap.m.MessageBox.information("All Approved items are Assigned to Credit Memo");
+                            return false;
+                        }else{
                         var selectedindices = oResponse.results;
                         selectedDataCredit = [];
                         selectedDataCredit = selectedindices;                       
-                        that.onpressCreditMemo1(selectedDataCredit);                
+                        that.onpressCreditMemo1(selectedDataCredit); 
+                    }               
                     },
-                    error: function (err) { }
+                    error: function (err) { 
+                        sap.ui.core.BusyIndicator.hide();
+
+                    }
                 });               
             
             },
@@ -2520,9 +2530,10 @@ sap.ui.define([
              
              var Itemvalue = "000001";
             
-
+             sap.ui.core.BusyIndicator.show();
              var batchChanges = [];
              for (var i = 0; i < selectedDataCredit.length; i++) {
+                 
                    var sValue = i;                   
                     if(batchChanges.length==0) {                             
                         var selectedDataObj = {
@@ -2588,12 +2599,13 @@ sap.ui.define([
                         }                      
                         for (var k = 0; k < batchChanges.length; k++) {
                             var delay = 4000;
+                            sap.ui.core.BusyIndicator.show(); 
                             $.ajax({
                                 type: "POST",
                                 url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
                                 dataType: "json",
                                 crossDomain: true,
-                                async: true,
+                                async: false,
                                 headers:{
                                     "Authorization":"Basic RE9NSU5PU19QSV9VU0VSOk9wZXgjODE4OA==",
                                     "Access-Control-Allow-Origin":"*",
@@ -2602,7 +2614,8 @@ sap.ui.define([
                                         },
                                 data: JSON.stringify(batchChanges[k]),
                                 success: function(result) {
-                                    setTimeout(function() {                                     
+                                    setTimeout(function() { 
+                                        sap.ui.core.BusyIndicator.hide();                                    
                                                                             
                                         if(result.d){
                                          // sap.m.MessageBox.success("Document Number"+ result.d.Documentno + "is Created Successfully");
@@ -2612,7 +2625,7 @@ sap.ui.define([
                                     }  
                                 }, delay);
                                 },error: function(response) {
-                                        
+                                    sap.ui.core.BusyIndicator.hide();
                                 }
                             });
                         }  
@@ -2621,6 +2634,7 @@ sap.ui.define([
                          },
 
                          CreditMemoAcknowledgement:function(results){
+                            sap.ui.core.BusyIndicator.show(); 
                             var sObj = {
                                 "Vbeln":results.d.Documentno,
                                 "CreditReqAckRow" : []
@@ -2644,7 +2658,7 @@ sap.ui.define([
                                     "Salesdist": results.d.SalesDistrict,
                                     "Purchnoc":"CREDIT TRACKER",
                                     "Purchdate" : "2022-01-13T11:41:24.268Z",
-                                    "Material" : sItemSet[i].Material,
+                                    "Material" : sItemSet[i].YourReference,
                                     "TargetQty" : sItemSet[i].TargetQty,
                                     "RefDoc": sItemSet[i].ReferenceDocument,
                                     "RefDocIt": sItemSet[i].ReferenceDocItem,
@@ -2662,11 +2676,12 @@ sap.ui.define([
                         oDataModel.create(Path, sObj, {
                             method: "POST",
                             success: function (oData) {
-                                
+                                sap.ui.core.BusyIndicator.hide(); 
                                 sap.m.MessageBox.success("Acknowledgment is Created");
                                 
                             },
                             error: function (Error) {
+                                sap.ui.core.BusyIndicator.hide(); 
                                 var errorMsg = result.error.message;
                                 sap.m.MessageBox.error(errorMsg);
                             },
