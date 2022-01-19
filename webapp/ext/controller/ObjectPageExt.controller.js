@@ -124,14 +124,26 @@ sap.ui.define([
                         //  this.InvoiceDate=oDateFormat.format(this.InvoiceDate);                   
 
                         if (invoiceNoHdr == null) {
+                            if (StatusDescription == "Under Review") {
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(true);
+                            }
+                            else{
+                                this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(false);
+                            }
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(false);
+
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(false);
+
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(false);
+
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(false);
+
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(false);
+
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
+
                             return;
+
                         }
                         else {
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(false);
@@ -2575,6 +2587,7 @@ sap.ui.define([
                             }
                         }                      
                         for (var k = 0; k < batchChanges.length; k++) {
+                            var delay = 4000;
                             $.ajax({
                                 type: "POST",
                                 url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
@@ -2589,13 +2602,15 @@ sap.ui.define([
                                         },
                                 data: JSON.stringify(batchChanges[k]),
                                 success: function(result) {
-                                        
+                                    setTimeout(function() {                                     
+                                                                            
                                         if(result.d){
                                          // sap.m.MessageBox.success("Document Number"+ result.d.Documentno + "is Created Successfully");
                                           that.CreditMemoAcknowledgement(result);      
                                         }else{
                                       sap.m.MessageBox.alert(result.error.message);
                                     }  
+                                }, delay);
                                 },error: function(response) {
                                         
                                 }
