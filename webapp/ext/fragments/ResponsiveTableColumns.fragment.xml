@@ -24,5 +24,19 @@
             <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn3&quot;, &quot;columnIndex&quot;: &quot;102&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
         </customData>
     </Column>
+
+    <!-- <Column id="col2" >
+
+        <Text text="Credit Invoice Number" />
+
+        <customData>
+
+            <core:CustomData key="p13nData"
+
+                value='\{"columnKey": "CustomColumn4", "leadingProperty":"CRInvNo", "columnIndex" : "101"}' />
+
+        </customData>
+
+    </Column> -->
 </core:FragmentDefinition>
 <!-- "leadingProperty":"ItemNo", -->

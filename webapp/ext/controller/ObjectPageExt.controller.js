@@ -125,6 +125,7 @@ sap.ui.define([
 
                         if (invoiceNoHdr == null) {
                             if (StatusDescription == "Under Review") {
+                                this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(true);
                             }
                             else{
@@ -197,8 +198,19 @@ sap.ui.define([
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(false);
                         }
                         if (StatusDescription == "Under Review") {
-                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                            
+                          var BTPCRNo = oEvent.context.getObject("ISSAP");
+
+                           if(BTPCRNo==="N"){
+                          //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
+                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
+                           }else{
+                          //  sap.ui.getCore().byId("idcbox").getBinding("items").filter([])
+                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
+                           }
+                          // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
+                           
+                                                      
                         }else {
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
                         }
@@ -210,9 +222,7 @@ sap.ui.define([
                 // this.busyDialog = formatter.createBusyDialog();
                 // this.getOwnerComponent().getRouter().getRoute("ChangeLog").attachPatternMatched(this.onRouteMatch, this);
             },
-
-
-
+           
             checkInvoiceHdr: function () {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
@@ -2549,7 +2559,7 @@ sap.ui.define([
                                                 TargetQty : selectedDataCredit[i].ApproveQty.toString(), 
                                                 YourReference : selectedDataCredit[i].Material,
                                                 ReferenceDocument : selectedDataCredit[i].SalesOrderNo,
-                                                ReferenceDocItem : "00000"+ selectedDataCredit[i].CRRowID.toString()        
+                                                ReferenceDocItem : selectedDataCredit[i].CRRowID.toString().padStart(6, '0')        
                                                                 }]
                                             };
                                     batchChanges.push(selectedDataObj);
@@ -2563,7 +2573,7 @@ sap.ui.define([
                             TargetQty : selectedDataCredit[i].ApproveQty.toString(), 
                             YourReference : selectedDataCredit[i].Material,
                             ReferenceDocument : selectedDataCredit[i].SalesOrderNo,
-                            ReferenceDocItem : "00000"+ selectedDataCredit[i].CRRowID.toString()         
+                            ReferenceDocItem : selectedDataCredit[i].CRRowID.toString().padStart(6, '0')         
                                             };
                         for (var j = 0; j < batchChanges.length; j++) {
                             if(selectedDataCredit[i].SAPCode === batchChanges[j].OrderReason){
@@ -2590,7 +2600,7 @@ sap.ui.define([
                                                 TargetQty : selectedDataCredit[i].ApproveQty.toString(), 
                                                 YourReference : selectedDataCredit[i].Material,
                                                 ReferenceDocument : selectedDataCredit[i].SalesOrderNo,
-                                                ReferenceDocItem : "00000"+ selectedDataCredit[i].CRRowID.toString()        
+                                                ReferenceDocItem : selectedDataCredit[i].CRRowID.toString().padStart(6, '0')       
                                                                 }]
                                             };
                                     batchChanges.push(selectedDataObj);
@@ -2602,7 +2612,10 @@ sap.ui.define([
                             sap.ui.core.BusyIndicator.show(); 
                             $.ajax({
                                 type: "POST",
-                                url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
+                                //Dev Url for sap service
+                             url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
+                             // QA Url for the sap service
+                             // url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
                                 dataType: "json",
                                 crossDomain: true,
                                 async: false,
