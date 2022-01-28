@@ -106,6 +106,8 @@ sap.ui.define([
                         };
                         var qualityModel = new JSONModel(data);
                         this.getOwnerComponent().setModel(qualityModel, "qualityModel");
+
+                        
                         var CRInvNo = oEvent.context.getObject().CRInvNo;
                         this.InvoiceDate = oEvent.context.getObject().CRDocDate;
                         StatusDescription = oEvent.context.getObject().StatusDescription;
@@ -125,7 +127,7 @@ sap.ui.define([
 
                         if (invoiceNoHdr == null) {
                             if (StatusDescription == "Under Review") {
-                                this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
+                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(true);
                             }
                             else{
@@ -204,8 +206,42 @@ sap.ui.define([
                            if(BTPCRNo==="N"){
                           //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
-                           }else{
+                            var data1 =[
+                            {
+                                text:"Approve" ,
+                                 id:"item12"
+                            },
+                            {
+                                text:"Cancelled" ,
+                                 id:"item13"
+                            },
+                            {
+                                text:"Rejected" ,
+                                 id:"item14"
+                            }];
+                            var AppStatus = new JSONModel(data1);
+                            this.getOwnerComponent().setModel(AppStatus, "StatModel");   
+                        }else{
                           //  sap.ui.getCore().byId("idcbox").getBinding("items").filter([])
+                          var data1 =[{
+                            text:"Ready To Approve" ,
+                             id:"item11"
+                        },
+                        {
+                            text:"Approve" ,
+                             id:"item12"
+                        },
+                        {
+                            text:"Cancelled" ,
+                             id:"item13"
+                        },
+                        {
+                            text:"Rejected" ,
+                             id:"item14"
+                        }];
+                        var AppStatus = new JSONModel(data1);
+                        this.getOwnerComponent().setModel(AppStatus, "StatModel");
+                    //      this.checkISSAP(); 
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                            }
                           // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
@@ -213,6 +249,18 @@ sap.ui.define([
                                                       
                         }else {
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
+                        }
+                        if(StatusDescription == "Submitted"){
+                            var BTPCRNo = oEvent.context.getObject("ISSAP");
+                           if(BTPCRNo==="Y"){
+                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
+                            setTimeout(function() { 
+                                that.checkISSAP();
+                                },6000);  
+                        }else{
+                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);   
+                           }
+
                         }
 
 
@@ -222,6 +270,42 @@ sap.ui.define([
                 // this.busyDialog = formatter.createBusyDialog();
                 // this.getOwnerComponent().getRouter().getRoute("ChangeLog").attachPatternMatched(this.onRouteMatch, this);
             },
+            checkISSAP:function(){
+                var that = this;
+                var oModel = this.getOwnerComponent().getModel();
+                var BTPCRNO = this.getView().getModel("CreditReqHdrModel").getData().items[0].BTPCRNO;
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("BTPCRNo_BTPCRNO", "EQ", BTPCRNO),
+                        new sap.ui.model.Filter("StatusCode_Id", "NE", 10)
+                    ],
+                    and: true
+                });
+                oModel.read("/CreditReqItem", {
+                    filters: [oFilterR],
+                    success: function (oResponse) {
+                        console.log(oResponse.results);
+                    var data=oResponse.results.filter(obj=>obj.StatusDescription=="Created");
+                    if(data.length>0){
+                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                    }
+                    else{
+                        var approve=oResponse.results.filter(obj=>obj.StatusDescription=="Approved");
+                        if(approve.length>0){
+                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                        }
+                        else{
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                        }
+                    }
+
+
+                    },
+                    error: function (err) { }
+                });
+            }, 
            
             checkInvoiceHdr: function () {
                 var that = this;
@@ -2244,6 +2328,9 @@ sap.ui.define([
                                     MessageBox.success("Record Added Successfully.");
                                     that.byId("AddItemsDialog").destroy();
                                     that.extensionAPI.refresh(that._table.sId);
+                                    setTimeout(function() { 
+                                        that.checkISSAP();
+                                        },6000);
                                     return;
                                 }, function (err) {
                                     sap.m.MessageToast.show("Items not added! Please try again.....");
@@ -2481,6 +2568,9 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
+                        setTimeout(function() { 
+                            that.checkISSAP();
+                            },6000);
                     }.bind(this),
 
                     error: function (oError) {
@@ -2514,6 +2604,13 @@ sap.ui.define([
                             return false;
                         }else{
                         var selectedindices = oResponse.results;
+                        for(var i = 0; i < selectedindices.length; i++){
+                            if(selectedindices[i].Material === "DC"){
+                                // if we have Meterial value as DC need to send 8999 hardcoded value
+                                selectedindices[i].Material = "8999";                                
+                            }                             
+
+                        }
                         selectedDataCredit = [];
                         selectedDataCredit = selectedindices;                       
                         that.onpressCreditMemo1(selectedDataCredit); 
@@ -2615,7 +2712,7 @@ sap.ui.define([
                                 //Dev Url for sap service
                              url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
                              // QA Url for the sap service
-                             // url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
+                            //  url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
                                 dataType: "json",
                                 crossDomain: true,
                                 async: false,
@@ -2890,7 +2987,7 @@ sap.ui.define([
                         CRItems = oResponse.results;
                         for (var i = 0; i < oResponse.results.length; i++) {
                             if (oResponse.results[i].Qty == null || oResponse.results[i].CRTypeDesc == null) {
-                                sap.m.MessageBox.error("Credit Quantity/Type should not be Null");
+                                sap.m.MessageBox.error("All Line items must have a Credit Request Type and Credit Request Qty");
                                 return;
                             }
 
@@ -3203,6 +3300,12 @@ sap.ui.define([
                                 oDialog.getContent()[1].getContent()[1].setEnabled(true);
 
                             }
+                            if (oSelectedkey == "Rejected") {
+                                oDialog.setTitle("Rejection Reason");
+                                oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
+         
+         
+                             }
                         });
                         // var oSelectedkey = oevt.getSource().getSelectedItem().getText();
                         // if (oSelectedkey == "Under") {

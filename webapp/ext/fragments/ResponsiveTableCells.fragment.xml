@@ -15,16 +15,18 @@
                                     </core:layoutData>
 
                                 </core:Icon>     
-                   <ComboBox xmlns="sap.m" id="box1" selectionChange ="OnSelectionchange" placeholder="Select" visible="{= ${Description} === 'Delivery Credit Fee' ? false : ${StatusDescription} === 'Rejected' ? false :${Description} === 'Without Invoice' ? false: ${StatusDescription} === 'Approved' ? false :  ${StatusDescription} === 'Issued' ? false :${StatusDescription} === 'Cancelled' ? false :${CreditReqHdrModel>/items/0/StatusDescription} !== 'Under Review' ? false: true }">
+                   <ComboBox xmlns="sap.m" id="box1" selectionChange ="OnSelectionchange" placeholder="Select" visible="{= ${Description} === 'Delivery Credit Fee' ? false : ${StatusDescription} === 'Rejected' ? false :${Description} === 'Without Invoice' ? false: ${StatusDescription} === 'Approved' ? false :  ${StatusDescription} === 'Issued' ? false :${StatusDescription} === 'Cancelled' ? false :${CreditReqHdrModel>/items/0/StatusDescription} !== 'Under Review' ? false: true }"
+                   items="{StatModel>/}">
     <items>
-      <core:Item xmlns:core="sap.ui.core" key="ReadyToApprove" 
+     <core:Item  key="{StatModel>id}" text="{StatModel>text}"/>
+      <!-- <core:Item xmlns:core="sap.ui.core" key="ReadyToApprove" 
            text="Ready To Approve"  id="item11" />
      <core:Item xmlns:core="sap.ui.core" key="ApproveButton" 
            text="Approve" id="item12"/>
              <core:Item xmlns:core="sap.ui.core" key="CancelledButton" 
            text="Cancelled" id="item13"/>
              <core:Item xmlns:core="sap.ui.core" key="RejectedButton" 
-           text="Rejected" id="item14"/>
+           text="Rejected" id="item14"/> -->
     </items>
    </ComboBox>  
    

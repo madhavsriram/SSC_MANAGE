@@ -2,6 +2,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     onInit: function () {
         var that = this;
         sap.ui.getCore().getConfiguration().getFormatSettings().setLegacyDateFormat(3);
+       // sap.ui.getCore().byId("createstorecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetInvoiceHdr--listReportFilter").setPersistencyKey(true);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab1").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab2").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab3").setVisible(false);
@@ -543,6 +544,12 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                 oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
                 oDialog.getContent()[1].getContent()[1].setEnabled(true);
             }
+            if (oSelectedkey == "Rejected") {
+                oDialog.setTitle("Rejection Reason");
+                oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
+
+
+             }
         });
         // var oSelectedkey = oevt.getSource().getSelectedItem().getText();
         // if (oSelectedkey == "Under") {
