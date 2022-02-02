@@ -32,6 +32,15 @@
 
                 <t:Column>
                     <t:label>
+                        <Label text="Sales Order Number" />
+                    </t:label>         
+                    <t:template>
+                        <Text id="idSalesOrderNo" text="{HeaderListModel>SalesOrderNo}"/>
+                    </t:template>       
+                </t:Column>
+
+                <t:Column>
+                    <t:label>
                         <Label text="SCC" />
                     </t:label>   
                     <t:template>

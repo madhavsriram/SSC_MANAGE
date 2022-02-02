@@ -2,7 +2,8 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     onInit: function () {
         var that = this;
         sap.ui.getCore().getConfiguration().getFormatSettings().setLegacyDateFormat(3);
-       // sap.ui.getCore().byId("createstorecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetInvoiceHdr--listReportFilter").setPersistencyKey(true);
+        sap.ui.getCore().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReportFilter").setPersistencyKey(true);
+  
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab1").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab2").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab3").setVisible(false);

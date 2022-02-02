@@ -241,7 +241,7 @@ sap.ui.define([
                         }];
                         var AppStatus = new JSONModel(data1);
                         this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                    //      this.checkISSAP(); 
+                          //this.checkISSAP(); 
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                            }
                           // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
@@ -253,11 +253,44 @@ sap.ui.define([
                         if(StatusDescription == "Submitted"){
                             var BTPCRNo = oEvent.context.getObject("ISSAP");
                            if(BTPCRNo==="Y"){
+                            var data1 =[{
+                                text:"Ready To Approve" ,
+                                 id:"item11"
+                            },
+                            {
+                                text:"Approve" ,
+                                 id:"item12"
+                            },
+                            {
+                                text:"Cancelled" ,
+                                 id:"item13"
+                            },
+                            {
+                                text:"Rejected" ,
+                                 id:"item14"
+                            }];
+                            var AppStatus = new JSONModel(data1);
+                            this.getOwnerComponent().setModel(AppStatus, "StatModel");
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                             setTimeout(function() { 
-                                that.checkISSAP();
+                             //   that.checkISSAP();
                                 },6000);  
                         }else{
+                            var data1 =[
+                                {
+                                    text:"Approve" ,
+                                     id:"item12"
+                                },
+                                {
+                                    text:"Cancelled" ,
+                                     id:"item13"
+                                },
+                                {
+                                    text:"Rejected" ,
+                                     id:"item14"
+                                }];
+                                var AppStatus = new JSONModel(data1);
+                                this.getOwnerComponent().setModel(AppStatus, "StatModel");  
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);   
                            }
 
@@ -2329,7 +2362,7 @@ sap.ui.define([
                                     that.byId("AddItemsDialog").destroy();
                                     that.extensionAPI.refresh(that._table.sId);
                                     setTimeout(function() { 
-                                        that.checkISSAP();
+                                //        that.checkISSAP();
                                         },6000);
                                     return;
                                 }, function (err) {
@@ -2569,7 +2602,7 @@ sap.ui.define([
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
                         setTimeout(function() { 
-                            that.checkISSAP();
+                      //      that.checkISSAP();
                             },6000);
                     }.bind(this),
 
@@ -2606,8 +2639,21 @@ sap.ui.define([
                         var selectedindices = oResponse.results;
                         for(var i = 0; i < selectedindices.length; i++){
                             if(selectedindices[i].Material === "DC"){
-                                // if we have Meterial value as DC need to send 8999 hardcoded value
-                                selectedindices[i].Material = "8999";                                
+                                selectedindices[i].Material = "8999";  
+                            //     if(!selectedindices[i].SAPCode){
+                            //         if(selectedindices[i].CRTypeDesc = "Shortage"){
+                            //             selectedindices[i].SAPCode = "SHT";
+                            //         }
+                            //         else if(selectedindices[i].CRTypeDesc = "Damage"){
+                            //             selectedindices[i].SAPCode = "SCD";
+                            //         }
+                            //         else if(selectedindices[i].CRTypeDesc = "Late Delivery"){
+                            //             selectedindices[i].SAPCode = "DCR";
+                            //         }
+                                
+                            //     // if we have Meterial value as DC need to send 8999 hardcoded value
+                                
+                            // }                              
                             }                             
 
                         }
@@ -2710,9 +2756,9 @@ sap.ui.define([
                             $.ajax({
                                 type: "POST",
                                 //Dev Url for sap service
-                             url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
+                           url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
                              // QA Url for the sap service
-                            //  url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
+                         // url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
                                 dataType: "json",
                                 crossDomain: true,
                                 async: false,
@@ -3447,6 +3493,7 @@ sap.ui.define([
                               // selectedData.push(HeaderList[selectedindices[i]]);
                               selectedData.push(this.getView().byId("tableHdrid").getContextByIndex(selectedindices[i]).getObject());
                             }
+                            var sccId=selectedData[0].SCCId;
                             sap.m.MessageBox.show("Are you sure, you want to assign?", {
                                 icon: sap.m.MessageBox.Icon.QUESTION,
                                 title: "Confirm",
@@ -3454,44 +3501,99 @@ sap.ui.define([
                                 onClose: function (oAction) {
                                     if (oAction === "OK") {
                                         var oModel = that.getOwnerComponent().getModel();
-
-                                        for (var i = 0; i < selectedData.length; i++) {
-                                            var selectedDataObj =
-                                            {
-                                                "PSInvoiceHdr_PsplInvoice": selectedData[i].PsplInvoice,
-                                                "BTPCRNO": BTP_CRNO,
-                                                "OrgStrucEleCode_Id": OrgStrucEleCode_Id,
-                                                "SalesOrderNo": selectedData[i].SalesOrderNo
-                                            };
-                                            var path = "/CreditReqHdr(BTPCRNO=" + BTP_CRNO + ",OrgStrucEleCode_Id=" + OrgStrucEleCode_Id + ")";
-                                        }
-                                        console.log(path);
-                                        oModel.sDefaultUpdateMethod = "PATCH";
-                                        oModel.update(path, selectedDataObj, {
-                                            success: function (oSuccess) {
-                                                sap.m.MessageToast.show("Record Assigned Successfully.");
-                                                that.byId("AssignItemsDialog").destroy();
-                                                oModel.refresh();
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(false);
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(true);
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(true);
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(true);
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(true);
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
-                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
-                                                that.GetList();
-                                                oModel.sDefaultUpdateMethod = "MERGE";
-                                            }.bind(this),
-                                            error: function (oError) {
-                                                oModel.sDefaultUpdateMethod = "MERGE";
-                                                sap.m.MessageBox.alert("Invoice not assigned! Please try again.....");
-                                                that.byId("AssignItemsDialog").destroy();
-                                            }
-                                        });
+                                        var oFilterR = new sap.ui.model.Filter({
+                                            filters: [new sap.ui.model.Filter("PsId", "EQ", sccId)],
+                                          });
+                                          oModel.read("/SCCRegion", {
+                                            filters: [oFilterR],
+                                            success: function (oResponse) {
+                                              if (oResponse.results.length > 0) {
+                                                that.SCCID = oResponse.results[0].Id;
+                                                that.RegionIdID = oResponse.results[0].RegionId;
+                                                that.onPostAssignInvoice(selectedData);
+                                              }
+                                            },
+                                            error: function (err) {},
+                                          });
+                                        // for (var i = 0; i < selectedData.length; i++) {
+                                        //     var selectedDataObj =
+                                        //     {
+                                        //         "PSInvoiceHdr_PsplInvoice": selectedData[i].PsplInvoice,
+                                        //         "BTPCRNO": BTP_CRNO,
+                                        //         "OrgStrucEleCode_Id": OrgStrucEleCode_Id,
+                                        //         "SalesOrderNo": selectedData[i].SalesOrderNo
+                                        //     };
+                                        //     var path = "/CreditReqHdr(BTPCRNO=" + BTP_CRNO + ",OrgStrucEleCode_Id=" + OrgStrucEleCode_Id + ")";
+                                        // }
+                                        // console.log(path);
+                                        // oModel.sDefaultUpdateMethod = "PATCH";
+                                        // oModel.update(path, selectedDataObj, {
+                                        //     success: function (oSuccess) {
+                                        //         sap.m.MessageToast.show("Record Assigned Successfully.");
+                                        //         that.byId("AssignItemsDialog").destroy();
+                                        //         oModel.refresh();
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(false);
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(true);
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(true);
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(true);
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(true);
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
+                                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
+                                        //         that.GetList();
+                                        //         oModel.sDefaultUpdateMethod = "MERGE";
+                                        //     }.bind(this),
+                                        //     error: function (oError) {
+                                        //         oModel.sDefaultUpdateMethod = "MERGE";
+                                        //         sap.m.MessageBox.alert("Invoice not assigned! Please try again.....");
+                                        //         that.byId("AssignItemsDialog").destroy();
+                                        //     }
+                                        // });
                                     }
                                 }
                             });
                         }
+                    },
+                    onPostAssignInvoice:function(selectedData){
+                        var that=this;
+                        var oModel = that.getOwnerComponent().getModel();
+        
+                        for (var i = 0; i < selectedData.length; i++) {
+                            var selectedDataObj =
+                            {
+                                "PSInvoiceHdr_PsplInvoice": selectedData[i].PsplInvoice,
+                                "BTPCRNO": BTP_CRNO,
+                                "OrgStrucEleCode_Id": OrgStrucEleCode_Id,
+                                "SalesOrderNo": selectedData[i].SalesOrderNo,
+                                 "SCC_Id": that.SCCID,
+                                 "SCC_RegionId": that.RegionIdID,
+                                
+                            };
+                            var path = "/CreditReqHdr(BTPCRNO=" + BTP_CRNO + ",OrgStrucEleCode_Id=" + OrgStrucEleCode_Id + ")";
+                        }
+                        console.log(path);
+                        oModel.sDefaultUpdateMethod = "PATCH";
+                        oModel.update(path, selectedDataObj, {
+                            success: function (oSuccess) {
+                                sap.m.MessageToast.show("Record Assigned Successfully.");
+                                that.byId("AssignItemsDialog").destroy();
+                                oModel.refresh();
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idAssignButton").setVisible(false);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(true);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(true);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(true);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(true);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
+                                that.GetList();
+                                oModel.sDefaultUpdateMethod = "MERGE";
+                            }.bind(this),
+                            error: function (oError) {
+                                oModel.sDefaultUpdateMethod = "MERGE";
+                                sap.m.MessageBox.alert("Invoice not assigned! Please try again.....");
+                                that.byId("AssignItemsDialog").destroy();
+                            }
+                        });
                     },
                     GetList: function () {
                         var that = this;

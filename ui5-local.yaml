@@ -23,7 +23,7 @@ server:
       ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
       backend:
       - path: /v2
-        url:  https://dpz-sc-hanadb-dev-test-dpz-sc-hanadb-dev-test-credittracker-srv.cfapps.us21.hana.ondemand.com
+        url: https://dpz-sc-hanadb-dev-test-dpz-sc-hanadb-dev-test-credittracker-srv.cfapps.us21.hana.ondemand.com
         destination: CreditTracker
   - name: fiori-tools-appreload
     afterMiddleware: compression
