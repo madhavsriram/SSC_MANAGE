@@ -15,7 +15,7 @@
         "resources": "resources.json",
         "dataSources": {
             "mainService": {
-                "uri": "/v2/dominoes-manage-scctransaction/",
+                "uri": "/v2/dominos-manage-scctransaction/",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "2.0",
@@ -292,28 +292,20 @@
                             "showCounts": true,
                             "variants": {
                                 "0": {
-                                    "key": "_tab6",
-                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#All"
-                                },
-                                "1": {
                                     "key": "_tab1",
                                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Submitted"
                                 },
-                                "2": {
+                                "1": {
                                     "key": "_tab2",
                                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#UnderReview"
                                 },
-                                "3": {
+                                "2": {
                                     "key": "_tab3",
-                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#MyOpen"
-                                },
-                                "4": {
-                                    "key": "_tab4",
-                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#MyClosed"
-                                },
-                                "5": {
-                                    "key": "_tab5",
                                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#Closed"
+                                },
+                                "3": {
+                                    "key": "_tab4",
+                                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#All"
                                 }
                             }
                         },
