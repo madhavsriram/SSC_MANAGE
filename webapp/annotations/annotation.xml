@@ -8,8 +8,8 @@
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
         <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
     </edmx:Reference>
-    <edmx:Reference Uri="/v2/dominoes-manage-scctransaction/$metadata">
-        <edmx:Include Namespace="DominoesManageSCCTransaction"/>
+    <edmx:Reference Uri="/v2/dominos-manage-scctransaction/$metadata">
+        <edmx:Include Namespace="DominosManageSCCTransaction"/>
     </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">

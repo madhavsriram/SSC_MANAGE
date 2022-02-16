@@ -7,7 +7,7 @@
 |**Generation Platform**<br>SAP Business Application Studio|
 |**Floorplan Used**<br>List Report Object Page V2|
 |**Service Type**<br>SAP System (ABAP On Premise)|
-|**Service URL**<br>https://dominosv6-srv-industrious-oribi-qk.cfapps.eu10.hana.ondemand.com/v2/dominoes-manage-scctransaction/
+|**Service URL**<br>https://dominosv6-srv-industrious-oribi-qk.cfapps.eu10.hana.ondemand.com/v2/dominos-manage-scctransaction/
 |**Module Name**<br>sccmanagecr|
 |**Application Title**<br>SCC Management|
 |**Namespace**<br>|
