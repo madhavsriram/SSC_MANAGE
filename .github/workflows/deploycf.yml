@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@master	
         with:	
           name: mta
-          path: ./mta_archives/sccmanagecr_1.0.0.mtar
+          path: ./mta_archives/sccmanagecr_0.0.1.mtar
         
   deploy:
      needs: build
@@ -54,7 +54,7 @@ jobs:
            cf_password: ${{ secrets.CF_PASSWORD }}
            cf_org: ${{ secrets.CF_ORG }}
            cf_space: ${{ secrets.CF_SPACE }}
-           command: deploy ./sccmanagecr_1.0.0.mtar -f
+           command: deploy ./sccmanagecr_0.0.1.mtar -f
 
       - name: Deploy QA
         if: github.ref == 'refs/heads/qa'      
@@ -65,7 +65,7 @@ jobs:
            cf_password: ${{ secrets.CF_PASSWORD }}
            cf_org: ${{ secrets.CF_ORG_QA }}
            cf_space: ${{ secrets.CF_SPACE_QA }}
-           command: deploy ./sccmanagecr_1.0.0.mtar -f
+           command: deploy ./sccmanagecr_0.0.1.mtar -f
 
       - name: Deploy PRD
         if: github.ref == 'refs/heads/prd'      
@@ -76,4 +76,4 @@ jobs:
            cf_password: ${{ secrets.CF_PASSWORD }}
            cf_org: ${{ secrets.CF_ORG_PRD }}
            cf_space: ${{ secrets.CF_SPACE_PRD }}
-           command: deploy ./sccmanagecr_1.0.0.mtar -f
+           command: deploy ./sccmanagecr_0.0.1.mtar -f
