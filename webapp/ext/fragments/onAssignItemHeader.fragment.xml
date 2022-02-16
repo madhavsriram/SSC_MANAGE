@@ -32,6 +32,15 @@
 
                 <t:Column>
                     <t:label>
+                        <Label text="Sales Order Number" />
+                    </t:label>         
+                    <t:template>
+                        <Text id="idSalesOrderNo" text="{HeaderListModel>SalesOrderNo}"/>
+                    </t:template>       
+                </t:Column>
+
+                <t:Column>
+                    <t:label>
                         <Label text="SCC" />
                     </t:label>   
                     <t:template>
@@ -65,7 +74,7 @@
         </t:Table>
 	<Toolbar>
 				<ToolbarSpacer/>
-				<Button text="Show More" type="Emphasized"  press="showMore"/>
+				<Button text="Show More" type="Emphasized" visible="false"  press="showMore"/>
 <Button text="Assign" press="onAssignItemsAddBtn" id="AssignItemsAddBtn" enabled="true"
 				class="createBtnClass sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>		
 <Button text="Cancel" press="onAssignItemsCancelBtn" id="AssignItemsCancelBtn"

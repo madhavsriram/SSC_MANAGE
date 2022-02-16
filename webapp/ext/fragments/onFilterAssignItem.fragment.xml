@@ -13,6 +13,12 @@
                 </items>
             </ViewSettingsFilterItem>
 
+             <ViewSettingsFilterItem text="Sales OrderNo" key="SalesOrderNo" items="{path:'HeaderListModel>/HeaderList',length:100000}">
+                <items>
+                    <ViewSettingsItem  text="{HeaderListModel>SalesOrderNo}"/>
+                </items>
+            </ViewSettingsFilterItem>
+
         </filterItems>
     </ViewSettingsDialog>
 </core:FragmentDefinition>

@@ -2,7 +2,7 @@
 
     xmlns="sap.m" xmlns:c="sap.suite.ui.commons">
 
-    <Dialog title="Credit Type" id="CreditDialog" titleAlignment="Center" draggable="true" resizable="true">
+    <Dialog title="Delivery Credit Reason" id="CreditDialog" titleAlignment="Center" draggable="true" resizable="true">
 
         <content>
         	<f:Form id="formData" editable="true">

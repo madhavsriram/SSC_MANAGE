@@ -14,11 +14,11 @@
 				<!-- <FeedInput placeholder="Enter Comments"
 		post="onItemsCommentPost"
 		showIcon="false" /> -->
-		<TextArea id="idItemCTA" placeholder="Enter Comments" width="295px" height="75px" class="sapUiSmallMarginBegin"/>																												 
+		<TextArea id="idItemCTA" placeholder="Enter Comments" width="295px" height="75px" class="sapUiSmallMarginBegin" liveChange="onChangeItemComment"/>																												 
 
 		</content>
 		<buttons>
-			<Button text="Send" press="onItemsCommentPost"></Button>
+			<Button text="Send" press="onItemsCommentPost" id="ItemSendBtn"></Button>
 			<Button text="Close"  press="onItemsCommentsClose"></Button>
 															   
 		</buttons>
