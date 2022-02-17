@@ -2,18 +2,27 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     onInit: function () {
         var that = this;
         sap.ui.getCore().getConfiguration().getFormatSettings().setLegacyDateFormat(3);
+        sap.ui.getCore().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReportFilter").setPersistencyKey(true);
+  
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab1").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab2").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab3").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab4").setVisible(false);
-        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab5").setVisible(false);
-        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab6").setVisible(false);
+        // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab5").setVisible(false);
+        // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--addEntry-_tab6").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab1").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab2").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab3").setVisible(false);
         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab4").setVisible(false);
-        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab5").setVisible(false);
-        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab6").setVisible(false);
+        // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab5").setVisible(false);
+        // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--deleteEntry-_tab6").setVisible(false);
+        
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab1").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab2").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab3").setSmartVariant();
+        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab4").setSmartVariant();
+        // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab5").setSmartVariant();
+        // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReport-_tab6").setSmartVariant();
         this._checkIsStoreAssigned();
         var headerCommentsModel = new sap.ui.model.json.JSONModel();
 
@@ -31,6 +40,25 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                 that.getView().setModel(new sap.ui.model.json.JSONModel({
                     items: oResponse.results
                 }), "CreditReqHdrModel");
+
+                //		this.busyDialog.close();
+
+            }.bind(this),
+            error: function (oError) {
+
+                console.log(oError);
+                //					that.busyDialog.close();
+
+            }
+        });
+
+        oModel.read("/GetCSR_ID", {
+
+            success: function (oResponse) {
+
+                var data=oResponse.results;
+              that.CSR=oResponse.results[0].CRS_ID;
+
 
                 //		this.busyDialog.close();
 
@@ -143,10 +171,15 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         oModel.read("/GetCreditReqItem", {
             filters: filterList,
             success: function (oResponse) {
-                if (oResponse.results[0].Qty == 0 || oResponse.results[0].Qty == null) {
-                    sap.m.MessageBox.show("Credit Quantity should not be Zero.");
-                }
-                else {
+                for(i=0;i<oResponse.results.length;i++){
+                    if (oResponse.results[i].Qty == 0 || oResponse.results[i].Qty == null && oResponse.results[i].Description!=="Without Invoice") {
+                        sap.m.MessageBox.show("Credit Quantity should not be Zero.");
+                            that.byId("statusupdate").destroy();
+                              that.getView().byId(that.comboboxid).setSelectedKey(null);
+                        return;
+                    }
+                    }
+
                     var date = new Date();
                     // var oModel = this.getOwnerComponent().getModel();
                     var oFilterR = new sap.ui.model.Filter({
@@ -165,7 +198,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                         },
                         error: function (err) { }
                     });
-                }
+                
             },
             error: function (err) {
             }
@@ -184,6 +217,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         var obj = {
             StatusCode_Id: that.CRStatus[0].Id,
             UnderReviewDateTime: DateTime,
+            CSR_ID:that.CSR
             //     CSR:sap.ushell.Container.getService("UserInfo").getId()
         };
         console.log(obj);
@@ -272,7 +306,8 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         var oModel = this.getOwnerComponent().getModel();
         var obj = {
             StatusCode_Id: that.CRStatus[0].Id,
-            RejectionDateTime: DateTime
+            RejectionDateTime: DateTime,
+            CSR_ID:that.CSR
         };
         console.log(obj);
         var oFilterR = new sap.ui.model.Filter({
@@ -354,7 +389,8 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         var oModel = this.getOwnerComponent().getModel();
         var obj = {
             StatusCode_Id: that.CRStatus[0].Id,
-            CancelledDateTime: DateTime
+            CancelledDateTime: DateTime,
+            CSR_ID:that.CSR
         };
         console.log(obj);
         var oFilterR = new sap.ui.model.Filter({
@@ -399,8 +435,8 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     onCancelBtn: function (oEvent) {
 
         var that = this;
-        that.getView().byId(that.comboboxid).setSelectedKey(null);
         that.getView().byId(that.comboboxid).setValue("");
+        that.getView().byId(that.comboboxid).setSelectedKey(null);
 
         that.byId("statusupdate").destroy();
 
@@ -531,6 +567,12 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                 oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
                 oDialog.getContent()[1].getContent()[1].setEnabled(true);
             }
+            if (oSelectedkey == "Rejected") {
+                oDialog.setTitle("Rejection Reason");
+                oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
+
+
+             }
         });
         // var oSelectedkey = oevt.getSource().getSelectedItem().getText();
         // if (oSelectedkey == "Under") {

@@ -13,11 +13,11 @@
 					<!-- <FeedInput placeholder="Enter Comments"
 		post="onHeaderCommentPost"
 		showIcon="false" /> -->
-        <TextArea id="idHeaderCTA" placeholder="Enter Comments" width="295px" height="75px" class="sapUiSmallMarginBegin"/>
+        <TextArea id="idHeaderCTA" placeholder="Enter Comments" width="295px" height="75px" class="sapUiSmallMarginBegin" liveChange="onChangeHeaderComment"/>
 
 		</content>
 		<buttons>
-        <Button text="Send" press="onHeaderCommentPost"></Button>
+        <Button text="Send" press="onHeaderCommentPost" id="SendBtn"></Button>
 			<Button text="Close"  press="onHeaderCommentsClose"></Button>
 			<!-- <Button icon="sap-icon://decline" tooltip="Close" type="Reject" press="onHeaderCommentsClose"></Button> -->
 		</buttons>

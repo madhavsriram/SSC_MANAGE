@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m"  xmlns:layout="sap.ui.layout"
  xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"  	xmlns:up="sap.m.upload">
- <Dialog title="CR Details" class="bgHeader dialogbgText" contentWidth="40rem" titleAlignment="Center" id="ListDialog"  afterClose="onAfterClose" >
+ <Dialog title="" class="bgHeader dialogbgText" contentWidth="40rem" titleAlignment="Center" id="ListDialog"  afterClose="onAfterClose" >
   <!-- id="ListDialog" -->
     <layout:VerticalLayout  width="100%">
 
@@ -9,10 +9,10 @@
    	        <StepInput id="idstep" value="0" min="0" change="onChange" width="8em" textAlign="Center" enabled="false"/>
    
             <Label text="Credit Type" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop"/>
-            <ComboBox class="sapUiLargeMarginEnd" enabled="false"  id ="idcbox" textAlign="Center" selectionChange ="oSelectionchange" items="{path:'/CRType',
+            <ComboBox class="sapUiLargeMarginEnd" enabled="false" placeholder="Select" id ="idcbox" textAlign="Center" selectionChange ="oSelectionchange" items="{path:'/CRType',
 			sorter: {
 				path: 'Sequence'
-			} }" >
+			},filters: { path: 'SCCCRtype', operator: 'EQ', value1: 'Y' } }" >
                 <items>
                     <core:Item  key="{Id}" text="{Description}"/>
                 </items>
@@ -26,8 +26,8 @@
             <Label  text="Max Qty" id="openQtyText" textAlign="Center" width="8em" visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false : true }" class="sapUiTinyMarginTop"/>
             <Text id="openqty" width="9em" textAlign=""  visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false : true }" class="sapUiTinyMarginTop"/>
             
-            <Label text="Re-Classify" id="idReClasiLabel" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop" visible="false"/>
-            <ComboBox id="idReClasi" class="sapUiLargeMarginEnd" textAlign="Center" visible="false" >
+            <Label text="Re-Classify" id="idReClasiLabel" required="true" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop" visible="false"/>
+            <ComboBox id="idReClasi" class="sapUiLargeMarginEnd" textAlign="Center" visible="false" enabled="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Submitted' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Draft' ? true : false }">
                 <core:Item key="1" text="SCS" ></core:Item>
                 <core:Item key="2" text="RTV" ></core:Item>
             </ComboBox>
@@ -73,7 +73,7 @@
                  <TextArea id="coments" enabled="false"/>
                 	
 				<Label text="Photo" />
-                <up:UploadSet uploadEnabled="false" afterItemAdded="onAfterItemAdded"  id="attachmentUpl" afterItemRemoved="onRemoveItem"> 
+                <up:UploadSet afterItemAdded="onAfterItemAdded" uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false" id="attachmentUpl" > 
 					
 					
                 </up:UploadSet >
@@ -193,8 +193,8 @@
 				
                 	
 				<Label text="Photo" />
-                <up:UploadSet  afterItemAdded="onAfterItemAdded" id="attachmentUpl1" uploadEnabled="false" 
-                	 >
+                <up:UploadSet  afterItemAdded="onAfterItemAdded" id="attachmentUpl1" 
+                uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false"	 >
                 	<!-- <up:items>
 				<up:UploadSetItem
 						fileName="{QualityPhoto>FileName}"
