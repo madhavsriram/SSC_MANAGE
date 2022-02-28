@@ -751,7 +751,7 @@ sap.ui.define([
                         success: function (oResponse) {
                             console.log(oResponse.results);
                             if (oResponse.results[0].Attachment.results.length == 0) {
-                                if (oResponse.results[0].ItemType == "D") {
+                                if (oResponse.results[0].ItemType == "D" || oResponse.results[0].Material=="DC") {
                                     that.onClose();
                                     //   sap.m.MessageBox.show("For Delivery Fee the icon process in available.");
                                     return;
