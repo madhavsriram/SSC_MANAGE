@@ -2,6 +2,20 @@
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
   "routes": [
+    { 
+        "source": "^/bpmworkflowruntime/(.*)$", 
+        "target": "/$1",   
+        "service": "com.sap.bpm.workflow",   
+        "endpoint": "workflow_rest_url",   
+        "authenticationType": "xsuaa"   
+      },
+      {
+        "source": "^/oauth/token/(.*)$",
+        "target": "/$1",
+        "destination": "bpmworkflowruntimeoauth",
+        "authenticationType": "none",
+        "csrfProtection": false
+      },
     {
       "source": "^/v2/(.*)$",
       "target": "/v2/$1",
