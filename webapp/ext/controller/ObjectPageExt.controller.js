@@ -2300,8 +2300,10 @@ sap.ui.define([
                         var filterList = [];
 
                         var invoiceNoFilter = new Filter("PsplInvoice_PsplInvoice", sap.ui.model.FilterOperator.EQ, invoiceNo);
+                        var itemFilter = new Filter("ItemNo", sap.ui.model.FilterOperator.NE, "DC");
 
                         filterList.push(invoiceNoFilter);
+                        filterList.push(itemFilter);
                         oModel.read("/PSInvoiceItems", {
                             filters: filterList,
                             success: function (oResponse) {
