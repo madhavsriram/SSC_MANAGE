@@ -44,7 +44,7 @@
                         <Label text="SCC" />
                     </t:label>   
                     <t:template>
-                        <Text id="idSCC" text="{HeaderListModel>SCCDesc}"/>
+                        <Text id="idSCC" text="{HeaderListModel>SCCId}"/>
                     </t:template>             
                 </t:Column>
 
