@@ -19,7 +19,7 @@ modules:
         name: sccmanagecr-uaa-key
   parameters:
     content:
-      instance:
+      subaccount:
         destinations:
         - Name: sccmanagecr_repo_host
           ServiceInstanceName: sccmanagecr-html5-srv
@@ -64,7 +64,7 @@ resources:
     config:
       HTML5Runtime_enabled: true
       init_data:
-        instance:
+        subaccount:
           destinations:
           - Authentication: NoAuthentication
             Name: ui5
