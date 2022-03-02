@@ -3905,7 +3905,8 @@ sap.ui.define([
                 return fetchedToken;
             },
             _getWorkflowRuntimeBaseURL: function () {
-                var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
+               // var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
+               var appId="sccmanagecr";
                 var appPath = appId.replaceAll(".", "/");
                 var appModulePath = jQuery.sap.getModulePath(appPath);
                 return appModulePath + "/bpmworkflowruntime/v1";
