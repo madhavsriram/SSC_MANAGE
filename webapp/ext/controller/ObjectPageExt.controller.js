@@ -3866,9 +3866,11 @@ sap.ui.define([
                     url: this._getWorkflowRuntimeBaseURL() + "/workflow-instances",
                     method: "POST",
                     async: false,
+                    crossDomain: true,
                     contentType: "application/json",
                     headers: {
                         "X-CSRF-Token": this._fetchToken(),
+                        "Access-Control-Allow-Origin": "*"
                     },
                     data: (data),
                     success: function (result, xhr, data) {
