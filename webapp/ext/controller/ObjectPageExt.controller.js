@@ -2549,7 +2549,7 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
-                    //    that.checkUserApprover(obj, Attachment);
+                        that.checkUserApprover(obj, Attachment);
                     }.bind(this),
 
                     error: function (oError) {
