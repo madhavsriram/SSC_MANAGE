@@ -2549,7 +2549,7 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
-                    //    that.checkUserApprover(obj, Attachment);
+                        that.checkUserApprover(obj, Attachment);
                     }.bind(this),
 
                     error: function (oError) {
@@ -3890,7 +3890,7 @@ sap.ui.define([
                 var fetchedToken;
                 jQuery.ajax({
                 //    url: this._getWorkflowRuntimeBaseURL() + "/oauth/token?grant_type=client_credentials",
-                url:" ./resources/sap/suite/ui/generic/template/ObjectPage"+ "/oauth/token?grant_type=client_credentials",
+                url: this._getWorkflowRuntimeBaseURL() + "/xsrf-token",
                 method: "GET",
                     async: false,
                     headers: {
