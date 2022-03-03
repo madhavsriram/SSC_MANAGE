@@ -246,7 +246,7 @@ sap.ui.define([
                                 var AppStatus = new JSONModel(data1);
                                 this.getOwnerComponent().setModel(AppStatus, "StatModel");
                                 setTimeout(function () {
-                                    //     that.checkISSAP();
+                                        that.checkISSAP();
                                 }, 4000);
                                 this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                             }
@@ -279,7 +279,7 @@ sap.ui.define([
                                 this.getOwnerComponent().setModel(AppStatus, "StatModel");
                                 this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                                 setTimeout(function () {
-                                    //         that.checkISSAP();
+                                            that.checkISSAP();
                                 }, 4000);
                             } else {
                                 var data1 = [
@@ -592,7 +592,7 @@ sap.ui.define([
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr();
                                             setTimeout(function () {
-                                                //        that.checkISSAP();
+                                                       that.checkISSAP();
                                             }, 4000);
 
                                         }.bind(that),
@@ -676,7 +676,7 @@ sap.ui.define([
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr();
                                             setTimeout(function () {
-                                                //        that.checkISSAP();
+                                                        that.checkISSAP();
                                             }, 4000);
 
                                         }.bind(that),
@@ -1856,7 +1856,7 @@ sap.ui.define([
                                     that._itemDialogDestroy();
                                     pressDialog.destroy();
                                     setTimeout(function () {
-                                        //       that.checkISSAP();
+                                               that.checkISSAP();
                                     }, 4000);
 
                                 },
@@ -2022,7 +2022,7 @@ sap.ui.define([
                                             if (sAction == "OK") {
                                                 that.extensionAPI.refresh(oTable1.sId);
                                                 setTimeout(function () {
-                                                    //              that.checkISSAP();
+                                                                  that.checkISSAP();
                                                 }, 4000);
                                                 // oTable1.rerender()
                                             }
@@ -2387,7 +2387,7 @@ sap.ui.define([
                                     that.byId("AddItemsDialog").destroy();
                                     that.extensionAPI.refresh(that._table.sId);
                                     setTimeout(function () {
-                                        //      that.checkISSAP();
+                                             that.checkISSAP();
                                     }, 4000);
                                     return;
                                 }, function (err) {
@@ -2649,7 +2649,7 @@ sap.ui.define([
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
                         setTimeout(function () {
-                            //       that.checkISSAP();
+                                  that.checkISSAP();
                         }, 4000);
                     }.bind(this),
 
@@ -2662,7 +2662,11 @@ sap.ui.define([
             },
 
             onpressCreditMemo: function (oEvent) {
-
+                 var CR_FLAG=this.getView().getModel("CreditReqHdrModel").getData().items[0].CR_FLAG;
+                if(CR_FLAG=="N"){
+                    sap.m.MessageBox.alert("Techincal Error Occured -");
+                    return;
+                }
                 var stable = this._table;
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
@@ -3723,7 +3727,7 @@ sap.ui.define([
                     }];
                     var AppStatus = new JSONModel(data1);
                     this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                    //   this.checkISSAP(); 
+                       this.checkISSAP(); 
                     this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                 }
             },
