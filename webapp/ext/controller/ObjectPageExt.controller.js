@@ -41,6 +41,7 @@ sap.ui.define([
         var uploadedFileQuality = [];
         var selectedDataCredit = [];
         var DraftStatusFlg = false;
+        var CR_FLAG;
         var oAttachmentsModel, oAttachmentsModel2, oAttachmentUpl, oAttachmentUpl2;
         return {
             formatter: formatter,
@@ -107,7 +108,7 @@ sap.ui.define([
                         var qualityModel = new JSONModel(data);
                         this.getOwnerComponent().setModel(qualityModel, "qualityModel");
 
-
+                         CR_FLAG=oEvent.context.getObject().CR_FLAG;
                         var CRInvNo = oEvent.context.getObject().CRInvNo;
                         this.InvoiceDate = oEvent.context.getObject().CRDocDate;
                         StatusDescription = oEvent.context.getObject().StatusDescription;
@@ -205,6 +206,8 @@ sap.ui.define([
                         }
                         if (StatusDescription == "Under Review") {
                             this.checkInvoiceHdr();  
+                            
+                           
                             var BTPCRNo = oEvent.context.getObject("ISSAP");
 
                             if (BTPCRNo === "N") {
@@ -245,10 +248,20 @@ sap.ui.define([
                                 }];
                                 var AppStatus = new JSONModel(data1);
                                 this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                                setTimeout(function () {
-                             //           that.checkISSAP();
-                                }, 4000);
+                               
                                 this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
+                                 if(CR_FLAG=="N"){
+                                sap.m.MessageBox.alert("Credit memo button is currently disabled due to a previous credit memo from same sales order in process.Please submit this memo tomorrow");
+                                setTimeout(function () {
+                                    that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+                                }, 2000);                                 
+                            }
+                            else{
+                                setTimeout(function () {
+                                    that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                    that.checkISSAP();
+                                }, 2000);
+                            }
                             }
                             // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
 
@@ -278,9 +291,19 @@ sap.ui.define([
                                 var AppStatus = new JSONModel(data1);
                                 this.getOwnerComponent().setModel(AppStatus, "StatModel");
                                 this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
-                                setTimeout(function () {
-                                //            that.checkISSAP();
-                                }, 4000);
+                                if(CR_FLAG=="N"){
+                                    sap.m.MessageBox.alert("Credit memo button is currently disabled due to a previous credit memo from same sales order in process.Please submit this memo tomorrow");
+                                    setTimeout(function () {
+                                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+                                    }, 2000);                                 
+                                }
+                                else{
+                                    setTimeout(function () {
+                                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                        that.checkISSAP();
+                                    }, 2000);
+                                }
+                               
                             } else {
                                 var data1 = [
                                     {
@@ -591,9 +614,11 @@ sap.ui.define([
 
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr();
+                                            if(CR_FLAG=="Y"){
                                             setTimeout(function () {
-                                          //             that.checkISSAP();
+                                                       that.checkISSAP();
                                             }, 4000);
+                                        }
 
                                         }.bind(that),
                                         error: function (oError) {
@@ -675,9 +700,11 @@ sap.ui.define([
                                             this._DeliveryDialog.close();
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr();
-                                            setTimeout(function () {
-                                           //             that.checkISSAP();
-                                            }, 4000);
+                                            if(CR_FLAG=="Y"){
+                                                setTimeout(function () {
+                                                           that.checkISSAP();
+                                                }, 4000);
+                                            }
 
                                         }.bind(that),
                                         error: function (oError) {
@@ -1855,9 +1882,11 @@ sap.ui.define([
                                     pressDialog.close();
                                     that._itemDialogDestroy();
                                     pressDialog.destroy();
-                                    setTimeout(function () {
-                                     //          that.checkISSAP();
-                                    }, 4000);
+                                    if(CR_FLAG=="Y"){
+                                        setTimeout(function () {
+                                                   that.checkISSAP();
+                                        }, 4000);
+                                    }
 
                                 },
                                 error: function (oError) {
@@ -2021,9 +2050,11 @@ sap.ui.define([
                                             //  MessageToast.show("Action selected: " + sAction);
                                             if (sAction == "OK") {
                                                 that.extensionAPI.refresh(oTable1.sId);
-                                                setTimeout(function () {
-                                               //                   that.checkISSAP();
-                                                }, 4000);
+                                                if(CR_FLAG=="Y"){
+                                                    setTimeout(function () {
+                                                               that.checkISSAP();
+                                                    }, 4000);
+                                                }
                                                 // oTable1.rerender()
                                             }
                                         },
@@ -2386,9 +2417,11 @@ sap.ui.define([
                                     MessageBox.success("Record Added Successfully.");
                                     that.byId("AddItemsDialog").destroy();
                                     that.extensionAPI.refresh(that._table.sId);
-                                    setTimeout(function () {
-                                   //          that.checkISSAP();
-                                    }, 4000);
+                                    if(CR_FLAG=="Y"){
+                                        setTimeout(function () {
+                                                   that.checkISSAP();
+                                        }, 4000);
+                                    }
                                     return;
                                 }, function (err) {
                                     sap.m.MessageToast.show("Items not added! Please try again.....");
@@ -2648,9 +2681,11 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
-                        setTimeout(function () {
-                        //          that.checkISSAP();
-                        }, 4000);
+                        if(CR_FLAG=="Y"){
+                            setTimeout(function () {
+                                       that.checkISSAP();
+                            }, 4000);
+                        }
                     }.bind(this),
 
                     error: function (oError) {
@@ -2662,11 +2697,7 @@ sap.ui.define([
             },
 
             onpressCreditMemo: function (oEvent) {
-                 var CR_FLAG=this.getView().getModel("CreditReqHdrModel").getData().items[0].CR_FLAG;
-                if(CR_FLAG=="N"){
-                    sap.m.MessageBox.alert("Credit Memo Cannot be send");
-                    return;
-                }
+               
                 var stable = this._table;
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
@@ -3727,7 +3758,11 @@ sap.ui.define([
                     }];
                     var AppStatus = new JSONModel(data1);
                     this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                   //    this.checkISSAP(); 
+                   if(CR_FLAG=="Y"){
+                    setTimeout(function () {
+                               that.checkISSAP();
+                    }, 4000);
+                }
                     this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
                 }
             },
