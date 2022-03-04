@@ -259,7 +259,7 @@ sap.ui.define([
                             else{
                                 setTimeout(function () {
                                     that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
-                                    that.checkISSAP();
+                                //    that.checkISSAP();
                                 }, 2000);
                             }
                             }
@@ -300,7 +300,7 @@ sap.ui.define([
                                 else{
                                     setTimeout(function () {
                                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
-                                        that.checkISSAP();
+                                     //   that.checkISSAP();
                                     }, 2000);
                                 }
                                
@@ -614,11 +614,16 @@ sap.ui.define([
 
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr();
-                                            if(CR_FLAG=="Y"){
                                             setTimeout(function () {
-                                                       that.checkISSAP();
+                                                if(CR_FLAG=="Y"){
+                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                                }
+                                                else{
+                                                    that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+                        
+                                                }
+                                          //             that.checkISSAP();
                                             }, 4000);
-                                        }
 
                                         }.bind(that),
                                         error: function (oError) {
@@ -663,6 +668,13 @@ sap.ui.define([
                             var CrModel = that.getView().getModel("CreditReqHdrModel").getData().items[0];
 
                             var ItemType = "D";
+                            var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+
+                                pattern: "yyyy-MM-dd" + "T" + "HH:mm:ss" + "Z"
+            
+                            });
+            
+                            var DateTime = oDateFormat.format(new Date());
                             var obj = {
                                 BTPCRNo_BTPCRNO: CrModel.BTPCRNO,
                                 BTPCRNo_OrgStrucEleCode_Id: CrModel.OrgStrucEleCode_Id,
@@ -677,7 +689,8 @@ sap.ui.define([
                                 "StatusCode_Id": 9,
                                 "StatusCode_ObjectType_Id": 1,
                                 "UOM": "EA",
-                                "ApproveQty": 1
+                                "ApproveQty": 1,
+                                "ApprovedDateTime": DateTime
                             };
 
                             var path = "/CreditReqHdr(BTPCRNO=" + CrModel.BTPCRNO + ",OrgStrucEleCode_Id=" + CrModel.OrgStrucEleCode_Id + ")";
@@ -700,11 +713,16 @@ sap.ui.define([
                                             this._DeliveryDialog.close();
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr();
-                                            if(CR_FLAG=="Y"){
-                                                setTimeout(function () {
-                                                           that.checkISSAP();
-                                                }, 4000);
-                                            }
+                                            setTimeout(function () {
+                                                if(CR_FLAG=="Y"){
+                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                                }
+                                                else{
+                                                    that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+                        
+                                                }
+                                          //             that.checkISSAP();
+                                            }, 4000);
 
                                         }.bind(that),
                                         error: function (oError) {
@@ -1882,11 +1900,16 @@ sap.ui.define([
                                     pressDialog.close();
                                     that._itemDialogDestroy();
                                     pressDialog.destroy();
-                                    if(CR_FLAG=="Y"){
-                                        setTimeout(function () {
-                                                   that.checkISSAP();
-                                        }, 4000);
-                                    }
+                                    setTimeout(function () {
+                                        if(CR_FLAG=="Y"){
+                                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                        }
+                                        else{
+                                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+                
+                                        }
+                                  //             that.checkISSAP();
+                                    }, 4000);
 
                                 },
                                 error: function (oError) {
@@ -2050,11 +2073,16 @@ sap.ui.define([
                                             //  MessageToast.show("Action selected: " + sAction);
                                             if (sAction == "OK") {
                                                 that.extensionAPI.refresh(oTable1.sId);
-                                                if(CR_FLAG=="Y"){
-                                                    setTimeout(function () {
-                                                               that.checkISSAP();
-                                                    }, 4000);
-                                                }
+                                                setTimeout(function () {
+                                                    if(CR_FLAG=="Y"){
+                                                    that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                                    }
+                                                    else{
+                                                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+                            
+                                                    }
+                                              //             that.checkISSAP();
+                                                }, 4000);
                                                 // oTable1.rerender()
                                             }
                                         },
@@ -2417,12 +2445,19 @@ sap.ui.define([
                                     MessageBox.success("Record Added Successfully.");
                                     that.byId("AddItemsDialog").destroy();
                                     that.extensionAPI.refresh(that._table.sId);
-                                    if(CR_FLAG=="Y"){
+                                    
                                         setTimeout(function () {
-                                                   that.checkISSAP();
+                                            if(CR_FLAG=="Y"){
+                                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                                            }
+                                            else{
+                                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                                            }
+                                      //             that.checkISSAP();
                                         }, 4000);
-                                    }
-                                    return;
+                                    
+                                    
                                 }, function (err) {
                                     sap.m.MessageToast.show("Items not added! Please try again.....");
                                     console.log("Error");
@@ -2582,7 +2617,17 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
-                        that.checkUserApprover(obj, Attachment);
+                        setTimeout(function () {
+                            if(CR_FLAG=="Y"){
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                            }
+                            else{
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                            }
+                      //             that.checkISSAP();
+                        }, 4000);
+                   //     that.checkUserApprover(obj, Attachment);
                     }.bind(this),
 
                     error: function (oError) {
@@ -2681,11 +2726,16 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
-                        if(CR_FLAG=="Y"){
-                            setTimeout(function () {
-                                       that.checkISSAP();
-                            }, 4000);
-                        }
+                        setTimeout(function () {
+                            if(CR_FLAG=="Y"){
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                            }
+                            else{
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                            }
+                      //             that.checkISSAP();
+                        }, 4000);
                     }.bind(this),
 
                     error: function (oError) {
@@ -3012,6 +3062,16 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
+                        setTimeout(function () {
+                            if(CR_FLAG=="Y"){
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                            }
+                            else{
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                            }
+                      //             that.checkISSAP();
+                        }, 4000);
                     }.bind(this),
 
                     error: function (oError) {
@@ -3102,6 +3162,16 @@ sap.ui.define([
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
+                        setTimeout(function () {
+                            if(CR_FLAG=="Y"){
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                            }
+                            else{
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                            }
+                      //             that.checkISSAP();
+                        }, 4000);
                     }.bind(this),
 
                     error: function (oError) {
@@ -3270,6 +3340,16 @@ sap.ui.define([
                         sap.m.MessageToast.show("Item Deleted");
                         this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
+                        setTimeout(function () {
+                            if(CR_FLAG=="Y"){
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                            }
+                            else{
+                                that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+    
+                            }
+                      //             that.checkISSAP();
+                        }, 4000);
                     }.bind(this),
 
                     error: function (oError) {
@@ -3758,12 +3838,17 @@ sap.ui.define([
                     }];
                     var AppStatus = new JSONModel(data1);
                     this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                   if(CR_FLAG=="Y"){
-                    setTimeout(function () {
-                               that.checkISSAP();
-                    }, 4000);
-                }
                     this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
+                    setTimeout(function () {
+                        if(CR_FLAG=="Y"){
+                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
+                        }
+                        else{
+                            that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
+
+                        }
+                  //             that.checkISSAP();
+                    }, 4000);
                 }
             },
             GetList: function () {
