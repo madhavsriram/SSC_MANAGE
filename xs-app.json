@@ -10,13 +10,6 @@
         "authenticationType": "xsuaa"   
       },
       {
-        "source": "^/oauth/token/(.*)$",
-        "target": "/$1",
-        "destination": "bpmworkflowruntimeoauth",
-        "authenticationType": "none",
-        "csrfProtection": false
-      },
-    {
       "source": "^/v2/(.*)$",
       "target": "/v2/$1",
       "destination": "CreditTrackerV1",
