@@ -101,6 +101,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     },
     onBeforeRebindTableExtension: function (oEvent) {
         this.table = oEvent.getSource().getTable();
+     //   this.table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
     },
 
     oncheck: function (that) {
@@ -587,6 +588,9 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
 
 
+    },
+    setComboboxValue:function(oEvent){
+        console.log("a");
     }
 }
 
