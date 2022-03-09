@@ -12,9 +12,10 @@
       <core:Item xmlns:core="sap.ui.core" key="Under" 
            text="Under Review"  id="item0"/>
       <core:Item xmlns:core="sap.ui.core" key="Reject" 
-           text="Rejected" id="item1"/>
+           text="Rejected" id="item1" enabled="true"/>
              <core:Item xmlns:core="sap.ui.core" key="Cancel" 
            text="Cancelled" id="item2"/>
     </items>
    </ComboBox>
+   
 </core:FragmentDefinition>

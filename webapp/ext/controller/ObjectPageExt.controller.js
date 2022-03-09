@@ -125,7 +125,13 @@ sap.ui.define([
                         });
 
                         //  this.InvoiceDate=oDateFormat.format(this.InvoiceDate);                   
-
+                            // if(StatusDescription=="Under Review" || StatusDescription=="Closed" ||StatusDescription=="Rejected"||StatusDescription=="Cancelled"){
+                            //     this._table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
+                            // }
+                            // else{
+                            //     this._table.setMultiSelectMode().mProperties.mode="SingleSelectLeft";
+      
+                            // }
                         if (invoiceNoHdr == null) {
                             if (StatusDescription == "Under Review") {
                                 this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
@@ -2887,9 +2893,9 @@ sap.ui.define([
                     $.ajax({
                         type: "POST",
                         //Dev Url for sap service
-                     //   url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
+                       url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
                         // QA Url for the sap service
-                             url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
+                       //      url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
                         dataType: "json",
                         crossDomain: true,
                         async: false,

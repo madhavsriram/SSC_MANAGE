@@ -281,7 +281,7 @@
                     "list": true,
                     "settings": {
                         "condensedTableLayout": true,
-                        "smartVariantManagement": true,
+                        "smartVariantManagement": false,
                         "enableTableFilterInPageVariant": true,
                         "filterSettings": {
                             "dateSettings": {
