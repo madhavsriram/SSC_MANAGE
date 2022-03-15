@@ -2775,26 +2775,26 @@ sap.ui.define([
                             return false;
                         } else {
                             var selectedindices = oResponse.results;
-                            for (var i = 0; i < selectedindices.length; i++) {
-                                if (selectedindices[i].Material === "DC") {
-                                    selectedindices[i].Material = "8999";
-                                    //     if(!selectedindices[i].SAPCode){
-                                    //         if(selectedindices[i].CRTypeDesc = "Shortage"){
-                                    //             selectedindices[i].SAPCode = "SHT";
-                                    //         }
-                                    //         else if(selectedindices[i].CRTypeDesc = "Damage"){
-                                    //             selectedindices[i].SAPCode = "SCD";
-                                    //         }
-                                    //         else if(selectedindices[i].CRTypeDesc = "Late Delivery"){
-                                    //             selectedindices[i].SAPCode = "DCR";
-                                    //         }
+                            // for (var i = 0; i < selectedindices.length; i++) {
+                            //     if (selectedindices[i].Material === "DC") {
+                            //         selectedindices[i].Material = "8999";
+                            //         //     if(!selectedindices[i].SAPCode){
+                            //         //         if(selectedindices[i].CRTypeDesc = "Shortage"){
+                            //         //             selectedindices[i].SAPCode = "SHT";
+                            //         //         }
+                            //         //         else if(selectedindices[i].CRTypeDesc = "Damage"){
+                            //         //             selectedindices[i].SAPCode = "SCD";
+                            //         //         }
+                            //         //         else if(selectedindices[i].CRTypeDesc = "Late Delivery"){
+                            //         //             selectedindices[i].SAPCode = "DCR";
+                            //         //         }
 
-                                    //     // if we have Meterial value as DC need to send 8999 hardcoded value
+                            //         //     // if we have Meterial value as DC need to send 8999 hardcoded value
 
-                                    // }                              
-                                }
+                            //         // }                              
+                            //     }
 
-                            }
+                            // }
                             selectedDataCredit = [];
                             selectedDataCredit = selectedindices;
                             that.onpressCreditMemo1(selectedDataCredit);
