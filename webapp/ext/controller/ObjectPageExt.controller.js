@@ -498,7 +498,7 @@ sap.ui.define([
                 this._DeliveryDialog.getButtons()[0].setEnabled(false);
                 this._DeliveryDialog.close();
             },
-            onSelectCredit: function (oEvent) {
+            onSelectCredit_old: function (oEvent) {
                 var that = this;
                 var Id = oEvent.getSource().getSelectedKey();
                 this.SelectedCRType = oEvent.getSource().mBindingInfos.items.binding.oList.filter(obj => obj.CRType_Id == Id);
@@ -531,6 +531,38 @@ sap.ui.define([
                 });
 
                 //       this._DeliveryDialog.close();
+            },
+            onSelectCredit: function (oEvent) {
+                var that = this;
+                 var Id = oEvent.getSource().getSelectedKey();
+                 this.SelectedCRType = oEvent.getSource().mBindingInfos.items.binding.oList.filter(obj => obj.CRType_Id == Id);
+
+                this._DeliveryDialog.getButtons()[0].setEnabled(true);
+
+               
+                var oModel = this.getOwnerComponent().getModel();
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                    new sap.ui.model.Filter("PsplInvoice_PsplInvoice", "EQ", this.getView().getModel("CreditReqHdrModel").getData().items[0].PsplInvoice),
+                    new sap.ui.model.Filter("ItemNo", "EQ", "DC")
+                    ],
+                    and: true
+                    });
+                                                            
+                    oModel.read("/PSInvoiceItems", {
+                    filters: [oFilterR],
+                    success: function (oResponse) {
+                    console.log(oResponse);
+                    if (oResponse.results.length > 0) {
+                        that.getView().setModel(new sap.ui.model.json.JSONModel({
+                            items: oResponse.results
+                        }), "DelvFeeModel");
+                        //  that.updateCRItems(oResponse.results);
+                    }
+                    
+                    },
+                    error: function (err) {},
+                    });
             },
             onRevertPress: function (oEvent) {
                 //      alert('onRevertPress');
@@ -675,9 +707,10 @@ sap.ui.define([
                         if (oAction === "OK") {
                             that._DeliveryDialog.close();
                             var oModel = that.getOwnerComponent().getModel();
-                            var CrId = that.getView().getModel("DelvFeeModel").getData().items[0].BTP_DelvFee_Setup_CRType_Id;
-                            var Amt = that.getView().getModel("DelvFeeModel").getData().items[0].ByAmount;
+                       //     var CrId = that.getView().getModel("DelvFeeModel").getData().items[0].BTP_DelvFee_Setup_CRType_Id;
+                            var Amt = that.getView().getModel("DelvFeeModel").getData().items[0].UnitPrice;
                             var CrModel = that.getView().getModel("CreditReqHdrModel").getData().items[0];
+                            var Description=that.getView().getModel("DelvFeeModel").getData().items[0].Description;
 
                             var ItemType = "D";
                             var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
@@ -691,14 +724,14 @@ sap.ui.define([
                                 BTPCRNo_BTPCRNO: CrModel.BTPCRNO,
                                 BTPCRNo_OrgStrucEleCode_Id: CrModel.OrgStrucEleCode_Id,
                                 "Material": "DC",
-                                "Description": "Delivery Service Admin Fee",
+                                "Description": Description,
                                 "Qty": 1,
                                 "UnitPrice": Amt,
                                 //  "Total": 1,
                                 "ItemType": ItemType,
                                 "CRType_Id": that.SelectedCRType[0].CRType_Id,
                                 // "CRTypeDesc": that.SelectedCRType[0].Description,
-                                "StatusCode_Id": 9,
+                                "StatusCode_Id": 12,
                                 "StatusCode_ObjectType_Id": 1,
                                 "UOM": "EA",
                                 "ApproveQty": 1,
