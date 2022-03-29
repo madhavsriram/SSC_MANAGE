@@ -331,7 +331,7 @@ sap.ui.define([
 
                         }
 
-                        if (StatusDescription == "Rejected" || StatusDescription == "Closed" || StatusDescription == "Cancelled"){
+                        if (StatusDescription == "Draft" ||StatusDescription == "Rejected" || StatusDescription == "Closed" || StatusDescription == "Cancelled"){
                             that.getView().byId("delbtnButton").setVisible(false);
                             that.getView().byId("revertBtnButton").setVisible(false);
                         }
