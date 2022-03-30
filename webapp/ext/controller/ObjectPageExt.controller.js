@@ -2932,7 +2932,7 @@ sap.ui.define([
                     $.ajax({
                         type: "POST",
                         //Dev Url for sap service
-                       url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
+                   //    url: "https://credittracker-sap-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",
                         // QA Url for the sap service
                        //      url: "https://credittracker-sapqa-api.cfapps.us21.hana.ondemand.com/Et_CreditHeaderSet",                                
                         dataType: "json",
