@@ -3314,8 +3314,8 @@ sap.ui.define([
 
                 var batchChanges = [];
                 for (var i = 0; i < CRItems.length; i++) {
-                    CRItems[i].StatusCode_Id = 9;
-                    CRItems[i].StatusDescription = "Approved";
+                    CRItems[i].StatusCode_Id = 12;
+                    CRItems[i].StatusDescription = "Ready To Approve";
                     if (CRItems[i].ApproveQty == null) {
                         CRItems[i].ApproveQty = CRItems[i].Qty;
                     }
