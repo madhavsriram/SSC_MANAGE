@@ -2490,6 +2490,7 @@ sap.ui.define([
                                     MessageBox.success("Record Added Successfully.");
                                     that.byId("AddItemsDialog").destroy();
                                     that.extensionAPI.refresh(that._table.sId);
+                                  
                                     
                                     //     setTimeout(function () {
                                     //         if(CR_FLAG=="Y"){
@@ -3808,8 +3809,9 @@ sap.ui.define([
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
                  //       that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
-                        that.GetList();
-                        that.readHDr();
+                      // that.deleteWOInv();
+                       that.GetList();
+                       that.readHDr();  
 
                         oModel.sDefaultUpdateMethod = "MERGE";
                     }.bind(this),
@@ -3818,6 +3820,47 @@ sap.ui.define([
                         sap.m.MessageBox.alert("Invoice not assigned! Please try again.....");
                         that.byId("AssignItemsDialog").destroy();
                     }
+                });
+            },
+            deleteWOInv:function(){
+                var that = this;
+                var oModel = that.getOwnerComponent().getModel();
+                var BTPCRNO = this.getView().getModel("CreditReqHdrModel").getData().items[0].BTPCRNO;
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("BTPCRNo_BTPCRNO", "EQ", BTPCRNO),
+                        new sap.ui.model.Filter("StatusCode_Id", "NE", 10),
+                        new sap.ui.model.Filter("Description", "EQ", "Without Invoice")
+                    ],
+                    and: true
+                });
+                oModel.read("/CreditReqItem", {
+                    filters: [oFilterR],
+                    success: function (ores) {
+                        console.log(ores);
+                var obj = {
+                    StatusCode_Id: 10,
+                };
+                console.log(obj);
+                var path = "/CreditReqItem(BTPCRItem=" + ores.results[0].BTPCRItem + ")";
+                console.log(path);
+                oModel.sDefaultUpdateMethod = "PATCH";
+
+                oModel.update(path, obj, {
+                    success: function (oSuccess) {
+                        
+                        oModel.refresh();
+                        oModel.sDefaultUpdateMethod = "MERGE";
+                    }.bind(this),
+
+                    error: function (oError) {
+                        oModel.sDefaultUpdateMethod = "MERGE";
+                        sap.m.MessageBox.alert("Techincal Error Occured -");
+                    }
+                });
+
+                    },
+                    error: function () { }
                 });
             },
             readHDr: function () {
@@ -3869,10 +3912,10 @@ sap.ui.define([
                         text: "Ready To Approve",
                         id: "item11"
                     },
-                    {
-                        text: "Approve",
-                        id: "item12"
-                    },
+                    // {
+                    //     text: "Approve",
+                    //     id: "item12"
+                    // },
                     {
                         text: "Cancelled",
                         id: "item13"
