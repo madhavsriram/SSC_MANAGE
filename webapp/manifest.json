@@ -95,6 +95,9 @@
                 },
                 "sap.suite.ui.generic.template": {
                     "lazy": false
+                },
+                "sap.ui.layout": { 
+                    "lazy": true 
                 }
             },
             "components": {}

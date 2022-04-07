@@ -15,7 +15,7 @@
                                     </core:layoutData>
 
                                 </core:Icon>     
-                   <ComboBox xmlns="sap.m" id="box1" selectionChange ="OnSelectionchange" placeholder="Select" visible="{= ${Description} === 'Delivery Credit Fee' ? false : ${StatusDescription} === 'Rejected' ? false :${Description} === 'Without Invoice' ? false: ${StatusDescription} === 'Approved' ? false :  ${StatusDescription} === 'Issued' ? false :${StatusDescription} === 'Cancelled' ? false :${CreditReqHdrModel>/items/0/StatusDescription} !== 'Under Review' ? false: true }"
+                   <ComboBox xmlns="sap.m" id="box1" selectionChange ="OnSelectionchange" placeholder="Select" visible="{= ${Description} === 'Delivery Credit Fee' ? false : ${StatusDescription} === 'Rejected' ? false : ${StatusDescription} === 'Approved' ? false :  ${StatusDescription} === 'Issued' ? false :${StatusDescription} === 'Cancelled' ? false :${CreditReqHdrModel>/items/0/StatusDescription} !== 'Under Review' ? false: true }"
                    items="{StatModel>/}">
     <items>
      <core:Item  key="{StatModel>id}" text="{StatModel>text}"/>

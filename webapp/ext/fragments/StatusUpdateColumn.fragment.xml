@@ -5,7 +5,7 @@
 		<Text text="Status Update" />
 		<customData>
 			<core:CustomData key="p13nData"
-				value='\{"columnKey": "CustomColumn1", "leadingProperty":"StatusDescription", "columnIndex" : "101"}' />
+				value='\{"columnKey": "CustomColumn1", "leadingProperty":"StatusDescription", "columnIndex" : "2"}' />
 		</customData>
 	</Column>
 </core:FragmentDefinition>

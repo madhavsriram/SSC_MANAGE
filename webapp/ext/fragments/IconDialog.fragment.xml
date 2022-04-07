@@ -5,7 +5,7 @@
     <layout:VerticalLayout  width="100%">
 
         <layout:HorizontalLayout class="sapUiSmallMargin">
-            <Label text="CR Qty" textAlign="Center" width="8em" class="sapUiTinyMarginTop"/>
+            <Label text="Credit Request Qty" textAlign="" width="9em" class="sapUiTinyMarginTop"/>
    	        <StepInput id="idstep" value="0" min="0" change="onChange" width="8em" textAlign="Center" enabled="false"/>
    
             <Label text="Credit Type" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop"/>
