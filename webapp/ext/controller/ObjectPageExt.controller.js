@@ -822,7 +822,7 @@ sap.ui.define([
                     );
 
                     this.getView().addDependent(pressDialog);
-                    sap.ui.getCore().byId("ListDialog").setTitle("CR Details for Item " + pathdata.Material);
+                    sap.ui.getCore().byId("ListDialog").setTitle("Credit Request Details for Item " + pathdata.Material);
                     sap.ui.getCore().byId("DeliveryDate").setMaxDate(new Date());
                     var oModel = this.getOwnerComponent().getModel();
 
@@ -1428,7 +1428,7 @@ sap.ui.define([
                 if (oValue > max) {
                     sap.ui.getCore().byId("idstep").setValueState("Error");
                     sap.m.MessageBox.warning(
-                        "Approve Quantity should not be greater than CR Quantity"
+                        "Approve Quantity should not be greater than Credit Request Quantity"
                     );
                     sap.ui.getCore().byId("idcbox").setEnabled(false);
                     sap.ui.getCore().byId("Idsave").setEnabled(false);
@@ -1451,7 +1451,7 @@ sap.ui.define([
                     if (oValue > max) {
                         sap.ui.getCore().byId("idstep").setValueState("Error");
                         sap.m.MessageBox.warning(
-                            "CR Quantity should not be greater than Max Quantity"
+                            "Credit Request Quantity should not be greater than Max Quantity"
                         );
                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                     }
@@ -1474,7 +1474,7 @@ sap.ui.define([
                 if (oValue > max) {
                     sap.ui.getCore().byId("idstep").setValueState("Error");
                     sap.m.MessageBox.warning(
-                        "CR Quantity should not be greater than Max Quantity"
+                        "Credit Request Quantity should not be greater than Max Quantity"
                     );
                     sap.ui.getCore().byId("idcbox").setEnabled(false);
                     sap.ui.getCore().byId("Idsave").setEnabled(false);
@@ -1910,7 +1910,7 @@ sap.ui.define([
                     return;
                 }
                 if (sap.ui.getCore().byId("idcbox").getEnabled() == false && sap.ui.getCore().byId("idstep").getValue() == 0) {
-                    sap.m.MessageBox.alert("Please Enter the CR Quantity", {
+                    sap.m.MessageBox.alert("Please Enter the Credit Request Quantity", {
                         icon: sap.m.MessageBox.Icon.QUESTION,
                         title: "Alert"
                     });
@@ -2110,7 +2110,7 @@ sap.ui.define([
                                     );
                                 }
                                 sap.m.MessageBox.success(
-                                    "Item updated to CR No." + BTP_CRNO + "",
+                                    "Item updated to Credit Request No." + BTP_CRNO + "",
                                     {
                                         actions: [sap.m.MessageBox.Action.OK],
 
@@ -2238,7 +2238,7 @@ sap.ui.define([
 
 
                         sap.m.MessageBox.success(
-                            "Item updated to CR No." + BTP_CRNO + "",
+                            "Item updated to Credit Request No." + BTP_CRNO + "",
                             {
                                 actions: [sap.m.MessageBox.Action.OK],
 
@@ -2593,8 +2593,12 @@ sap.ui.define([
 
                         var data = oResponse.results.filter(obj => obj.StatusDescription == "Created");
                         // var data2 = oResponse.results.filter(obj => obj.ApproveQty == 0);
+                        if(oResponse.results[0].Description=="Without Invoice"){
+                            oResponse.results[0].ApproveQty=1;
+          
+                            }  
                         if (oResponse.results[0].ApproveQty == 0 || oResponse.results[0].ApproveQty == null) {
-
+                            that.CancelChanges();
                             sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
 
                         }
@@ -2702,7 +2706,7 @@ sap.ui.define([
                         var data = oResponse.results.filter(obj => obj.StatusDescription == "Created");
                         var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Ready To Approve");
                         if (oResponse.results[0].ApproveQty == 0 || oResponse.results[0].ApproveQty == null) {
-
+                            that.CancelChanges();
                             sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
 
                         }

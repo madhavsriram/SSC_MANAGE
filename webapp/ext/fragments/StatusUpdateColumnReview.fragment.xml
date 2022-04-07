@@ -3,7 +3,8 @@
     <Column id="ab">
         <Text text="Status Update"/>
         <customData>
-            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;101&quot;, &quot;leadingProperty&quot;: &quot;StatusDescription&quot;}"/>
+            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;2&quot;, &quot;leadingProperty&quot;: &quot;StatusDescription&quot;}"/>
+       <!-- <core:CustomData key="p13nData"			value='\{"columnKey": "CustomColumn1", "leadingProperty":"StatusDescription", "columnIndex" : "3"}' /> -->
         </customData>
     </Column>
 </core:FragmentDefinition>

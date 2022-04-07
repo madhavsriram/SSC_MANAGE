@@ -4,7 +4,7 @@
     <Column id="textColumn1" hAlign="Center" width="6rem">
         <Text text="Comments"/>
         <customData>
-         <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn1&quot;, &quot;columnIndex&quot;: &quot;101&quot;, &quot;leadingProperty&quot;: &quot;CommentStatus&quot;}"/>
+         <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn1&quot;, &quot;columnIndex&quot;: &quot;0&quot;, &quot;leadingProperty&quot;: &quot;CommentStatus&quot;}"/>
 	         </customData>
     </Column>
       <Column id="textColumn" visible="{= ${Description} === 'Delivery Credit Fee' ? false : true}">
@@ -12,7 +12,7 @@
         <Text text="View Details"/>
         <customData>
 
-            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;101&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
+            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;1&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
 
         </customData>
 
@@ -21,7 +21,7 @@
     <!-- visible="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true : false }" -->
         <Text text="Status Update" />
         <customData>
-            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn3&quot;, &quot;columnIndex&quot;: &quot;102&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
+            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn3&quot;, &quot;columnIndex&quot;: &quot;3&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
         </customData>
     </Column>
 
