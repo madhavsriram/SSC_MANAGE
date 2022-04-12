@@ -4,15 +4,15 @@
     <Column id="textColumn1" hAlign="Center" width="6rem">
         <Text text="Comments"/>
         <customData>
-         <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn1&quot;, &quot;columnIndex&quot;: &quot;0&quot;, &quot;leadingProperty&quot;: &quot;CommentStatus&quot;}"/>
+         <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn1&quot;, &quot;columnIndex&quot;: &quot;1&quot;, &quot;leadingProperty&quot;: &quot;CommentStatus&quot;}"/>
 	         </customData>
     </Column>
-      <Column id="textColumn" visible="{= ${Description} === 'Delivery Credit Fee' ? false : true}">
+      <Column id="textColumn" width="6rem" visible="{= ${Description} === 'Delivery Credit Fee' ? false : true}">
 
         <Text text="View Details"/>
         <customData>
 
-            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;1&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
+            <core:CustomData key="p13nData" value="\{&quot;columnKey&quot;: &quot;CustomColumn2&quot;, &quot;columnIndex&quot;: &quot;0&quot;, &quot;leadingProperty&quot;: &quot;BTPCRItem&quot;}"/>
 
         </customData>
 
