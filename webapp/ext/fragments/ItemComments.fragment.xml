@@ -18,7 +18,7 @@
 
 		</content>
 		<buttons>
-			<Button text="Send" press="onItemsCommentPost" id="ItemSendBtn"></Button>
+			<Button text="Save" press="onItemsCommentPost" id="ItemSendBtn"></Button>
 			<Button text="Close"  press="onItemsCommentsClose"></Button>
 															   
 		</buttons>

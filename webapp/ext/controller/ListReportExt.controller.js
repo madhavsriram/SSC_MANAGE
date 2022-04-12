@@ -175,7 +175,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                 for(i=0;i<oResponse.results.length;i++){
                     if (oResponse.results[i].Qty == 0 || oResponse.results[i].Qty == null && oResponse.results[i].Description!=="Without Invoice") {
                         sap.m.MessageBox.show("Credit Quantity should not be Zero.");
-                            that.byId("statusupdate").destroy();
+                            // that.byId("statusupdate").destroy();
                               that.getView().byId(that.comboboxid).setSelectedKey(null);
                         return;
                     }
@@ -241,7 +241,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                 oModel.update(path, obj, {
                     success: function (oSuccess) {
                         sap.m.MessageToast.show("Status Updated");
-                         that.byId("statusupdate").destroy();
+                        //  that.byId("statusupdate").destroy();
                          that.getView().byId(that.comboboxid).setSelectedKey(null);
 
                         oModel.refresh();
@@ -250,7 +250,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
                     error: function (oError) {
                         oModel.sDefaultUpdateMethod = "MERGE";
                         sap.m.MessageBox.alert("Techincal Error Occured -");
-                        that.byId("statusupdate").destroy();
+                        // that.byId("statusupdate").destroy();
                     }
 
                 });
@@ -545,6 +545,11 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         var oSelectedkey = oEvent.getSource().getSelectedItem().getText();
         sap.ui.getCore().statustext = oSelectedkey;
         //   text = sap.ui.getCore().byId("box0").getText();
+        if (oSelectedkey == "Under Review") {
+            that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
+            that.onSaveBtn();
+        }
+        else{
         var oView = this.getView();
 
         // if (!this.pDialog) {
@@ -562,12 +567,12 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
 
         this.pDialog.then(function (oDialog) {
             oDialog.open();
-            if (oSelectedkey == "Under Review") {
-                // this.getView().byId("Reason").setEnabled(false);
-                oDialog.getContent()[0].getItems()[1].getItems()[0].setVisible(false);
-                oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
-                oDialog.getContent()[1].getContent()[1].setEnabled(true);
-            }
+            // if (oSelectedkey == "Under Review") {
+            //     // this.getView().byId("Reason").setEnabled(false);
+            //     oDialog.getContent()[0].getItems()[1].getItems()[0].setVisible(false);
+            //     oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
+            //     oDialog.getContent()[1].getContent()[1].setEnabled(true);
+            // }
             if (oSelectedkey == "Rejected") {
                 oDialog.setTitle("Rejection Reason");
                 oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
@@ -586,7 +591,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         // } 
         var that = this;
         that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
-
+    }
 
     },
     setComboboxValue:function(oEvent){

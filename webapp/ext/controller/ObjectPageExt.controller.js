@@ -215,6 +215,7 @@ sap.ui.define([
                             
                            
                             var BTPCRNo = oEvent.context.getObject("ISSAP");
+                            this.ISSAP=BTPCRNo;
 
                             if (BTPCRNo === "N") {
                                 //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
@@ -731,7 +732,7 @@ sap.ui.define([
                                 "ItemType": ItemType,
                                 "CRType_Id": that.SelectedCRType[0].CRType_Id,
                                 // "CRTypeDesc": that.SelectedCRType[0].Description,
-                                "StatusCode_Id": 12,
+                                "StatusCode_Id": that.ISSAP=='N'?9:12,
                                 "StatusCode_ObjectType_Id": 1,
                                 "UOM": "EA",
                                 "ApproveQty": 1,
@@ -1456,7 +1457,7 @@ sap.ui.define([
                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                     }
                     if (oValue <= max) {
-                        sap.ui.getCore().byId("Idsave").setEnabled(true);
+                        // sap.ui.getCore().byId("Idsave").setEnabled(true);
                         sap.ui.getCore().byId("idstep").setValueState("None");
 
 
@@ -1481,7 +1482,7 @@ sap.ui.define([
                     return false;
                 }
                 if (oValue <= max) {
-                    sap.ui.getCore().byId("Idsave").setEnabled(true);
+                    // sap.ui.getCore().byId("Idsave").setEnabled(true);
                     sap.ui.getCore().byId("idstep").setValueState("None");
 
 
@@ -1491,13 +1492,19 @@ sap.ui.define([
 
 
                         sap.ui.getCore().byId("idcbox").setEnabled(true);
-                        sap.ui.getCore().byId("Idsave").setEnabled(true);
+                        // sap.ui.getCore().byId("Idsave").setEnabled(true);
                     }
                 }
             },
             oSelectionchange: function (oevt) {
                 var that = this;
                 var oSelectedkey = oevt.getSource().getSelectedItem().getText();
+                if (oSelectedkey !== "") {
+                    sap.ui.getCore().byId("Idsave").setEnabled(true);
+                }
+                            else{
+                                   sap.ui.getCore().byId("Idsave").setEnabled(false);           
+                            }
                 if (oSelectedkey == "Damage") {
                     sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
                     sap.ui.getCore().byId("idReClasi").setVisible(false);
@@ -1918,12 +1925,12 @@ sap.ui.define([
                 }
 
                 var path = "/CreditReqItem(BTPCRItem=" + this.selectedBTPCRItem + ")";
-                sap.m.MessageBox.show("Do you want to continue?", {
-                    icon: sap.m.MessageBox.Icon.QUESTION,
-                    title: "Confirm",
-                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-                    onClose: function (oAction) {
-                        if (oAction === "OK") {
+                // sap.m.MessageBox.show("Do you want to continue?", {
+                //     icon: sap.m.MessageBox.Icon.QUESTION,
+                //     title: "Confirm",
+                //     actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                //     onClose: function (oAction) {
+                //         if (oAction === "OK") {
                             var oModel = that.getOwnerComponent().getModel();
                             var ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
 
@@ -1967,9 +1974,9 @@ sap.ui.define([
 
                                 }
                             });
-                        }
-                    }
-                });
+                //         }
+                //     }
+                // });
 
 
 
@@ -2713,12 +2720,12 @@ sap.ui.define([
 
                         else if (data.length != 0 || data2.length != 0) {
                             var oModel = that.getOwnerComponent().getModel();
-                            sap.m.MessageBox.show("Are you sure, you want to change the status ?", {
-                                icon: sap.m.MessageBox.Icon.QUESTION,
-                                title: "Confirm",
-                                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-                                onClose: function (oAction) {
-                                    if (oAction === "OK") {
+                            // sap.m.MessageBox.show("Are you sure, you want to change the status ?", {
+                            //     icon: sap.m.MessageBox.Icon.QUESTION,
+                            //     title: "Confirm",
+                            //     actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                            //     onClose: function (oAction) {
+                            //         if (oAction === "OK") {
                                         var oFilterR = new sap.ui.model.Filter({
                                             filters: [
                                                 new sap.ui.model.Filter("StatusType", "EQ", "Appr"),
@@ -2735,9 +2742,9 @@ sap.ui.define([
                                             },
                                             error: function (err) { }
                                         });
-                                    }
-                                }
-                            });
+                            //         }
+                            //     }
+                            // });
                         }
                         else {
                             sap.m.MessageBox.alert("Status cannot be changed.");
@@ -2773,7 +2780,7 @@ sap.ui.define([
                     success: function (oSuccess) {
                         // this.GetCRtypecall(); // passing the credit type short value                     
                         sap.m.MessageToast.show("CreditReqItem Updated");
-                        that.byId("statusupdateObjectPage").destroy();
+                        // that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
                     //     setTimeout(function () {
@@ -3548,6 +3555,11 @@ sap.ui.define([
                 that.comboboxid = oEvent.getSource().getId();
                 var oSelectedkey = oEvent.getSource().getSelectedItem().getText();
                 sap.ui.getCore().statustext = oSelectedkey;
+                if (oSelectedkey == "Approve") {
+                    that.LocObjPage = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
+                    that.saveChanges();
+                }
+                else{
                 //   text = sap.ui.getCore().byId("box0").getText();
                 var oView = this.getView();
 
@@ -3566,7 +3578,7 @@ sap.ui.define([
 
                 this.pDialog.then(function (oDialog) {
                     oDialog.open();
-                    if (oSelectedkey == "Ready To Approve" || oSelectedkey == "Approve") {
+                    if (oSelectedkey == "Ready To Approve") {
                         // this.getView().byId("Reason").setEnabled(false);
                         oDialog.getContent()[0].getItems()[1].getItems()[0].setVisible(false);
                         oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
@@ -3591,7 +3603,7 @@ sap.ui.define([
                 // } 
                 var that = this;
                 that.LocObjPage = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
-
+            }
 
             },
 

@@ -174,7 +174,7 @@
                                             },
                                             "idDeleteCRData": {
                                                 "id": "idDeleteCRDataButton",
-                                                "text": "Delete CR Data",
+                                                "text": "Delete Credit Request Data",
                                                 "press": "onPressDelete",
                                                 "requiresSelection": true
                                             }

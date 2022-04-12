@@ -17,7 +17,7 @@
 
 		</content>
 		<buttons>
-        <Button text="Send" press="onHeaderCommentPost" id="SendBtn"></Button>
+        <Button text="Save" press="onHeaderCommentPost" id="SendBtn"></Button>
 			<Button text="Close"  press="onHeaderCommentsClose"></Button>
 			<!-- <Button icon="sap-icon://decline" tooltip="Close" type="Reject" press="onHeaderCommentsClose"></Button> -->
 		</buttons>
