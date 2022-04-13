@@ -63,7 +63,7 @@ sap.ui.define([
                         // this.getView().byId(
                         //     "sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--ItemId::Table"
                         // ).setUseExportToExcel
-
+                        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--template::Share").setVisible(false);
                         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--edit").setVisible(false);
                         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delete").setVisible(false);
                         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--ItemId::deleteEntry").setVisible(false);
@@ -125,13 +125,13 @@ sap.ui.define([
                         });
 
                         //  this.InvoiceDate=oDateFormat.format(this.InvoiceDate);                   
-                            // if(StatusDescription=="Under Review" || StatusDescription=="Closed" ||StatusDescription=="Rejected"||StatusDescription=="Cancelled"){
-                            //     this._table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
-                            // }
-                            // else{
-                            //     this._table.setMultiSelectMode().mProperties.mode="SingleSelectLeft";
+                            if(StatusDescription=="Under Review" || StatusDescription=="Closed" ||StatusDescription=="Rejected"||StatusDescription=="Cancelled"){
+                                this._table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
+                            }
+                            else{
+                                this._table.setMultiSelectMode().mProperties.mode="SingleSelectLeft";
       
-                            // }
+                            }
                         if (invoiceNoHdr == null) {
                             if (StatusDescription == "Under Review") {
                              //   this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
