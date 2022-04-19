@@ -859,6 +859,7 @@ sap.ui.define([
                                 sap.ui.getCore().byId("apprQty").setVisible(false);
                                 sap.ui.getCore().byId("openQtyText").setVisible(true);
                                 sap.ui.getCore().byId("openqty").setVisible(true);
+                             
                                 //        sap.ui.getCore().byId("idcbox").getBinding("items").filter([new sap.ui.model.Filter("Description", "EQ", "Shortage"), new sap.ui.model.Filter("Description", "EQ", "Damage"), new sap.ui.model.Filter("Description", "EQ", "Not Shipped")])
                                 sap.ui.getCore().byId("idstep").setValue(oResponse.results[0].Qty);
                                 sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);

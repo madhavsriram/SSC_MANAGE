@@ -102,7 +102,11 @@
 						<layout:GridData span="XL1 L2 M4 S3" />
 					</layoutData>
                 </DatePicker>
-				
+							<!-- <Label text="Photo" />
+                <up:UploadSet afterItemAdded="onAfterItemAdded" uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false" id="attachmentUplSht" > 
+					
+					
+                </up:UploadSet >	 -->
 			</f:content>
 		</f:SimpleForm>
    
@@ -125,7 +129,7 @@
 			singleContainerFullSize="false"  >
 			<f:content>
     <core:Title text="" />
-				<Label text="Product Name"  required="true">
+				<Label text="Product Category"  required="true">
                   
                 </Label>
 				<!-- <ComboBox enabled="false" selectedKey="{Quality>/items/0/ProductName}" change="onProductName" selectionChange="onProductName"
@@ -142,7 +146,7 @@
                   
                  </Label>
 				  
-                 <MultiComboBox enabled="false" selectedKeys="{qualityModel>/ProductIssue}" id ="idProductIssueMCB"  selectionFinish ="onProductissue" items="{productIssueModel>/}" >
+                 <MultiComboBox enabled="true" selectedKeys="{qualityModel>/ProductIssue}" id ="idProductIssueMCB"  selectionFinish ="onProductissue" items="{productIssueModel>/}" >
      <items>
 		<core:Item  key="{productIssueModel>IssueCode_Id}" text="{productIssueModel>IssueDesc}"/>
 	</items>
