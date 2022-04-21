@@ -37,12 +37,14 @@ sap.ui.define([
         var File = [];
         var removedFileDamage = [];
         var removedFileQuality = [];
+        var removedFileShortage = [];
         var uploadedFileDamage = [];
         var uploadedFileQuality = [];
+        var uploadedFileShortage = [];
         var selectedDataCredit = [];
         var DraftStatusFlg = false;
         var CR_FLAG;
-        var oAttachmentsModel, oAttachmentsModel2, oAttachmentUpl, oAttachmentUpl2;
+        var oAttachmentsModel, oAttachmentsModel2,oAttachmentsModel3, oAttachmentUpl, oAttachmentUpl2,oAttachmentUpl3;
         return {
             formatter: formatter,
             onInit: function () {
@@ -78,6 +80,11 @@ sap.ui.define([
                         this.getOwnerComponent().setModel(
                             oAttachmentsModel2,
                             "oAttachmentsModel2"
+                        );
+                        oAttachmentsModel3= new sap.ui.model.json.JSONModel();
+                        this.getOwnerComponent().setModel(
+                            oAttachmentsModel3,
+                            "oAttachmentsModel3"
                         );
                         var headerCommentsModel = new JSONModel();
                         this.getOwnerComponent().setModel(
@@ -1667,6 +1674,15 @@ sap.ui.define([
                     };
                     uploadedFileQuality.push(data);
                 }
+                // else if (oCalledEvent === "attachmentUplSht") {
+                //     data = {
+                //         id: result.Id,
+                //         MediaType: item.getMediaType(),
+                //         FileName: item.getFileName(),
+                //         Size: item.getFileObject().size,
+                //     };
+                //     uploadedFileShortage.push(data);
+                // }
             },
             _createEntity: function (item, oCalledEvent) {
                 var data = {
@@ -1729,6 +1745,9 @@ sap.ui.define([
                     } else if (oCalledEvent === "attachmentUpl1") {
                         removedFileQuality.push(ID);
                     }
+                    // else if (oCalledEvent === "attachmentUplSht") {
+                    //     removedFileShortage.push(ID);
+                    // }
                     sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
                 } else {
                     sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
@@ -1743,6 +1762,12 @@ sap.ui.define([
                         );
                         uploadedFileQuality.splice(fileIndex, 1);
                     }
+                    // else if (oCalledEvent === "attachmentUplSht") {
+                    //     var fileIndex = uploadedFileShortage.findIndex(
+                    //         (x) => x.FileName === oItem.getFileName()
+                    //     );
+                    //     uploadedFileShortage.splice(fileIndex, 1);
+                    // }
                 }
             },
             updateAttachmentID: function (attachmentID, CRType) {
@@ -1753,7 +1778,11 @@ sap.ui.define([
                     var uploadedFile = uploadedFileDamage;
                 } else if (CRType === 3) {
                     uploadedFile = uploadedFileQuality;
-                } else {
+                }
+                // else if (CRType === 2) {
+                //     uploadedFile = uploadedFileShortage;
+                // }  
+                else {
                     uploadedFile = [];
                 }
                 for (var i = 0; i < uploadedFile.length; i++) {
@@ -1778,6 +1807,9 @@ sap.ui.define([
                 } else if (oCalledEvent === "attachmentUpl1") {
                     oData = this.getModel("oAttachmentsModel2").getData().results;
                 }
+                // else if (oCalledEvent === "attachmentUplSht") {
+                //     oData = this.getModel("oAttachmentsModel3").getData().results;
+                // }
                 else if (oCalledEvent === "CustomUpload") {
                     oData = this.getModel("oAttachmentsModel2").getData().results;
 
@@ -1832,6 +1864,22 @@ sap.ui.define([
                 if (sap.ui.getCore().byId("attachmentUpl1-list") !== undefined) {
                     sap.ui.getCore().byId("attachmentUpl1-list").destroy();
                 }
+                // sap.ui.getCore().byId("attachmentUplSht").destroy();
+                // if (sap.ui.getCore().byId("attachmentUplSht-uploader") !== undefined) {
+                //     sap.ui.getCore().byId("attachmentUplSht-uploader").destroy();
+                // }
+                // if (sap.ui.getCore().byId("attachmentUplSht-toolbar") !== undefined) {
+                //     sap.ui.getCore().byId("attachmentUplSht-toolbar").destroy();
+                // }
+                // if (
+                //     sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'") !== undefined
+                // ) {
+                //     sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'").destroy();
+                // }
+
+                // if (sap.ui.getCore().byId("attachmentUplSht-list") !== undefined) {
+                //     sap.ui.getCore().byId("attachmentUplSht-list").destroy();
+                // }
                 sap.ui.getCore().byId("Damage").destroy();
                 //sap.ui.getCore().byId("LotCode").destroy();
                 //   sap.ui.getCore().byId("Expdate").destroy();
@@ -2025,6 +2073,14 @@ sap.ui.define([
                                 error: function (e) { },
                             });
                         }
+                        // for (var i = 0; i < removedFileShortage.length; i++) {
+                        //     var sPath = "/AttachmentRow(" + removedFileShortage[i] + ")";
+                        //     oModel.remove(sPath, {
+                        //         method: "POST",
+                        //         success: function (data) { },
+                        //         error: function (e) { },
+                        //     });
+                        // }
 
                         if (sap.ui.getCore().byId("NotShipped").getVisible() == true) {
                             var comment = sap.ui.getCore().byId("Nscomments").getValue()
@@ -2714,7 +2770,9 @@ sap.ui.define([
                         var data = oResponse.results.filter(obj => obj.StatusDescription == "Created");
                         var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Ready To Approve");
                         if (oResponse.results[0].ApproveQty == 0 || oResponse.results[0].ApproveQty == null) {
-                            that.CancelChanges();
+                        //    that.CancelChanges();
+                        that.getView().byId(that.comboboxid).setValue("");
+                        that.getView().byId(that.comboboxid).setSelectedKey(null);
                             sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
 
                         }
@@ -3612,7 +3670,7 @@ sap.ui.define([
             },
 
             saveChanges: function (oEvent) {
-
+                var that = this;
                 var text = sap.ui.getCore().statustext;
 
                 if (text == "Ready To Approve") {
@@ -3622,8 +3680,23 @@ sap.ui.define([
                 }
 
                 if (text == "Approve") {
+                    sap.m.MessageBox.show("No changes can be made to the Approved quantity once status is set to Approved.\n Do you want to continue?", {
+                        icon: sap.m.MessageBox.Icon.QUESTION,
+                        title: "Confirm",
+                        actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                        onClose: function (oAction) {
+                            if (oAction === "OK") {
+                                that.onPressApprove();
+        }
+                            else{
+                             that.getView().byId(that.comboboxid).setValue("");
+        that.getView().byId(that.comboboxid).setSelectedKey(null);                
+                            }            
+    }
+}
+);
 
-                    this.onPressApprove();
+                    
 
                 }
 
