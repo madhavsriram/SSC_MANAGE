@@ -102,11 +102,11 @@
 						<layout:GridData span="XL1 L2 M4 S3" />
 					</layoutData>
                 </DatePicker>
-							<!-- <Label text="Photo" />
+							<Label text="Photo" />
                 <up:UploadSet afterItemAdded="onAfterItemAdded" uploadCompleted="onUploadCompleted" uploadEnabled="true" beforeItemAdded="onBeforeItemAdded" afterItemRemoved="onRemoveItem" instantUpload="false" id="attachmentUplSht" > 
 					
 					
-                </up:UploadSet >	 -->
+                </up:UploadSet >	
 			</f:content>
 		</f:SimpleForm>
    

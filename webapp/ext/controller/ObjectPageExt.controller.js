@@ -1075,7 +1075,7 @@ sap.ui.define([
                             }
                             var Attachmentid = data.Attachment.results[0].AttachmentId;
                             var DamageId_Id = data.Attachment.results[0].DamageId_Id;
-                            pressDialog.open();
+                          //  pressDialog.open();
 
 
                             var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
@@ -1929,9 +1929,9 @@ sap.ui.define([
                     sap.ui.getCore().byId("attachmentUplSht-toolbar").destroy();
                 }
                 if (
-                    sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'") !== undefined
+                    sap.ui.getCore().byId("attachmentUplSht-deleteDialog") !== undefined
                 ) {
-                    sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'").destroy();
+                    sap.ui.getCore().byId("attachmentUplSht-deleteDialog").destroy();
                 }
 
                 if (sap.ui.getCore().byId("attachmentUplSht-list") !== undefined) {
