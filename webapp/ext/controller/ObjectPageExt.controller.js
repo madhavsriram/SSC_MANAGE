@@ -1090,26 +1090,61 @@ sap.ui.define([
                             else {
                                 sap.ui.getCore().byId("DeliveryDate").setValue("");
                             }
-                            // oModel.read("/Attachment(AttachmentId=" + Attachmentid +
-                            //     ",DamageId_Id=" + DamageId_Id + ")/AttachmentRow", {
+                            oModel.read("/Attachment(AttachmentId=" + Attachmentid +
+                            ")/AttachmentRow", {
 
-                            //     success: function (oResponse) {
-                            //         console.log(oResponse.results);
-                            //         pressDialog.open();
+                            success: function (oResponse) {
+                                console.log(oResponse.results);
+                                pressDialog.open();
+                                
+                                if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved") {
+                                    sap.ui.getCore().byId("Idsave").setEnabled(false);
+                                    sap.ui.getCore().byId("attachmentUplSht").setUploadEnabled(false);
+                                    sap.ui.getCore().byId("apprQty").setEnabled(false);
+
+                                }
+                               
+                                if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review") {
+                                    
+                                    sap.ui.getCore().byId("attachmentUplSht").setUploadEnabled(false);
 
 
-                            //         var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-                            //             pattern: "yyyy-MM-dd"
-                            //         });
-                            //         var d = data.Attachment.results[0].DeliveryDate
-                            //         d = oDateFormat.format(new Date(d));
-                            //         if (d != null) {
-                            //             sap.ui.getCore().byId("DeliveryDate").setValue(d);
-                            //         }
+                                }
+                                
+                                if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusType == "DraftSCC") {
+                                   
+                                    sap.ui.getCore().byId("attachmentUplSht").setUploadEnabled(true);
+                                    sap.ui.getCore().byId("Idsave").setEnabled(true);
+                                   
 
-                            //     },
-                            //     error: function (err) { }
-                            // });
+                                }
+                                else {
+                                    // sap.ui.getCore().byId("Idsave").setEnabled(true);
+                                    //     sap.ui.getCore().byId("apprQty").setEnabled(true);
+
+                                }
+
+                                
+                                oAttachmentUpl3 = sap.ui.getCore().byId("attachmentUplSht");
+                                oAttachmentsModel3.setProperty("/", []);
+                                oAttachmentsModel3.setProperty("/", oResponse);
+                                oAttachmentUpl3
+                                    .setModel(oAttachmentsModel3)
+                                    .bindAggregation(
+                                        "items",
+                                        "/results",
+                                        new sap.m.upload.UploadSetItem({
+                                            fileName: "{FileName}",
+                                            mediaType: "{MediaType}",
+                                            visibleEdit: false,
+                                            visibleRemove: that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription === 'Draft' ? true : false,
+                                            url: "{Url}",
+                                            openPressed: that.onOpenPressed,
+                                        })
+                                    );
+                            },
+                            error: function (err) { }
+                        });
                         }
                         if (oResponse.results[0].Description == "Not Shipped") {
                             sap.ui.getCore().byId("Damage").setVisible(false);
@@ -1674,15 +1709,15 @@ sap.ui.define([
                     };
                     uploadedFileQuality.push(data);
                 }
-                // else if (oCalledEvent === "attachmentUplSht") {
-                //     data = {
-                //         id: result.Id,
-                //         MediaType: item.getMediaType(),
-                //         FileName: item.getFileName(),
-                //         Size: item.getFileObject().size,
-                //     };
-                //     uploadedFileShortage.push(data);
-                // }
+                else if (oCalledEvent === "attachmentUplSht") {
+                    data = {
+                        id: result.Id,
+                        MediaType: item.getMediaType(),
+                        FileName: item.getFileName(),
+                        Size: item.getFileObject().size,
+                    };
+                    uploadedFileShortage.push(data);
+                }
             },
             _createEntity: function (item, oCalledEvent) {
                 var data = {
@@ -1727,6 +1762,26 @@ sap.ui.define([
                         return;
                     }
                 }
+                if (uploadedFileQuality.length > 0) {
+                    fileIndex = uploadedFileQuality.findIndex(
+                        (x) => x.FileName === oItem.getFileName()
+                    );
+                    if (fileIndex >= 0) {
+                        oEvent.preventDefault();
+                        sap.m.MessageToast.show("File with same name already exists");
+                        return;
+                    }
+                }
+                if (uploadedFileShortage.length > 0) {
+                    fileIndex = uploadedFileShortage.findIndex(
+                        (x) => x.FileName === oItem.getFileName()
+                    );
+                    if (fileIndex >= 0) {
+                        oEvent.preventDefault();
+                        sap.m.MessageToast.show("File with same name already exists");
+                        return;
+                    }
+                }
             },
             onRemoveItem: function (evt) {
                 var oItem = evt.getParameter("item");
@@ -1745,9 +1800,9 @@ sap.ui.define([
                     } else if (oCalledEvent === "attachmentUpl1") {
                         removedFileQuality.push(ID);
                     }
-                    // else if (oCalledEvent === "attachmentUplSht") {
-                    //     removedFileShortage.push(ID);
-                    // }
+                    else if (oCalledEvent === "attachmentUplSht") {
+                        removedFileShortage.push(ID);
+                    }
                     sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
                 } else {
                     sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
@@ -1762,12 +1817,12 @@ sap.ui.define([
                         );
                         uploadedFileQuality.splice(fileIndex, 1);
                     }
-                    // else if (oCalledEvent === "attachmentUplSht") {
-                    //     var fileIndex = uploadedFileShortage.findIndex(
-                    //         (x) => x.FileName === oItem.getFileName()
-                    //     );
-                    //     uploadedFileShortage.splice(fileIndex, 1);
-                    // }
+                    else if (oCalledEvent === "attachmentUplSht") {
+                        var fileIndex = uploadedFileShortage.findIndex(
+                            (x) => x.FileName === oItem.getFileName()
+                        );
+                        uploadedFileShortage.splice(fileIndex, 1);
+                    }
                 }
             },
             updateAttachmentID: function (attachmentID, CRType) {
@@ -1779,9 +1834,9 @@ sap.ui.define([
                 } else if (CRType === 3) {
                     uploadedFile = uploadedFileQuality;
                 }
-                // else if (CRType === 2) {
-                //     uploadedFile = uploadedFileShortage;
-                // }  
+                else if (CRType === 2) {
+                    uploadedFile = uploadedFileShortage;
+                }  
                 else {
                     uploadedFile = [];
                 }
@@ -1807,9 +1862,9 @@ sap.ui.define([
                 } else if (oCalledEvent === "attachmentUpl1") {
                     oData = this.getModel("oAttachmentsModel2").getData().results;
                 }
-                // else if (oCalledEvent === "attachmentUplSht") {
-                //     oData = this.getModel("oAttachmentsModel3").getData().results;
-                // }
+                else if (oCalledEvent === "attachmentUplSht") {
+                    oData = this.getModel("oAttachmentsModel3").getData().results;
+                }
                 else if (oCalledEvent === "CustomUpload") {
                     oData = this.getModel("oAttachmentsModel2").getData().results;
 
@@ -1821,8 +1876,10 @@ sap.ui.define([
             _itemDialogDestroy() {
                 removedFileDamage = [];
                 removedFileQuality = [];
+                removedFileShortage=[];
                 uploadedFileDamage = [];
                 uploadedFileQuality = [];
+                uploadedFileShortage=[];
                 sap.ui.getCore().byId("DeliveryDate").destroy();
                 if (sap.ui.getCore().byId("idstep") !== undefined) {
                     sap.ui.getCore().byId("idstep").destroy();
@@ -1864,22 +1921,23 @@ sap.ui.define([
                 if (sap.ui.getCore().byId("attachmentUpl1-list") !== undefined) {
                     sap.ui.getCore().byId("attachmentUpl1-list").destroy();
                 }
-                // sap.ui.getCore().byId("attachmentUplSht").destroy();
-                // if (sap.ui.getCore().byId("attachmentUplSht-uploader") !== undefined) {
-                //     sap.ui.getCore().byId("attachmentUplSht-uploader").destroy();
-                // }
-                // if (sap.ui.getCore().byId("attachmentUplSht-toolbar") !== undefined) {
-                //     sap.ui.getCore().byId("attachmentUplSht-toolbar").destroy();
-                // }
-                // if (
-                //     sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'") !== undefined
-                // ) {
-                //     sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'").destroy();
-                // }
+            
+                if (sap.ui.getCore().byId("attachmentUplSht-uploader") !== undefined) {
+                    sap.ui.getCore().byId("attachmentUplSht-uploader").destroy();
+                }
+                if (sap.ui.getCore().byId("attachmentUplSht-toolbar") !== undefined) {
+                    sap.ui.getCore().byId("attachmentUplSht-toolbar").destroy();
+                }
+                if (
+                    sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'") !== undefined
+                ) {
+                    sap.ui.getCore().byId("'attachmentUplSht-deleteDialog'").destroy();
+                }
 
-                // if (sap.ui.getCore().byId("attachmentUplSht-list") !== undefined) {
-                //     sap.ui.getCore().byId("attachmentUplSht-list").destroy();
-                // }
+                if (sap.ui.getCore().byId("attachmentUplSht-list") !== undefined) {
+                    sap.ui.getCore().byId("attachmentUplSht-list").destroy();
+                }
+                sap.ui.getCore().byId("attachmentUplSht").destroy();
                 sap.ui.getCore().byId("Damage").destroy();
                 //sap.ui.getCore().byId("LotCode").destroy();
                 //   sap.ui.getCore().byId("Expdate").destroy();
@@ -2073,14 +2131,14 @@ sap.ui.define([
                                 error: function (e) { },
                             });
                         }
-                        // for (var i = 0; i < removedFileShortage.length; i++) {
-                        //     var sPath = "/AttachmentRow(" + removedFileShortage[i] + ")";
-                        //     oModel.remove(sPath, {
-                        //         method: "POST",
-                        //         success: function (data) { },
-                        //         error: function (e) { },
-                        //     });
-                        // }
+                        for (var i = 0; i < removedFileShortage.length; i++) {
+                            var sPath = "/AttachmentRow(" + removedFileShortage[i] + ")";
+                            oModel.remove(sPath, {
+                                method: "POST",
+                                success: function (data) { },
+                                error: function (e) { },
+                            });
+                        }
 
                         if (sap.ui.getCore().byId("NotShipped").getVisible() == true) {
                             var comment = sap.ui.getCore().byId("Nscomments").getValue()
