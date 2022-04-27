@@ -1995,7 +1995,7 @@ sap.ui.define([
                     }
                     if (sap.ui.getCore().byId("QLotCode").getValue() == "" || this.getView().getModel("qualityModel").getData().UseByDate == null || this.getView().getModel("qualityModel").getData().BestBeforeDate == null || this.getView().getModel("qualityModel").getData().ManufactureDate == null || this.getView().getModel("qualityModel").getData().JulianDate == null || this.getView().getModel("qualityModel").getData().ExpirationDate == null) {
 
-                        sap.m.MessageBox.show("Warning: not all the fields are currently populated", {
+                        sap.m.MessageBox.show("If lot code and date are known, fill it now. Data can not be added once Credit Request is Under Review", {
                             title: "Confirmation",
                             icon: sap.m.MessageBox.Icon.QUESTION,
                             actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
