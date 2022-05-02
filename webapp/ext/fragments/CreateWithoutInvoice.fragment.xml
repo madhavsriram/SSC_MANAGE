@@ -5,10 +5,11 @@
 title="Create Credit Request Without Invoice">
 
 <l:VerticalLayout id="Vertical" width="100%">
+<Text text="If you are unable to identify the invoice in question or the invoice isn't listed, please enter remarks here regarding your credit request. Remarks should include item description(s), quantities requested and the issue experienced."/>
 
 <Label id="RemarkLabel" text="Remark" required="true" width="100%" class="blackText"/>
 
-<TextArea id="Remark" showExceededText="true" maxLength="100" width="100%" valueLiveUpdate="{/valueLiveUpdate}" enabled="false" liveChange="handleLiveChange"/>
+<TextArea id="Remark" showExceededText="true" maxLength="500" width="100%" valueLiveUpdate="{/valueLiveUpdate}" enabled="false" liveChange="handleLiveChange"/>
 
 <Label text="Photo" required="true" width="100%" class="blackText"/>
 

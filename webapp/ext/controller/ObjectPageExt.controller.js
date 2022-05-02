@@ -936,7 +936,7 @@ sap.ui.define([
                                     console.log(oResponse.results);
                                     pressDialog.open();
                                     sap.ui.getCore().byId("LotCode").setValue(data.Attachment.results[0].LotCode);
-                                    sap.ui.getCore().byId("coments").setValue(data.Attachment.results[0].Comment);
+                        //            sap.ui.getCore().byId("coments").setValue(data.Attachment.results[0].Comment);
                                     sap.ui.getCore().byId("idstep").setValue(data.Qty);
                                     sap.ui.getCore().byId("idcbox").setSelectedKey(Id);
                                     sap.ui.getCore().byId("apprQty").setMax(data.Qty);
@@ -971,7 +971,7 @@ sap.ui.define([
                                         sap.ui.getCore().byId("LotCode").setEnabled(true);
                                         sap.ui.getCore().byId("openQtyText").setVisible(true);
                                         sap.ui.getCore().byId("openqty").setVisible(true);
-                                        sap.ui.getCore().byId("coments").setEnabled(true);
+                       //                 sap.ui.getCore().byId("coments").setEnabled(true);
                                         sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(true);
                                         sap.ui.getCore().byId("Idsave").setEnabled(true);
                                         sap.ui.getCore().byId("Expdate").setEnabled(true);
@@ -1157,8 +1157,8 @@ sap.ui.define([
                             sap.ui.getCore().byId("idcbox").setSelectedKey(Id);
                             sap.ui.getCore().byId("apprQty").setMax(data.Qty);
                             sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
-                            sap.ui.getCore().byId("Nscomments").setValue(data.Attachment.results[0].Comment);
-                            sap.ui.getCore().byId("Nscomments").setEnabled(false);
+        //                    sap.ui.getCore().byId("Nscomments").setValue(data.Attachment.results[0].Comment);
+        //                    sap.ui.getCore().byId("Nscomments").setEnabled(false);
                             sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
                             sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
@@ -1185,7 +1185,7 @@ sap.ui.define([
                                 sap.ui.getCore().byId("idstep").setEnabled(true);
                                 sap.ui.getCore().byId("openQtyText").setVisible(true);
                                 sap.ui.getCore().byId("openqty").setVisible(true);
-                                sap.ui.getCore().byId("Nscomments").setEnabled(true);
+        //                        sap.ui.getCore().byId("Nscomments").setEnabled(true);
                                 sap.ui.getCore().byId("Idsave").setEnabled(true);
                                 DraftStatusFlg = true;
                                 sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
@@ -1560,7 +1560,7 @@ sap.ui.define([
                     sap.ui.getCore().byId("apprQty").setEnabled(false);
                     sap.ui.getCore().byId("LotCode").setEnabled(true);
                     sap.ui.getCore().byId("Expdate").setEnabled(true);
-                    sap.ui.getCore().byId("coments").setEnabled(true);
+     //               sap.ui.getCore().byId("coments").setEnabled(true);
                     sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(true);
                     sap.ui.getCore().byId("NotShipped").setVisible(false);
 
@@ -1887,7 +1887,7 @@ sap.ui.define([
                 sap.ui.getCore().byId("idcbox").destroy();
                 //   sap.ui.getCore().byId("openqty").destroy();
                 sap.ui.getCore().byId("Expdate").destroy();
-                sap.ui.getCore().byId("coments").destroy();
+    //            sap.ui.getCore().byId("coments").destroy();
                 sap.ui.getCore().byId("LotCode").destroy();
                 sap.ui.getCore().byId("attachmentUpl").destroy();
                 if (sap.ui.getCore().byId("attachmentUpl-uploader") !== undefined) {
@@ -1921,7 +1921,7 @@ sap.ui.define([
                 if (sap.ui.getCore().byId("attachmentUpl1-list") !== undefined) {
                     sap.ui.getCore().byId("attachmentUpl1-list").destroy();
                 }
-            
+                sap.ui.getCore().byId("attachmentUplSht").destroy();
                 if (sap.ui.getCore().byId("attachmentUplSht-uploader") !== undefined) {
                     sap.ui.getCore().byId("attachmentUplSht-uploader").destroy();
                 }
@@ -1937,7 +1937,7 @@ sap.ui.define([
                 if (sap.ui.getCore().byId("attachmentUplSht-list") !== undefined) {
                     sap.ui.getCore().byId("attachmentUplSht-list").destroy();
                 }
-                sap.ui.getCore().byId("attachmentUplSht").destroy();
+                
                 sap.ui.getCore().byId("Damage").destroy();
                 //sap.ui.getCore().byId("LotCode").destroy();
                 //   sap.ui.getCore().byId("Expdate").destroy();
@@ -1948,17 +1948,93 @@ sap.ui.define([
                 //sap.ui.getCore().byId("idQualityPhoto").destroy();
                 sap.ui.getCore().byId("Idsave").destroy();
             },
+            onCancelBtn: function (oEvent) {
 
+                var that = this;
+                
+        
+                that.byId("statusupdateobject").destroy();
+        
+            },
+            onSaveBtn:function(evt){
+                var that = this;
+                var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
+                var path = "/CreditReqItem(BTPCRItem=" + this.selectedBTPCRItem + ")";
+               
+                            var oModel = that.getOwnerComponent().getModel();
+                            var ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
+
+                            that.QualityApprovedData.ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
+                            that.QualityApprovedData.Attachment.results[0].Classification = reClassify;
+
+                        
+                            oModel.update(path, that.QualityApprovedData, {
+                                success: function (oSuccess) {
+                                    DraftStatusFlg = false;
+                                    // oModel.refresh();
+                                   
+                                 
+                                    pressDialog.close();
+                                    that._itemDialogDestroy();
+                                    
+                                    pressDialog.destroy();
+
+                                    //var material = this.LocObjPage.Material;
+                // var oDataModel = this.getView().getModel();
+                var Path = "/CRCommit",
+                    commentText = that.getView().byId("Reason").getValue();
+                    // that = this,
+                   var obj = {
+                        Id: Math.floor(Math.random() * (999 - 100 + 1) + 100),
+                        CRNO_BTPCRNO: BTP_CRNO,
+                        CRNO_OrgStrucEleCode_Id: 1,
+                        Material: oSuccess.Material,
+                        Comment: commentText,
+                        CreditReqItem_BTPCRItem: oSuccess.BTPCRItem
+                    };
+                oModel.create(Path, obj, {
+                    method: "POST",
+                    success: function (oData) {
+                        // that.getView().byId("ReasonObject").setValue("");
+                        that
+                            .getOwnerComponent()
+                            .getModel("itemCommentsModel")
+                            .updateBindings(true);
+                        that.getOwnerComponent().getModel("itemCommentsModel").refresh();
+                                     that.byId("statusupdateobject").destroy();
+                                     that.extensionAPI.refresh(that._table.sId);
+                                     sap.m.MessageToast.show("Quantity Approved");
+                    },
+                    error: function (Error) {
+                        var errorMsg = JSON.parse(Error.responseText).error.message.value;
+                        sap.m.MessageBox.error(errorMsg);
+                    },
+                });
+                                    
+                               
+
+                                },
+                                error: function (oError) {
+                                    sap.m.MessageBox.alert("Techincal Error Occured -");
+                                    //                                     oModel.sDefaultUpdateMethod = "MERGE";
+                                    pressDialog.close();
+                                    that._itemDialogDestroy();
+                                    pressDialog.destroy();
+
+
+                                }
+                            });
+            },
             //code for updating the approve Qty in objectpage CRitems tbl
             onSaveCRItems: function (oEvent) {
                 var that = this;
                 var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
                 if (sap.ui.getCore().byId("idcbox").getValue() == "Not Shipped") {
-                    if (sap.ui.getCore().byId("Nscomments").getValue() === "") {
-                        sap.m.MessageBox.error("Please Enter Comment");
-                        //   sap.ui.getCore().byId("idReClasi").setValueState("Error");
-                        return;
-                    }
+                    // if (sap.ui.getCore().byId("Nscomments").getValue() === "") {
+                    //     sap.m.MessageBox.error("Please Enter Comment");
+                    //     //   sap.ui.getCore().byId("idReClasi").setValueState("Error");
+                    //     return;
+                    // }
                 }
                 if (sap.ui.getCore().byId("idcbox").getValue() == "Quality" && this.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review" && sap.ui.getCore().byId("apprQty").getVisible()) {
                     if (reClassify === "") {
@@ -1995,7 +2071,7 @@ sap.ui.define([
                     }
                     if (sap.ui.getCore().byId("QLotCode").getValue() == "" || this.getView().getModel("qualityModel").getData().UseByDate == null || this.getView().getModel("qualityModel").getData().BestBeforeDate == null || this.getView().getModel("qualityModel").getData().ManufactureDate == null || this.getView().getModel("qualityModel").getData().JulianDate == null || this.getView().getModel("qualityModel").getData().ExpirationDate == null) {
 
-                        sap.m.MessageBox.show("If lot code and date are known, fill it now. Data can not be added once Credit Request is Under Review", {
+                        sap.m.MessageBox.show("If Lot Codes and Dates are known, fill them in now. Data can not be added once Credit Request is Under Review", {
                             title: "Confirmation",
                             icon: sap.m.MessageBox.Icon.QUESTION,
                             actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
@@ -2030,7 +2106,29 @@ sap.ui.define([
                     });
                     return;
                 }
+                if(sap.ui.getCore().byId("apprQty").getValue()!==
+                sap.ui.getCore().byId("idstep").getValue()){
+                    var oView = this.getView();
 
+                    // if (!this.pDialog) {
+                    this.pDialog = sap.ui.core.Fragment.load({
+                        id: oView.getId(),
+                        name: "sccmanagecr.ext.fragments.StatusUpdateDialogObjectPage",
+                        controller: this
+                    }).then(function (oDialog) {
+            
+                        oView.addDependent(oDialog);
+                        return oDialog;
+                    });
+            
+                    // }
+            
+                    this.pDialog.then(function (oDialog) {
+                        oDialog.open();
+                       
+                    });    
+                    return;                
+                }
                 var path = "/CreditReqItem(BTPCRItem=" + this.selectedBTPCRItem + ")";
                 // sap.m.MessageBox.show("Do you want to continue?", {
                 //     icon: sap.m.MessageBox.Icon.QUESTION,
@@ -2141,10 +2239,12 @@ sap.ui.define([
                         }
 
                         if (sap.ui.getCore().byId("NotShipped").getVisible() == true) {
-                            var comment = sap.ui.getCore().byId("Nscomments").getValue()
+                            var comment =""; 
+                            //sap.ui.getCore().byId("Nscomments").getValue()
                         }
                         else {
-                            var comment = sap.ui.getCore().byId("coments").getValue()
+                            var comment = "";
+                            //sap.ui.getCore().byId("coments").getValue()
 
                         }
                         var MfgDate = null,
@@ -2281,10 +2381,12 @@ sap.ui.define([
                 var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
 
                 if (sap.ui.getCore().byId("NotShipped").getVisible() == true) {
-                    var comment = sap.ui.getCore().byId("Nscomments").getValue()
+                    var comment = "";
+                    //sap.ui.getCore().byId("Nscomments").getValue()
                 }
                 else {
-                    var comment = sap.ui.getCore().byId("coments").getValue()
+                    var comment = "";
+                    //sap.ui.getCore().byId("coments").getValue()
 
                 }
                 var MfgDate = null,

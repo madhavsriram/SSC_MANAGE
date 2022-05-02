@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" 
+    xmlns="sap.m">
+    	<Dialog id="statusupdateobject" title="Partial Approval Reason" class="sapUiSmallMargin" titleAlignment="Center">
+<content>
+<VBox>
+<HBox><Text text="No changes can be made to the Approved Quantity once set to Approved/Ready to Approve." class="sapUiTinyMargin"/></HBox>
+<HBox><Text text="Reason for Partial Approval:" class="sapUiTinyMargin"/></HBox>
+
+<!-- <HBox class="sapUiSmallMarginBottom"> -->
+<!-- <Label text="Reason" > -->
+                 <!-- <layoutData>
+                 <layout:GridData span="L2 M2"/>
+                 </layoutData> -->
+                 <!-- </Label> -->
+                 <!-- </HBox> -->
+</VBox>
+                <Label text="Reason" class="sapUiTinyMargin"/>
+                 <TextArea id="Reason" enabled="true"  class="sapUiTinyMargin" liveChange="TextAreaChange"  width= "96%"/>
+			
+            <!-- <ToolbarSpacer/> -->
+
+         <Toolbar class="foot">
+        <ToolbarSpacer/>
+		<Button  text="Save" press="onSaveBtn" id="savbtn" enabled="false"></Button>
+		<Button text="Cancel" press="onCancelBtn" ></Button>	
+		</Toolbar>
+</content>
+</Dialog>
+</core:FragmentDefinition>
