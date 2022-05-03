@@ -2071,7 +2071,7 @@ sap.ui.define([
                     }
                     if (sap.ui.getCore().byId("QLotCode").getValue() == "" || this.getView().getModel("qualityModel").getData().UseByDate == null || this.getView().getModel("qualityModel").getData().BestBeforeDate == null || this.getView().getModel("qualityModel").getData().ManufactureDate == null || this.getView().getModel("qualityModel").getData().JulianDate == null || this.getView().getModel("qualityModel").getData().ExpirationDate == null) {
 
-                        sap.m.MessageBox.show("If Lot Codes and Dates are known, fill them in now. Data can not be added once Credit Request is Under Review", {
+                        sap.m.MessageBox.show("If Lot Codes and Dates are known, fill them in now. Data cannot be added once Credit Request is Under Review.", {
                             title: "Confirmation",
                             icon: sap.m.MessageBox.Icon.QUESTION,
                             actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
