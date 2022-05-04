@@ -15,13 +15,13 @@
                  <!-- </HBox> -->
 </VBox>
                 <Label text="Reason" class="sapUiTinyMargin"/>
-                 <TextArea id="Reason" enabled="true"  class="sapUiTinyMargin" liveChange="TextAreaChange"  width= "96%"/>
+                 <TextArea id="Reason" enabled="true"  class="sapUiTinyMargin" liveChange="TextAreaChangeObject"  width= "96%"/>
 			
             <!-- <ToolbarSpacer/> -->
 
          <Toolbar class="foot">
         <ToolbarSpacer/>
-		<Button  text="Save" press="onSaveBtn" id="savbtn" enabled="false"></Button>
+		<Button  text="Save" press="onSaveBtn" id="savebtn" enabled="false"></Button>
 		<Button text="Cancel" press="onCancelBtn" ></Button>	
 		</Toolbar>
 </content>

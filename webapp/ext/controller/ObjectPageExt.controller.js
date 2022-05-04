@@ -1949,48 +1949,33 @@ sap.ui.define([
                 sap.ui.getCore().byId("Idsave").destroy();
             },
             onCancelBtn: function (oEvent) {
-
+                var text = sap.ui.getCore().statustext;
                 var that = this;
-                
-        
-                that.byId("statusupdateobject").destroy();
+                that.getView().byId(that.comboboxid).setValue("");
+                that.getView().byId(that.comboboxid).setSelectedKey(null);
+                if (text == "Ready To Approve") {
+                    that.byId("statusupdateObjectPage").destroy();
+                             that.byId("statusupdateobject").destroy();
+                   }
+                   if (text == "Approve") {
+                     
+                                   that.byId("statusupdateobject").destroy();
+                   }
         
             },
             onSaveBtn:function(evt){
                 var that = this;
-                var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
-                var path = "/CreditReqItem(BTPCRItem=" + this.selectedBTPCRItem + ")";
-               
+                var text = sap.ui.getCore().statustext;
                             var oModel = that.getOwnerComponent().getModel();
-                            var ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
-
-                            that.QualityApprovedData.ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
-                            that.QualityApprovedData.Attachment.results[0].Classification = reClassify;
-
-                        
-                            oModel.update(path, that.QualityApprovedData, {
-                                success: function (oSuccess) {
-                                    DraftStatusFlg = false;
-                                    // oModel.refresh();
-                                   
-                                 
-                                    pressDialog.close();
-                                    that._itemDialogDestroy();
-                                    
-                                    pressDialog.destroy();
-
-                                    //var material = this.LocObjPage.Material;
-                // var oDataModel = this.getView().getModel();
                 var Path = "/CRCommit",
                     commentText = that.getView().byId("Reason").getValue();
-                    // that = this,
                    var obj = {
                         Id: Math.floor(Math.random() * (999 - 100 + 1) + 100),
                         CRNO_BTPCRNO: BTP_CRNO,
                         CRNO_OrgStrucEleCode_Id: 1,
-                        Material: oSuccess.Material,
+                        Material: that.LocObjPage.Material,
                         Comment: commentText,
-                        CreditReqItem_BTPCRItem: oSuccess.BTPCRItem
+                        CreditReqItem_BTPCRItem: that.LocObjPage.BTPCRItem
                     };
                 oModel.create(Path, obj, {
                     method: "POST",
@@ -2001,9 +1986,22 @@ sap.ui.define([
                             .getModel("itemCommentsModel")
                             .updateBindings(true);
                         that.getOwnerComponent().getModel("itemCommentsModel").refresh();
+                      
+                                     
+                                    // that.extensionAPI.refresh(that._table.sId);
+                                    if (text == "Ready To Approve") {
+                                      
+                                        
+                                       
+                                     that.onPressReadyToApprove();
                                      that.byId("statusupdateobject").destroy();
-                                     that.extensionAPI.refresh(that._table.sId);
-                                     sap.m.MessageToast.show("Quantity Approved");
+                                     
+                                    }
+                                    if (text == "Approve") {
+                                       
+                                        that.onPressApprove();
+                                         that.byId("statusupdateobject").destroy();
+                                    }
                     },
                     error: function (Error) {
                         var errorMsg = JSON.parse(Error.responseText).error.message.value;
@@ -2013,17 +2011,8 @@ sap.ui.define([
                                     
                                
 
-                                },
-                                error: function (oError) {
-                                    sap.m.MessageBox.alert("Techincal Error Occured -");
-                                    //                                     oModel.sDefaultUpdateMethod = "MERGE";
-                                    pressDialog.close();
-                                    that._itemDialogDestroy();
-                                    pressDialog.destroy();
-
-
-                                }
-                            });
+                              
+                     
             },
             //code for updating the approve Qty in objectpage CRitems tbl
             onSaveCRItems: function (oEvent) {
@@ -2106,29 +2095,7 @@ sap.ui.define([
                     });
                     return;
                 }
-                if(sap.ui.getCore().byId("apprQty").getValue()!==
-                sap.ui.getCore().byId("idstep").getValue()){
-                    var oView = this.getView();
-
-                    // if (!this.pDialog) {
-                    this.pDialog = sap.ui.core.Fragment.load({
-                        id: oView.getId(),
-                        name: "sccmanagecr.ext.fragments.StatusUpdateDialogObjectPage",
-                        controller: this
-                    }).then(function (oDialog) {
-            
-                        oView.addDependent(oDialog);
-                        return oDialog;
-                    });
-            
-                    // }
-            
-                    this.pDialog.then(function (oDialog) {
-                        oDialog.open();
-                       
-                    });    
-                    return;                
-                }
+               
                 var path = "/CreditReqItem(BTPCRItem=" + this.selectedBTPCRItem + ")";
                 // sap.m.MessageBox.show("Do you want to continue?", {
                 //     icon: sap.m.MessageBox.Icon.QUESTION,
@@ -2830,12 +2797,12 @@ sap.ui.define([
                         else if (data.length != 0) {
 
                             var oModel = that.getOwnerComponent().getModel();
-                            sap.m.MessageBox.show("Are you sure, you want to change the status ?", {
-                                icon: sap.m.MessageBox.Icon.QUESTION,
-                                title: "Confirm",
-                                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-                                onClose: function (oAction) {
-                                    if (oAction === "OK") {
+                            // sap.m.MessageBox.show("Are you sure, you want to change the status ?", {
+                            //     icon: sap.m.MessageBox.Icon.QUESTION,
+                            //     title: "Confirm",
+                            //     actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                            //     onClose: function (oAction) {
+                            //         if (oAction === "OK") {
                                         var oFilterR = new sap.ui.model.Filter({
                                             filters: [
                                                 new sap.ui.model.Filter("StatusType", "EQ", "RTA"),
@@ -2852,9 +2819,9 @@ sap.ui.define([
                                             },
                                             error: function (err) { }
                                         });
-                                    }
-                                }
-                            });
+                            //         }
+                            //     }
+                            // });
                         }
                         else {
                             sap.m.MessageBox.alert("Status cannot be changed.");
@@ -2999,7 +2966,7 @@ sap.ui.define([
                     success: function (oSuccess) {
                         // this.GetCRtypecall(); // passing the credit type short value                     
                         sap.m.MessageToast.show("CreditReqItem Updated");
-                        // that.byId("statusupdateObjectPage").destroy();
+                        
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
                     //     setTimeout(function () {
@@ -3772,6 +3739,19 @@ sap.ui.define([
                 }
 
             },
+            TextAreaChangeObject:function(oEvent){
+                if (oEvent.getSource().getValue().length > 0) {
+
+                    this.getView().byId("savebtn").setEnabled(true);
+
+                }
+
+                else {
+
+                    this.getView().byId("savebtn").setEnabled(false);
+
+                }
+            },
             OnSelectionchange: function (oEvent) {
                 var that = this;
                 that.comboboxid = oEvent.getSource().getId();
@@ -3834,8 +3814,33 @@ sap.ui.define([
                 var text = sap.ui.getCore().statustext;
 
                 if (text == "Ready To Approve") {
-
-                    this.onPressReadyToApprove();
+                    if(that.LocObjPage.ApproveQty!==
+                    that.LocObjPage.Qty){
+                        var oView = this.getView();
+    
+                        // if (!this.pDialog) {
+                        this.pDialog = sap.ui.core.Fragment.load({
+                            id: oView.getId(),
+                            name: "sccmanagecr.ext.fragments.StatusUpdateDialogObjectPage",
+                            controller: this
+                        }).then(function (oDialog) {
+                
+                            oView.addDependent(oDialog);
+                            return oDialog;
+                        });
+                
+                        // }
+                
+                        this.pDialog.then(function (oDialog) {
+                            oDialog.open();
+                           
+                        });    
+                        return;                
+                    }
+                    else{
+                        that.onPressReadyToApprove();
+                    }
+                   
 
                 }
 
@@ -3846,7 +3851,33 @@ sap.ui.define([
                         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
                         onClose: function (oAction) {
                             if (oAction === "OK") {
-                                that.onPressApprove();
+                                if(that.LocObjPage.ApproveQty!==
+                                    that.LocObjPage.Qty){
+                                        var oView = that.getView();
+                    
+                                        // if (!this.pDialog) {
+                                        this.pDialog = sap.ui.core.Fragment.load({
+                                            id: oView.getId(),
+                                            name: "sccmanagecr.ext.fragments.StatusUpdateDialogObjectPage",
+                                            controller: that
+                                        }).then(function (oDialog) {
+                                
+                                            oView.addDependent(oDialog);
+                                            return oDialog;
+                                        });
+                                
+                                        // }
+                                
+                                        this.pDialog.then(function (oDialog) {
+                                            oDialog.open();
+                                           
+                                        });    
+                                        return;                
+                                    }
+                                    else{
+                                        that.onPressApprove();
+                                    }
+                               
         }
                             else{
                              that.getView().byId(that.comboboxid).setValue("");
