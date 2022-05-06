@@ -1992,7 +1992,7 @@ sap.ui.define([
                                     if (text == "Ready To Approve") {
                                       
                                         
-                                       
+                                        that.byId("statusupdateObjectPage").close();
                                      that.onPressReadyToApprove();
                                      that.byId("statusupdateobject").destroy();
                                      
@@ -2854,9 +2854,10 @@ sap.ui.define([
 
                 this.oModel.update(path, obj, {
                     success: function (oSuccess) {
+                        that.getView().byId(that.comboboxid).setValue("");
                         sap.m.MessageToast.show("CreditReqItem Updated");
                         that.byId("statusupdateObjectPage").destroy();
-                        that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
+                         this.oModel.refresh();
                         this.oModel.sDefaultUpdateMethod = "MERGE";
                     //     setTimeout(function () {
                     //         if(CR_FLAG=="Y"){
@@ -3814,6 +3815,14 @@ sap.ui.define([
                 var text = sap.ui.getCore().statustext;
 
                 if (text == "Ready To Approve") {
+                    if (that.LocObjPage.ApproveQty == 0 || that.LocObjPage.ApproveQty == null) {
+                           
+                        sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
+                         that.byId("statusupdateObjectPage").destroy();                                 
+                                                         that.getView().byId(that.comboboxid).setValue("");
+            that.getView().byId(that.comboboxid).setSelectedKey(null);
+return;
+                    }
                     if(that.LocObjPage.ApproveQty!==
                     that.LocObjPage.Qty){
                         var oView = this.getView();
@@ -3851,6 +3860,14 @@ sap.ui.define([
                         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
                         onClose: function (oAction) {
                             if (oAction === "OK") {
+                                if (that.LocObjPage.ApproveQty == 0 || that.LocObjPage.ApproveQty == null) {
+                           
+                                    sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
+                                    //  that.byId("statusupdateObjectPage").destroy();                                 
+                                                                     that.getView().byId(that.comboboxid).setValue("");
+                        that.getView().byId(that.comboboxid).setSelectedKey(null);
+            return;
+                                }
                                 if(that.LocObjPage.ApproveQty!==
                                     that.LocObjPage.Qty){
                                         var oView = that.getView();

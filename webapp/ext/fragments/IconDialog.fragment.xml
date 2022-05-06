@@ -28,8 +28,8 @@
             
             <Label text="Re-Classify" id="idReClasiLabel" required="true" textAlign="Center"  width="8em"  class="sapUiTinyMarginTop sapUiSmallMarginBegin" visible="false"/>
             <ComboBox id="idReClasi" class="sapUiLargeMarginEnd" textAlign="Center" visible="false" enabled="{= ${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Submitted' ? true :${CreditReqHdrModel>/items/0/StatusDescription} === 'Draft' ? true : false }">
-                <core:Item key="1" text="Supplier Chain Spoiled (SCS)" ></core:Item>
-                <core:Item key="2" text="Supplier (RTV)" ></core:Item>
+                <core:Item key="1" text="SCS" ></core:Item>
+                <core:Item key="2" text="RTV" ></core:Item>
             </ComboBox>
         </layout:HorizontalLayout>
    </layout:VerticalLayout> 
