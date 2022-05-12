@@ -2108,6 +2108,7 @@ sap.ui.define([
                 //         if (oAction === "OK") {
                             var oModel = that.getOwnerComponent().getModel();
                             var ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
+                            delete that.QualityApprovedData['StatusCode'];
 
                             that.QualityApprovedData.ApproveQty = sap.ui.getCore().byId("apprQty").getValue();
                             that.QualityApprovedData.Attachment.results[0].Classification = reClassify;
