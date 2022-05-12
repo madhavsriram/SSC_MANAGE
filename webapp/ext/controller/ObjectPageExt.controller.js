@@ -245,7 +245,7 @@ sap.ui.define([
                             } else {
                                 //  sap.ui.getCore().byId("idcbox").getBinding("items").filter([])
                                 var data1 = [{
-                                    text: "Ready To Approve",
+                                    text: "Pending Approval",
                                     id: "item11"
                                 },
                                 // {
@@ -287,7 +287,7 @@ sap.ui.define([
                             var BTPCRNo = oEvent.context.getObject("ISSAP");
                             if (BTPCRNo === "Y") {
                                 var data1 = [{
-                                    text: "Ready To Approve",
+                                    text: "Pending Approval",
                                     id: "item11"
                                 },
                                 // {
@@ -844,7 +844,7 @@ sap.ui.define([
                     oModel.read("/CreditReqItem", {
                         filters: [oFilterR],
                         urlParameters: {
-                            $expand: "Attachment/AttachmentPIssue",
+                            $expand: ["Attachment/AttachmentPIssue","StatusCode"],
                         },
                         success: function (oResponse) {
                             console.log(oResponse.results);
@@ -944,7 +944,7 @@ sap.ui.define([
                                     sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
                                     sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
-                                    if (data.StatusDescription == "Ready To Approve" || data.StatusDescription == "Approved") {
+                                    if (data.StatusCode.StatusType == "RTA" || data.StatusDescription == "Approved") {
                                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -1038,7 +1038,7 @@ sap.ui.define([
                             sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
                             sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
-                            if (data.StatusDescription == "Ready To Approve" || data.StatusDescription == "Approved") {
+                            if (data.StatusCode.StatusType == "RTA" || data.StatusDescription == "Approved") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -1163,7 +1163,7 @@ sap.ui.define([
                             sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
 
-                            if (data.StatusDescription == "Ready To Approve" || data.StatusDescription == "Approved") {
+                            if (data.StatusCode.StatusType == "RTA" || data.StatusDescription == "Approved") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -1228,7 +1228,8 @@ sap.ui.define([
                             sap.ui.getCore().byId("apprQty").setMax(data.Qty);
                             sap.ui.getCore().byId("idReClasiLabel").setVisible(true);
                             sap.ui.getCore().byId("idReClasi").setVisible(true);
-                            sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
+                            sap.ui.getCore().byId("idReClasi").setSelectedKey(data.Attachment.results[0].Classification);
+                         //   sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
 
                             if (that.getView().getModel("CreditReqHdrModel").getData().items[0].StatusDescription == "Under Review") {
 
@@ -1237,7 +1238,8 @@ sap.ui.define([
                                 sap.ui.getCore().byId("Idsave").setEnabled(true);
                                 that.QualityApprovedData = data;
                                 sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
-                                sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
+                                sap.ui.getCore().byId("idReClasi").setSelectedKey(data.Attachment.results[0].Classification);
+                            //    sap.ui.getCore().byId("idReClasi").setValue(data.Attachment.results[0].Classification);
                                 sap.ui.getCore().byId("attachmentUpl1").setUploadEnabled(false);
 
 
@@ -1953,7 +1955,7 @@ sap.ui.define([
                 var that = this;
                 that.getView().byId(that.comboboxid).setValue("");
                 that.getView().byId(that.comboboxid).setSelectedKey(null);
-                if (text == "Ready To Approve") {
+                if (text == "Pending Approval") {
                     that.byId("statusupdateObjectPage").destroy();
                              that.byId("statusupdateobject").destroy();
                    }
@@ -1989,7 +1991,7 @@ sap.ui.define([
                       
                                      
                                     // that.extensionAPI.refresh(that._table.sId);
-                                    if (text == "Ready To Approve") {
+                                    if (text == "Pending Approval") {
                                       
                                         
                                         that.byId("statusupdateObjectPage").close();
@@ -2017,7 +2019,8 @@ sap.ui.define([
             //code for updating the approve Qty in objectpage CRitems tbl
             onSaveCRItems: function (oEvent) {
                 var that = this;
-                var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
+                var reClassify =sap.ui.getCore().byId("idReClasi").getSelectedKey();
+                // sap.ui.getCore().byId("idReClasi").getValue();
                 if (sap.ui.getCore().byId("idcbox").getValue() == "Not Shipped") {
                     // if (sap.ui.getCore().byId("Nscomments").getValue() === "") {
                     //     sap.m.MessageBox.error("Please Enter Comment");
@@ -2095,7 +2098,7 @@ sap.ui.define([
                     });
                     return;
                 }
-               
+                sap.ui.getCore().byId("Idsave").setEnabled(false);
                 var path = "/CreditReqItem(BTPCRItem=" + this.selectedBTPCRItem + ")";
                 // sap.m.MessageBox.show("Do you want to continue?", {
                 //     icon: sap.m.MessageBox.Icon.QUESTION,
@@ -2156,8 +2159,10 @@ sap.ui.define([
 
 
             addCRItems: function () {
+                sap.ui.getCore().byId("Idsave").setEnabled(false);
                 var that = this;
-                var reClassify = sap.ui.getCore().byId("idReClasi").getValue();
+                var reClassify = sap.ui.getCore().byId("idReClasi").getSelectedKey();
+                //sap.ui.getCore().byId("idReClasi").getValue();
 
                 var oModel = this.getOwnerComponent().getModel();
 
@@ -2806,7 +2811,7 @@ sap.ui.define([
                                         var oFilterR = new sap.ui.model.Filter({
                                             filters: [
                                                 new sap.ui.model.Filter("StatusType", "EQ", "RTA"),
-                                                new sap.ui.model.Filter("StatusDescription", "EQ", "Ready To Approve")
+                                                //new sap.ui.model.Filter("StatusDescription", "EQ", "Ready To Approve")
                                             ],
                                             and: true
                                         });
@@ -2893,10 +2898,13 @@ sap.ui.define([
                 var oModel = this.getOwnerComponent().getModel();
                 oModel.read("/CreditReqItem", {
                     filters: [oFilterR],
+                    urlParameters: {
+                        $expand: "StatusCode",
+                    },
                     success: function (oResponse) {
                         that.ItemSequence = oResponse.results[0].CRRowID;
                         var data = oResponse.results.filter(obj => obj.StatusDescription == "Created");
-                        var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Ready To Approve");
+                        var data2 = oResponse.results.filter(obj => obj.StatusCode.StatusType == "RTA");
                         if (oResponse.results[0].ApproveQty == 0 || oResponse.results[0].ApproveQty == null) {
                         //    that.CancelChanges();
                         that.getView().byId(that.comboboxid).setValue("");
@@ -3240,9 +3248,12 @@ sap.ui.define([
                 var oModel = this.getOwnerComponent().getModel();
                 oModel.read("/CreditReqItem", {
                     filters: [oFilterR],
+                    urlParameters: {
+                        $expand: "StatusCode",
+                    },
                     success: function (oResponse) {
                         //     var data = oResponse.results.filter(obj => obj.StatusDescription == "Ready To Approve");
-                        var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Created" || obj.StatusDescription == "Ready To Approve");
+                        var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Created" || obj.StatusCode.StatusType == "RTA");
 
                         if (data2.length != 0) {
                             var oModel = that.getOwnerComponent().getModel();
@@ -3342,8 +3353,11 @@ sap.ui.define([
                 var oModel = this.getOwnerComponent().getModel();
                 oModel.read("/CreditReqItem", {
                     filters: [oFilterR],
+                    urlParameters: {
+                        $expand: "StatusCode",
+                    },
                     success: function (oResponse) {
-                        var data = oResponse.results.filter(obj => obj.StatusDescription == "Ready To Approve");
+                        var data = oResponse.results.filter(obj => obj.StatusCode.StatusType == "RTA");
                         var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Created");
 
                         if (data.length != 0 || data2.length != 0) {
@@ -3441,7 +3455,9 @@ sap.ui.define([
                 });
                 oModel.read("/CreditReqItem", {
                     filters: [oFilterR],
-
+                    urlParameters: {
+                        $expand: "StatusCode",
+                    },
                     success: function (oResponse) {
                         console.log(oResponse.results);
                         CRItems = oResponse.results;
@@ -3486,9 +3502,17 @@ sap.ui.define([
             },
             onFinalSumbit: function (CRItems) {
                 var that = this;
+                var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+
+                    pattern: "yyyy-MM-dd" + "T" + "HH:mm:ss" + "Z"
+
+                });
+
+                var DateTime = oDateFormat.format(new Date());
                 var oModel = this.getOwnerComponent().getModel();
                 var obj = {
                     StatusCode_Id: that.CR_Status[0].Id,
+                    SubmissionDateTime : DateTime
                 };
                 console.log(obj);
                 var path = "/CreditReqHdr(BTPCRNO=" + BTP_CRNO + ",OrgStrucEleCode_Id=" + OrgStrucEleCode_Id + ")";
@@ -3517,7 +3541,7 @@ sap.ui.define([
                 var batchChanges = [];
                 for (var i = 0; i < CRItems.length; i++) {
                     CRItems[i].StatusCode_Id = 12;
-                    CRItems[i].StatusDescription = "Ready To Approve";
+                    CRItems[i].StatusCode.StatusType  = "RTA";
                     if (CRItems[i].ApproveQty == null) {
                         CRItems[i].ApproveQty = CRItems[i].Qty;
                     }
@@ -3781,7 +3805,7 @@ sap.ui.define([
 
                 this.pDialog.then(function (oDialog) {
                     oDialog.open();
-                    if (oSelectedkey == "Ready To Approve") {
+                    if (oSelectedkey == "Pending Approval") {
                         // this.getView().byId("Reason").setEnabled(false);
                         oDialog.getContent()[0].getItems()[1].getItems()[0].setVisible(false);
                         oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
@@ -3814,7 +3838,7 @@ sap.ui.define([
                 var that = this;
                 var text = sap.ui.getCore().statustext;
 
-                if (text == "Ready To Approve") {
+                if (text == "Pending Approval") {
                     if (that.LocObjPage.ApproveQty == 0 || that.LocObjPage.ApproveQty == null) {
                            
                         sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
@@ -4210,7 +4234,7 @@ return;
                 } else {
                     //  sap.ui.getCore().byId("idcbox").getBinding("items").filter([])
                     var data1 = [{
-                        text: "Ready To Approve",
+                        text: "Pending Approval",
                         id: "item11"
                     },
                     // {
