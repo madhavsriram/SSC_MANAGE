@@ -224,7 +224,7 @@
 
  
   <beginButton>
-   <Button id="Idsave" text="Save" press="onSaveCRItems" enabled="{= ${CreditReqHdrModel>/items/0/StatusType} === 'DraftSCC' ? false : ${CreditReqHdrModel>/items/0/StatusDescription} === 'Submitted' ? false :${CreditReqHdrModel>/items/0/StatusDescription} === 'Under Review' ? false :${CreditReqHdrModel>/items/0/StatusDescription} === 'Rejected' ? false:${CreditReqHdrModel>/items/0/StatusDescription} === 'Cancelled' ? false: true }"/>
+   <Button id="Idsave" text="Save" press="onSaveCRItems" enabled="{= ${CreditReqHdrModel>/items/0/StatusType} === 'DraftSCC' ? false : ${CreditReqHdrModel>/items/0/StatusDescription} === 'Submitted' ? false :${CreditReqHdrModel>/items/0/StatusDescription} === 'Rejected' ? false:${CreditReqHdrModel>/items/0/StatusDescription} === 'Cancelled' ? false: true }"/>
   </beginButton>
   <endButton>
    <Button text="Cancel" press="onClose" />
