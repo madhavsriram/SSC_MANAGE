@@ -3,11 +3,15 @@
     "sap.app": {
         "id": "sccmanagecr",
         "type": "application",
-        "i18n": "i18n/i18n.properties",
+        "i18n": {
+            "bundleUrl": "i18n/i18n.properties",
+             "supportedLocales": ["en"],
+              "fallbackLocale": "en"
+          },
         "applicationVersion": {
             "version": "1.0.0"
         },
-        "title": "{{appTitle}}",
+        "title": "SCC Credit Request Management",
         "description": "{{appDescription}}",
         "tags": {
             "keywords": []
@@ -47,9 +51,9 @@
                     },
                     "semanticObject": "scccrmanagement",
                     "action": "manage",
-                    "title": "{{flpTitle}}",
-                    "subTitle": "{{flpSubtitle}}",
-                    "icon": ""
+                    "title": "SCC Credit Request Management",
+                    "subTitle": " ",
+                    "icon": "sap-icon://crm-service-manager"
                 }
             }
         }
@@ -105,12 +109,12 @@
         "models": {
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/i18n.properties"
-            },
-            "@i18n": {
-                "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/i18n.properties"
-            },
+                   "settings": {
+                        "bundleUrl": "i18n/i18n.properties",
+                        "supportedLocales": ["en"],
+                        "fallbackLocale": "en"
+                    }        
+              },
             "i18n|sap.suite.ui.generic.template.ListReport|GetCreditReqHdr": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "uri": "i18n/ListReport/GetCreditReqHdr/i18n.properties"
@@ -168,7 +172,7 @@
                                             },
                                             "addItemId": {
                                                 "id": "addItemIdButton",
-                                                "text": "Add Items",
+                                                "text": "Add Item",
                                                 "press": "onPressAddItem",
                                                 "requiresSelection": false
                                             },
@@ -339,5 +343,8 @@
     "sap.cloud": {
         "public": true,
         "service": "sccmanagecr"
-    }
+    },
+    "sap.platform.cf": {
+        "ui5VersionNumber": "1.96.0"
+       }
 }

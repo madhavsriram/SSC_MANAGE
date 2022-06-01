@@ -10,8 +10,16 @@
                 
            
         </Toolbar>
-        <t:Table rows="{ItemListModel>/ItemList}" id="tableid" mode="MultiSelect">
+        <t:Table rows="{ItemListModel>/ItemList}" id="tableid" selectionMode="None">
             <t:columns>
+            <t:Column width="6rem" >
+                    <t:label>
+                        <Label text="Add to CR" />
+                    </t:label>
+                    <t:template>
+     <core:Icon src="sap-icon://add" class="size5 sapUiTinyMarginTop"  color="#8875E7" press="onOpenCRDialog" />
+                    </t:template>
+                </t:Column>
                 <t:Column>
                     <t:label>
                         <Label text="ItemNo" />
@@ -64,10 +72,10 @@
             </t:rows>
         </t:Table>
 
-		<beginButton>
-			<Button text="Add" press="onAddItemsAddBtn" id="AddItemsAddBtn" enabled="true"
+		<!-- <beginButton>
+			<Button text="Add" press="onAddItemsAddBtn" id="AddItemsAddBtn" enabled="true" visible="true"
 				class="createBtnClass sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>
-		</beginButton>
+		</beginButton> -->
 		<endButton>
 			<Button text="Cancel" press="onAddItemsCancelBtn" id="AddItemsCancelBtn"
 				class="cancelBtnClass sapUiTinyMarginEnd sapUiSizeCompact sapUiTinyMarginTop sapUiTinyMarginBottom"></Button>

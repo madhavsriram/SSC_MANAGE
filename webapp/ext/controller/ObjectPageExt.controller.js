@@ -70,6 +70,7 @@ sap.ui.define([
                         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delete").setVisible(false);
                         this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--ItemId::deleteEntry").setVisible(false);
                         //  this._read();
+                        this.AddItemFlg=false;
                         console.log("extension");
                         oAttachmentsModel = new sap.ui.model.json.JSONModel();
                         this.getOwnerComponent().setModel(
@@ -1001,6 +1002,8 @@ sap.ui.define([
                                     else {
                                         sap.ui.getCore().byId("Expdate").setValue("");
                                     }
+                                    var   att=new sap.m.ObjectAttribute({title:"Uploaded by",text:"{createdBy}"});
+                                    var   att1=new sap.m.ObjectAttribute({title:"Date",text:"{modifiedAt}"});
                                     oAttachmentUpl = sap.ui.getCore().byId("attachmentUpl");
                                     oAttachmentsModel.setProperty("/", []);
                                     oAttachmentsModel.setProperty("/", oResponse);
@@ -1017,6 +1020,7 @@ sap.ui.define([
                                                 url: "{Url}",
                                                 openPressed: that.onOpenPressed,
                                             })
+                                            //.addAttribute(att).addAttribute(att1)
                                         );
                                 },
                                 error: function (err) { }
@@ -1124,7 +1128,8 @@ sap.ui.define([
 
                                 }
 
-                                
+                                var   att=new sap.m.ObjectAttribute({title:"Uploaded by",text:"{createdBy}"});
+                                var   att1=new sap.m.ObjectAttribute({title:"Date",text:"{modifiedAt}"});
                                 oAttachmentUpl3 = sap.ui.getCore().byId("attachmentUplSht");
                                 oAttachmentsModel3.setProperty("/", []);
                                 oAttachmentsModel3.setProperty("/", oResponse);
@@ -1141,6 +1146,7 @@ sap.ui.define([
                                             url: "{Url}",
                                             openPressed: that.onOpenPressed,
                                         })
+                                        //.addAttribute(att).addAttribute(att1)
                                     );
                             },
                             error: function (err) { }
@@ -1318,6 +1324,8 @@ sap.ui.define([
                                     //     }), "QualityPhoto");
 
                                     // }
+                                    var   att=new sap.m.ObjectAttribute({title:"Uploaded by",text:"{createdBy}"});
+                                    var   att1=new sap.m.ObjectAttribute({title:"Date",text:"{modifiedAt}"});
                                     oAttachmentUpl2 = sap.ui.getCore().byId("attachmentUpl1");
                                     oAttachmentsModel2.setProperty("/", []);
                                     oAttachmentsModel2.setProperty("/", oResponse);
@@ -1336,6 +1344,7 @@ sap.ui.define([
 
                                                 openPressed: that.onOpenPressed,
                                             })
+                                            //.addAttribute(att).addAttribute(att1)
                                             //.addAttribute(att)
                                         );
                                     pressDialog.open();
@@ -1632,6 +1641,7 @@ sap.ui.define([
             setProductIssue: function () {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
+                if(this.AddItemFlg==false){
                 var oFilterR = new sap.ui.model.Filter({
                     filters: [
                         new sap.ui.model.Filter("PsplInvoice_PsplInvoice", "EQ", this.getView().getModel("CreditReqHdrModel").getData().items[0].PsplInvoice),
@@ -1639,6 +1649,15 @@ sap.ui.define([
                     ],
                     and: true
                 });
+            }else{
+                var oFilterR = new sap.ui.model.Filter({
+                    filters: [
+                        new sap.ui.model.Filter("PsplInvoice_PsplInvoice", "EQ", this.getView().getModel("CreditReqHdrModel").getData().items[0].PsplInvoice),
+                        new sap.ui.model.Filter("ItemNo", "EQ", (this.spath2).ItemNo)
+                    ],
+                    and: true
+                });
+            }
 
                 oModel.read("/PSInvoiceItems", {
                     filters: [oFilterR],
@@ -2027,8 +2046,42 @@ sap.ui.define([
             },
             //code for updating the approve Qty in objectpage CRitems tbl
             onSaveCRItems: function (oEvent) {
+
                 var that = this;
                 var reClassify =sap.ui.getCore().byId("idReClasi").getSelectedKey();
+                if(this.AddItemFlg==true){
+                    if (sap.ui.getCore().byId("idcbox").getValue() == "Quality") {
+                        if (reClassify === "") {
+                            sap.m.MessageBox.error("Select atleast one Re-Classify value");
+                            //   sap.ui.getCore().byId("idReClasi").setValueState("Error");
+                            return;
+                        }
+                        if (sap.ui.getCore().byId("idProductIssueMCB").getSelectedItems().length == 0) {
+    
+                            sap.m.MessageBox.error("Please populate required fields before saving");
+                            return;
+                        }
+                        if (sap.ui.getCore().byId("QLotCode").getValue() == "" || this.getView().getModel("qualityModel").getData().UseByDate == null || this.getView().getModel("qualityModel").getData().BestBeforeDate == null || this.getView().getModel("qualityModel").getData().ManufactureDate == null || this.getView().getModel("qualityModel").getData().JulianDate == null || this.getView().getModel("qualityModel").getData().ExpirationDate == null) {
+    
+                            sap.m.MessageBox.show("If Lot Codes and Dates are known, fill them in now. Data cannot be added once Credit Request is Under Review.", {
+                                title: "Confirmation",
+                                icon: sap.m.MessageBox.Icon.QUESTION,
+                                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                                onClose: function (oAction) {
+                                    if (oAction === "OK") {
+                                        that.onAddItemsAddBtn();
+                                    }
+                                }
+                            });
+                            return;
+                        }
+                    }
+                    else{
+                    that.onAddItemsAddBtn();
+                    return;
+                    }
+                }
+                
                 // sap.ui.getCore().byId("idReClasi").getValue();
                 if (sap.ui.getCore().byId("idcbox").getValue() == "Not Shipped") {
                     // if (sap.ui.getCore().byId("Nscomments").getValue() === "") {
@@ -2690,7 +2743,39 @@ sap.ui.define([
                 this._headerCommentsDialog.close();
                 sap.ui.getCore().byId("idHeaderCTA").setValue("");
             },
+            onOpenCRDialog:function(oEvent){
+                this.AddItemFlg=true;
+                var spath = oEvent.getSource().getParent().getBindingContext("ItemListModel").getObject();
+            this.spath2=spath;
+                (pressDialog = sap.ui.getCore().byId("ListDialog"));
 
+                if (!pressDialog) {
+                    pressDialog = sap.ui.xmlfragment(
+                        "sccmanagecr.ext.fragments.IconDialog",
+                        this
+                    );
+
+                    this.getView().addDependent(pressDialog);
+                    sap.ui.getCore().byId("Damage").setVisible(false);
+                                sap.ui.getCore().byId("Shortage").setVisible(false);
+                                sap.ui.getCore().byId("Quality").setVisible(false);
+                                sap.ui.getCore().byId("NotShipped").setVisible(false);
+                                sap.ui.getCore().byId("idQualityPhoto").setVisible(false);
+                                sap.ui.getCore().byId("idstep").setEnabled(true);
+                                sap.ui.getCore().byId("idcbox").setEnabled(false);
+                                sap.ui.getCore().byId("appQtyText").setVisible(false);
+                                sap.ui.getCore().byId("apprQty").setVisible(false);
+                                sap.ui.getCore().byId("openQtyText").setVisible(true);
+                                sap.ui.getCore().byId("openqty").setVisible(true);
+                            //    sap.ui.getCore().byId("idstep").setValue(spath.Qty);
+                                sap.ui.getCore().byId("openqty").setText(spath.OpenQty + spath.Qty);
+                                sap.ui.getCore().byId("idstep").setMax(spath.OpenQty + spath.Qty);
+
+                           
+                    pressDialog.open();
+
+                }
+            },
             // kanchan code
             onPressAddItem: function (oEvent) {
                 var that = this;
@@ -2711,6 +2796,7 @@ sap.ui.define([
                     that.byId("AddItemsDialog").open();
                 }
             },
+           
             onPressAddFilterItem: function () {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
@@ -2754,8 +2840,56 @@ sap.ui.define([
                     error: function (error) { },
                 });
             },
-
-            onAddItemsAddBtn: function (oEvent) {
+            onAddItemsAddBtn:function(){
+                var that = this;
+               
+                var oModel = this.getOwnerComponent().getModel();
+                var selectedDataObj =
+                                    {
+                                        "BTPCRNo_BTPCRNO": BTP_CRNO,
+                                        "BTPCRNo_OrgStrucEleCode_Id": OrgStrucEleCode_Id,
+                                        "Material": this.spath2.ItemNo,
+                                        "Description": this.spath2.Description,
+                                        "Qty": "",
+                                        "UnitPrice": this.spath2.UnitPrice,
+                                        "Tax": null,
+                                        "Total": null,
+                                        "ObjectType_Id": 1,
+                                        "StatusCode_Id": 1,
+                                        "StatusCode_ObjectType_Id": 1,
+                                        "ApproveQty": "",
+                                        "OpenQty": this.spath2.OpenQty,
+                                        "StoreComment": null,
+                                        "SCCComment": null,
+                                        "Comment": null,
+                                        "PSInvoiceQty": this.spath2.Qty,
+                                        "UnitCost": this.spath2.UnitCost,
+                                        "UnitFreight": this.spath2.UnitFreight,
+                                        "UOM": this.spath2.UOM,
+                                        "PsplInvoice": this.spath2.PsplInvoice_PsplInvoice,
+                                        "PsplRowID": this.spath2.RowID,
+                                        "CRRowID": this.spath2.InvoiceSequenceNumber
+                                    };
+                                    oModel.create("/CreditReqItem", selectedDataObj, {
+                                        method: "POST",
+                                        success: function (oData) {
+                                            that.byId("AddItemsDialog").destroy();
+                                            that.extensionAPI.refresh(that._table.sId); 
+                                            that.selectedBTPCRItem=oData.BTPCRItem;
+                                            that.AddItemFlg=false;
+                                            that.addCRItems();
+        
+                    
+                                        },
+                                        error: function (Error) {
+                                            
+                                            var errorMsg = result.error.message;
+                                            sap.m.MessageBox.error(errorMsg);
+                                        },
+                                    });                
+                 
+            },
+            onAddItemsAddBtn_old: function (oEvent) {
 
                 var that = this;
                 var model = this.getView().getModel("ItemListModel").getData();
@@ -3969,6 +4103,10 @@ sap.ui.define([
                 var text = sap.ui.getCore().statustext;
 
                 if (text == "Pending Approval") {
+                    if(that.LocObjPage.Description=="Without Invoice"){
+                        that.onPressReadyToApprove();
+                        return;
+                    }
                     if (that.LocObjPage.ApproveQty == 0 || that.LocObjPage.ApproveQty == null) {
                            
                         sap.m.MessageBox.show("Approve Quantity should not be zero or null.");
