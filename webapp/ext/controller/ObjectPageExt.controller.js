@@ -133,13 +133,7 @@ sap.ui.define([
                         });
 
                         //  this.InvoiceDate=oDateFormat.format(this.InvoiceDate);                   
-                            if(StatusDescription=="Under Review" || StatusDescription=="Closed" ||StatusDescription=="Rejected"||StatusDescription=="Cancelled"){
-                                this._table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
-                            }
-                            else{
-                                this._table.setMultiSelectMode().mProperties.mode="SingleSelectLeft";
-      
-                            }
+                           
                         if (invoiceNoHdr == null) {
                             if (StatusDescription == "Under Review") {
                              //   this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
@@ -343,6 +337,13 @@ sap.ui.define([
                         if (StatusDescription == "Draft" ||StatusDescription == "Rejected" || StatusDescription == "Closed" || StatusDescription == "Cancelled"){
                             that.getView().byId("delbtnButton").setVisible(false);
                             that.getView().byId("revertBtnButton").setVisible(false);
+                        }
+                        if(StatusDescription=="Under Review" || StatusDescription=="Closed" ||StatusDescription=="Rejected"||StatusDescription=="Cancelled"){
+                            this._table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
+                        }
+                        else{
+                            this._table.setMultiSelectMode().mProperties.mode="SingleSelectLeft";
+  
                         }
 
 
