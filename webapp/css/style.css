@@ -1,3 +1,6 @@
 .sapFDynamicPageTitleMain>.sapFDynamicPageTitleMainInner .sapFDynamicPageTitleMainHeading .sapFDynamicPageTitleMainHeadingInner .sapMTitle {
     font-size: .875rem !important;
-}a
+}
+div[id*='Quality'] div h5 {   
+    display: none !important;
+}
