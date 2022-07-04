@@ -4,3 +4,12 @@
 div[id*='Quality'] div h5 {   
     display: none !important;
 }
+
+/* form width css  */
+.sapUiRespGridMedia-Std-Tablet.sapUiRespGridHSpace0>.sapUiRespGridSpanM3 {
+    width: 24%;
+}
+
+.sapUiRespGridMedia-Std-Tablet.sapUiRespGridHSpace0>.sapUiRespGridSpanM4 {
+    width: 31.333333%;
+}

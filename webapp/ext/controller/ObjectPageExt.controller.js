@@ -3583,7 +3583,7 @@ sap.ui.define([
                         sap.m.MessageToast.show("CreditReqItem Updated");
                         that.OnItemReasonPost(this);
                         if (that.LocObjPage.Material == 'DC') {
-                       //     that.onResetDeliveryFee();
+                         //   that.onResetDeliveryFee();
                         }
 
                         that.byId("statusupdateObjectPage").destroy();
@@ -3690,7 +3690,7 @@ sap.ui.define([
                         sap.m.MessageToast.show("CreditReqItem Updated");
                         that.OnItemReasonPost(this);
                         if (that.LocObjPage.Material == 'DC') {
-                   //         that.onResetDeliveryFee();
+                        //    that.onResetDeliveryFee();
                         }
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
