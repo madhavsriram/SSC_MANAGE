@@ -53,6 +53,29 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
             }
         });
 
+        oModel.read("/CreditReqItem", {
+
+            success: function (oResponse) {
+                oResponse.results=oResponse.results.filter((value, index, self) =>
+                index === self.findIndex((t) => (
+                  t.Description === value.Description 
+                ))
+              );
+                that.getView().setModel(new sap.ui.model.json.JSONModel({
+                    items: oResponse.results
+                }), "CreditReqItemModel");
+
+                //		this.busyDialog.close();
+
+            }.bind(this),
+            error: function (oError) {
+
+                console.log(oError);
+                //					that.busyDialog.close();
+
+            }
+        });
+        
         oModel.read("/GetCSR_ID", {
 
             success: function (oResponse) {
@@ -103,6 +126,18 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     onBeforeRebindTableExtension: function (oEvent) {
         this.table = oEvent.getSource().getTable();
         this.table.setMultiSelectMode().mProperties.mode="SingleSelectNone";
+        // var oBindingParams = oEvent.getParameter("bindingParams");
+        // oBindingParams.parameters = oBindingParams.parameters || {};
+        // var createdBy = this.byId("CmbBox").getValue();
+        // if (
+        //     createdBy === null ||
+        //     createdBy === "" ||
+        //     createdBy === undefined ||
+        //     createdBy === ""
+        // ) {
+        // } else {
+        //   oBindingParams.filters.push(new  sap.ui.model.Filter("ItemDesc", "Contains", createdBy));
+        // }
     },
 
     oncheck: function (that) {

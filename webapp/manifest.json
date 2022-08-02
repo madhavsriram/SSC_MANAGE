@@ -51,8 +51,8 @@
                     },
                     "semanticObject": "scccrmanagement",
                     "action": "manage",
-                    "title": "SCC Credit Request Management",
-                    "subTitle": " ",
+                    "title": "Credit Request Management",
+                    "subTitle": "For SCC",
                     "icon": "sap-icon://crm-service-manager"
                 }
             }

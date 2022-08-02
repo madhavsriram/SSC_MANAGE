@@ -1783,36 +1783,36 @@ sap.ui.define([
                         return;
                     }
                 }
-                if (uploadedFileDamage.length > 0) {
-                    fileIndex = uploadedFileDamage.findIndex(
-                        (x) => x.FileName === oItem.getFileName()
-                    );
-                    if (fileIndex >= 0) {
-                        oEvent.preventDefault();
-                        sap.m.MessageToast.show("File with same name already exists");
-                        return;
-                    }
-                }
-                if (uploadedFileQuality.length > 0) {
-                    fileIndex = uploadedFileQuality.findIndex(
-                        (x) => x.FileName === oItem.getFileName()
-                    );
-                    if (fileIndex >= 0) {
-                        oEvent.preventDefault();
-                        sap.m.MessageToast.show("File with same name already exists");
-                        return;
-                    }
-                }
-                if (uploadedFileShortage.length > 0) {
-                    fileIndex = uploadedFileShortage.findIndex(
-                        (x) => x.FileName === oItem.getFileName()
-                    );
-                    if (fileIndex >= 0) {
-                        oEvent.preventDefault();
-                        sap.m.MessageToast.show("File with same name already exists");
-                        return;
-                    }
-                }
+                // if (uploadedFileDamage.length > 0) {
+                //     fileIndex = uploadedFileDamage.findIndex(
+                //         (x) => x.FileName === oItem.getFileName()
+                //     );
+                //     if (fileIndex >= 0) {
+                //         oEvent.preventDefault();
+                //         sap.m.MessageToast.show("File with same name already exists");
+                //         return;
+                //     }
+                // }
+                // if (uploadedFileQuality.length > 0) {
+                //     fileIndex = uploadedFileQuality.findIndex(
+                //         (x) => x.FileName === oItem.getFileName()
+                //     );
+                //     if (fileIndex >= 0) {
+                //         oEvent.preventDefault();
+                //         sap.m.MessageToast.show("File with same name already exists");
+                //         return;
+                //     }
+                // }
+                // if (uploadedFileShortage.length > 0) {
+                //     fileIndex = uploadedFileShortage.findIndex(
+                //         (x) => x.FileName === oItem.getFileName()
+                //     );
+                //     if (fileIndex >= 0) {
+                //         oEvent.preventDefault();
+                //         sap.m.MessageToast.show("File with same name already exists");
+                //         return;
+                //     }
+                // }
             },
             onRemoveItem: function (evt) {
                 var oItem = evt.getParameter("item");
@@ -1823,18 +1823,20 @@ sap.ui.define([
                     .getModel()
                     .getData();
                 if (Data !== null) {
-                    var ID = Data.results.filter(
-                        (x) => x.FileName === oItem.getFileName()
-                    )[0].Id;
-                    if (oCalledEvent === "attachmentUpl") {
-                        removedFileDamage.push(ID);
-                    } else if (oCalledEvent === "attachmentUpl1") {
-                        removedFileQuality.push(ID);
-                    }
-                    else if (oCalledEvent === "attachmentUplSht") {
-                        removedFileShortage.push(ID);
-                    }
                     sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
+                    if (Data.results.length > 0) {
+                        var ID = Data.results.filter(
+                            (x) => x.FileName === oItem.getFileName()
+                        )[0].Id;
+                        if (oCalledEvent === "attachmentUpl") {
+                            removedFileDamage.push(ID);
+                        } else if (oCalledEvent === "attachmentUpl1") {
+                            removedFileQuality.push(ID);
+                        }
+                        else if (oCalledEvent === "attachmentUplSht") {
+                            removedFileShortage.push(ID);
+                        }
+                    }
                 } else {
                     sap.ui.getCore().byId(evt.getParameter("id")).removeItem(oItem);
                     if (oCalledEvent === "attachmentUpl") {
@@ -3583,7 +3585,7 @@ sap.ui.define([
                         sap.m.MessageToast.show("CreditReqItem Updated");
                         that.OnItemReasonPost(this);
                         if (that.LocObjPage.Material == 'DC') {
-                         //   that.onResetDeliveryFee();
+                            //   that.onResetDeliveryFee();
                         }
 
                         that.byId("statusupdateObjectPage").destroy();
@@ -3690,7 +3692,7 @@ sap.ui.define([
                         sap.m.MessageToast.show("CreditReqItem Updated");
                         that.OnItemReasonPost(this);
                         if (that.LocObjPage.Material == 'DC') {
-                        //    that.onResetDeliveryFee();
+                            //    that.onResetDeliveryFee();
                         }
                         that.byId("statusupdateObjectPage").destroy();
                         that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
@@ -4749,7 +4751,7 @@ sap.ui.define([
 
             },
             onResetDeliveryFee: function () {
-                var that=this;
+                var that = this;
                 var oModel = that.getOwnerComponent().getModel();
                 var CrModel = that.getView().getModel("CreditReqHdrModel").getData().items[0];
 
@@ -4765,7 +4767,7 @@ sap.ui.define([
                         oModel.refresh();
 
                         oModel.sDefaultUpdateMethod = "MERGE";
-                                                                             
+
 
                     }.bind(that),
                     error: function (oError) {

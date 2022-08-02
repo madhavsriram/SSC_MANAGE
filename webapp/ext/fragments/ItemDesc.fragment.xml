@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:smartfilterbar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core">
+<smartfilterbar:ControlConfiguration groupId="_BASIC" 
+    key="inv"
+    label="Item"
+    visibleInAdvancedArea="true">
+    <smartfilterbar:customControl>
+        <ComboBox id="CmbBox" items="{path:'CreditReqItemModel>/items'}" selectionChange ="onchange">
+        <!-- <core:Item key="0" text="Item1"/>
+        <core:Item key="1" text="Item2"/>
+        <core:Item key="2" text="Item3"/> -->
+         <items>
+                    <core:Item  key="{CreditReqItemModel>BTPCRItem}" text="{CreditReqItemModel>Description}"/>
+                </items>
+    </ComboBox>
+    </smartfilterbar:customControl>
+</smartfilterbar:ControlConfiguration>
+</core:FragmentDefinition>
