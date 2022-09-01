@@ -2773,7 +2773,7 @@ sap.ui.define([
                     //    sap.ui.getCore().byId("idstep").setValue(spath.Qty);
                     sap.ui.getCore().byId("openqty").setText(spath.OpenQty + spath.Qty);
                     sap.ui.getCore().byId("idstep").setMax(spath.OpenQty + spath.Qty);
-
+                    sap.ui.getCore().byId("Idsave").setEnabled(false);
 
                     pressDialog.open();
 
