@@ -2820,12 +2820,16 @@ sap.ui.define([
 
                         var invoiceNoFilter = new Filter("PsplInvoice_PsplInvoice", sap.ui.model.FilterOperator.EQ, invoiceNo);
                         var itemFilter = new Filter("ItemNo", sap.ui.model.FilterOperator.NE, "DC");
+                   //     var itemFilter1 = new Filter("ItemNo", sap.ui.model.FilterOperator.NE, "CDF");
 
                         filterList.push(invoiceNoFilter);
                         filterList.push(itemFilter);
+                   //     filterList.push(itemFilter1);
                         oModel.read("/PSInvoiceItems", {
                             filters: filterList,
                             success: function (oResponse) {
+                                oResponse.results= oResponse.results.filter(obj=>obj.ItemNo!="CDF");
+        
                                 var correctList = [];
                                 for (var i = 0; i < oResponse.results.length; i++) {
                                     if (!allMaterialList.includes(oResponse.results[i].ItemNo)) {
