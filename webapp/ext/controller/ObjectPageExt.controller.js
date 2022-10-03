@@ -1562,6 +1562,9 @@ sap.ui.define([
             },
             oSelectionchange: function (oevt) {
                 var that = this;
+                if(oevt.getSource().getSelectedItem()===null){
+                    sap.ui.getCore().byId("Idsave").setEnabled(false);
+          }
                 var oSelectedkey = oevt.getSource().getSelectedItem().getText();
                 if (oSelectedkey !== "") {
                     sap.ui.getCore().byId("Idsave").setEnabled(true);
@@ -2080,6 +2083,10 @@ sap.ui.define([
                         }
                     }
                     else {
+                        if(sap.ui.getCore().byId("idstep").getValue()==0){
+                            sap.m.MessageBox.error("Credit Request Quantity Should be greater than zero");
+                                         return;
+                         }  
                         that.onAddItemsAddBtn();
                         return;
                     }
