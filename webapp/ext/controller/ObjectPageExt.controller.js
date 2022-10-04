@@ -1512,6 +1512,7 @@ sap.ui.define([
             onChange: function () {
                 var oValue = sap.ui.getCore().byId("idstep").getValue();
                 var max = sap.ui.getCore().byId("idstep").getMax();
+                
                 if (DraftStatusFlg == true) {
                     if (oValue > max) {
                         sap.ui.getCore().byId("idstep").setValueState("Error");
@@ -1559,9 +1560,20 @@ sap.ui.define([
                         // sap.ui.getCore().byId("Idsave").setEnabled(true);
                     }
                 }
+                if (oValue == 0 || sap.ui.getCore().byId("idcbox").getValue() == "") {
+                    sap.ui.getCore().byId("Idsave").setEnabled(false);
+                    return
+                }
+                else{
+                    sap.ui.getCore().byId("Idsave").setEnabled(true);
+                }
             },
             oSelectionchange: function (oevt) {
                 var that = this;
+                if (sap.ui.getCore().byId("idstep").getValue() == 0) {
+                    sap.ui.getCore().byId("Idsave").setEnabled(false);
+                    return
+                } 
                 if(oevt.getSource().getSelectedItem()===null){
                     sap.ui.getCore().byId("Idsave").setEnabled(false);
           }
