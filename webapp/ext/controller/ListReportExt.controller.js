@@ -580,9 +580,38 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         that.comboboxid = oEvent.getSource().getId();
         var oSelectedkey = oEvent.getSource().getSelectedItem().getText();
         sap.ui.getCore().statustext = oSelectedkey;
+        that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
         //   text = sap.ui.getCore().byId("box0").getText();
-        if (oSelectedkey == "Under Review") {
-            that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
+var oModel = this.getOwnerComponent().getModel(); 
+         var oFilterR = new sap.ui.model.Filter({
+            filters: [
+                new sap.ui.model.Filter("BTPCRNO", "EQ", oEvent.getSource().getSelectedItem().getBindingContext().getObject().BTPCRNO),
+               
+                new sap.ui.model.Filter("StatusDescription", "NE", "Delete"),
+            ],
+            and: true
+        });
+        oModel.read("/GetCreditReqHdr", {
+   filters: [oFilterR],
+            success: function (oResponse) {
+if(oResponse.results[0].StatusCode_Id===6 || oResponse.results[0].StatusCode_Id===7 || oResponse.results[0].StatusCode_Id===8){
+ 
+      sap.m.MessageBox.error("Status Update is not allowed for this CR", {
+                    title: "Error",
+                    actions: [sap.m.MessageBox.Action.OK],
+                    onClose: function (oAction) {
+                        if (oAction === "OK") {
+                        oModel.refresh();
+                   
+                        }
+                    }
+                });
+     return;
+    
+}
+                 if (oSelectedkey == "Under Review") {
+                    var that = this;
+            // that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
             that.onSaveBtn();
         }
         else{
@@ -626,9 +655,21 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
 
         // } 
         var that = this;
-        that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
+       // that.LocObj = oEvent.getSource().getSelectedItem().getBindingContext().getObject();
     }
+               
+            }.bind(this),
+            error: function (oError) {
 
+                console.log(oError);
+              
+
+            }
+        });
+      
+     
+       
+       
     },
     setComboboxValue:function(oEvent){
         console.log("a");
