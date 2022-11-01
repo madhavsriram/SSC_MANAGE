@@ -249,7 +249,10 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
 
         });
 
-        var DateTime = oDateFormat.format(new Date());
+     //   var DateTime = oDateFormat.format(new Date());
+     
+        var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+        DateTime = oDateFormat.format(DateTime);
         var oModel = this.getOwnerComponent().getModel();
         var obj = {
             StatusCode_Id: that.CRStatus[0].Id,
@@ -339,7 +342,9 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
 
         });
 
-        var DateTime = oDateFormat.format(new Date());
+      //  var DateTime = oDateFormat.format(new Date());
+       var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+        DateTime = oDateFormat.format(DateTime);
         var oModel = this.getOwnerComponent().getModel();
         var obj = {
             StatusCode_Id: that.CRStatus[0].Id,
@@ -422,8 +427,10 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
 
         });
 
-        var DateTime = oDateFormat.format(new Date());
-        var oModel = this.getOwnerComponent().getModel();
+       // var DateTime = oDateFormat.format(new Date());
+       var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+        DateTime = oDateFormat.format(DateTime);
+         var oModel = this.getOwnerComponent().getModel();
         var obj = {
             StatusCode_Id: that.CRStatus[0].Id,
             CancelledDateTime: DateTime,

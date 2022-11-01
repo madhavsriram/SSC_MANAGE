@@ -121,6 +121,7 @@ sap.ui.define([
                         this.InvoiceDate = oEvent.context.getObject().CRDocDate;
                         StatusDescription = oEvent.context.getObject().StatusDescription;
                         StatusType = oEvent.context.getObject().StatusType;
+                         var StatusCode_Id= oEvent.context.getObject().StatusCode_Id  ;   
                         BTP_CRNO = oEvent.context.getObject().BTPCRNO;
                         invoiceNo = oEvent.context.getObject().PsplInvoice;
                         var invoiceNoHdr = oEvent.context.getObject().PSInvoiceHdr_PsplInvoice;
@@ -182,7 +183,7 @@ sap.ui.define([
                             // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(false);
                         }
-                        if (StatusType == "DraftSCC") {
+                        if (StatusCode_Id == "4") {
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(true);
                         }
                         else {
@@ -3133,7 +3134,10 @@ sap.ui.define([
 
                 });
 
-                var DateTime = oDateFormat.format(new Date());
+             // var DateTime = oDateFormat.format(new Date());
+             var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+             DateTime = oDateFormat.format(DateTime);
+     
                 var oModel = this.getOwnerComponent().getModel();
                 //var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
                 this.oModel = this.getView().getModel();
@@ -3247,7 +3251,10 @@ sap.ui.define([
 
                 });
 
-                var DateTime = oDateFormat.format(new Date());
+               // var DateTime = oDateFormat.format(new Date());
+               var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+               DateTime = oDateFormat.format(DateTime);
+       
                 var oModel = this.getOwnerComponent().getModel();
                 //var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
                 this.oModel = this.getView().getModel();
@@ -3589,7 +3596,9 @@ sap.ui.define([
 
                 });
 
-                var DateTime = oDateFormat.format(new Date());
+              //  var DateTime = oDateFormat.format(new Date());
+              var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+              DateTime = oDateFormat.format(DateTime);
                 var oModel = this.getOwnerComponent().getModel();
                 //var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
                 this.oModel = this.getView().getModel();
@@ -3697,7 +3706,9 @@ sap.ui.define([
 
                 });
 
-                var DateTime = oDateFormat.format(new Date());
+            //    var DateTime = oDateFormat.format(new Date());
+            var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+            DateTime = oDateFormat.format(DateTime);
                 var oModel = this.getOwnerComponent().getModel();
                 //var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
                 this.oModel = this.getView().getModel();
@@ -3805,7 +3816,9 @@ sap.ui.define([
 
                 });
 
-                var DateTime = oDateFormat.format(new Date());
+             //   var DateTime = oDateFormat.format(new Date());
+             var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+             DateTime = oDateFormat.format(DateTime);
                 var oModel = this.getOwnerComponent().getModel();
                 var obj = {
                     StatusCode_Id: that.CR_Status[0].Id,
