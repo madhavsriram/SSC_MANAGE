@@ -872,8 +872,8 @@ sap.ui.define([
 
                                 //        sap.ui.getCore().byId("idcbox").getBinding("items").filter([new sap.ui.model.Filter("Description", "EQ", "Shortage"), new sap.ui.model.Filter("Description", "EQ", "Damage"), new sap.ui.model.Filter("Description", "EQ", "Not Shipped")])
                                 sap.ui.getCore().byId("idstep").setValue(oResponse.results[0].Qty);
-                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
-                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty + pathdata.Qty);
+                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty);
+                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty );
 
                                 // var oFilterR = new sap.ui.model.Filter({
                                 //     filters: [
@@ -944,7 +944,7 @@ sap.ui.define([
                                     sap.ui.getCore().byId("idcbox").setSelectedKey(Id);
                                     sap.ui.getCore().byId("apprQty").setMax(data.Qty);
                                     sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
-                                    sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
+                                    sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty);
                                     sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
                                     if (data.StatusCode.StatusType == "RTA" || data.StatusDescription == "Approved") {
@@ -979,9 +979,9 @@ sap.ui.define([
                                         sap.ui.getCore().byId("Idsave").setEnabled(true);
                                         sap.ui.getCore().byId("Expdate").setEnabled(true);
                                         DraftStatusFlg = true;
-                                        sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
+                                        sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty);
 
-                                        sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty + pathdata.Qty);
+                                        sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty);
 
                                     }
                                     else {
@@ -1040,7 +1040,7 @@ sap.ui.define([
                             sap.ui.getCore().byId("idcbox").setSelectedKey(Id);
                             sap.ui.getCore().byId("apprQty").setMax(data.Qty);
                             sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
-                            sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
+                            sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty);
                             sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
                             sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
@@ -1069,8 +1069,8 @@ sap.ui.define([
                                 sap.ui.getCore().byId("DeliveryDate").setEnabled(true);
                                 sap.ui.getCore().byId("Idsave").setEnabled(true);
                                 DraftStatusFlg = true;
-                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
-                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty + pathdata.Qty);
+                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty );
+                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty );
 
 
                             }
@@ -1167,7 +1167,7 @@ sap.ui.define([
                             sap.ui.getCore().byId("apprQty").setValue(data.ApproveQty);
                             //                    sap.ui.getCore().byId("Nscomments").setValue(data.Attachment.results[0].Comment);
                             //                    sap.ui.getCore().byId("Nscomments").setEnabled(false);
-                            sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
+                            sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty);
                             sap.ui.getCore().byId("idReClasiLabel").setVisible(false);
 
 
@@ -1196,8 +1196,8 @@ sap.ui.define([
                                 //                        sap.ui.getCore().byId("Nscomments").setEnabled(true);
                                 sap.ui.getCore().byId("Idsave").setEnabled(true);
                                 DraftStatusFlg = true;
-                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
-                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty + pathdata.Qty);
+                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty );
+                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty );
 
 
                             }
@@ -1287,13 +1287,13 @@ sap.ui.define([
                                 sap.ui.getCore().byId("Quality").getContent()[17].setEnabled(true);
                                 sap.ui.getCore().byId("attachmentUpl1").setUploadEnabled(true);
                                 sap.ui.getCore().byId("Idsave").setEnabled(true);
-                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
-                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty + pathdata.Qty);
+                                sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty );
+                                sap.ui.getCore().byId("idstep").setMax(pathdata.OpenQty );
 
 
 
                             }
-                            sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty + pathdata.Qty);
+                            sap.ui.getCore().byId("openqty").setText(pathdata.OpenQty );
 
                             var t1 = [];
                             for (var i in data.Attachment.results[0].AttachmentPIssue.results) {
@@ -2791,8 +2791,8 @@ sap.ui.define([
                     sap.ui.getCore().byId("openQtyText").setVisible(true);
                     sap.ui.getCore().byId("openqty").setVisible(true);
                     //    sap.ui.getCore().byId("idstep").setValue(spath.Qty);
-                    sap.ui.getCore().byId("openqty").setText(spath.OpenQty + spath.Qty);
-                    sap.ui.getCore().byId("idstep").setMax(spath.OpenQty + spath.Qty);
+                    sap.ui.getCore().byId("openqty").setText(spath.OpenQty);
+                    sap.ui.getCore().byId("idstep").setMax(spath.OpenQty);
                     sap.ui.getCore().byId("Idsave").setEnabled(false);
 
                     pressDialog.open();
@@ -2845,7 +2845,7 @@ sap.ui.define([
                         filterList.push(invoiceNoFilter);
                         filterList.push(itemFilter);
                    //     filterList.push(itemFilter1);
-                        oModel.read("/PSInvoiceItems", {
+                        oModel.read("/GET_PCINVOICE_ITEM_LIST", {
                             filters: filterList,
                             success: function (oResponse) {
                                 oResponse.results= oResponse.results.filter(obj=>obj.ItemNo!="CDF");
