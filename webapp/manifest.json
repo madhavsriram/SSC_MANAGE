@@ -233,17 +233,8 @@
                             "className": "sap.ui.core.Fragment",
                             "fragmentName": "sccmanagecr.ext.fragments.StatusUpdateCellsReview",
                             "type": "XML"
-                        },
-                        "ResponsiveTableColumnsExtension|GetCreditReqHdr|_tab3": {
-                            "className": "sap.ui.core.Fragment",
-                            "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomColumn",
-                            "type": "XML"
-                        },
-                        "ResponsiveTableCellsExtension|GetCreditReqHdr|_tab3": {
-                            "className": "sap.ui.core.Fragment",
-                            "fragmentName": "sccmanagecr.ext.fragments.MyOpenCustomCell",
-                            "type": "XML"
                         }
+                        
                     },
                     "sap.suite.ui.generic.template.ObjectPage.view.Details": {
                         "ResponsiveTableColumnsExtension|GetCreditReqItem|ItemId": {

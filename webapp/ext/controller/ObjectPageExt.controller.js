@@ -396,7 +396,7 @@ sap.ui.define([
                 });
             },
 
-            checkInvoiceHdr: function () {
+            checkInvoiceHdr: function (flag) {
                 var that = this;
                 var oModel = this.getOwnerComponent().getModel();
                 var PSInvoiceHdr_PsplInvoice = this.getView().getModel("CreditReqHdrModel").getData().items[0].PSInvoiceHdr_PsplInvoice;
@@ -411,18 +411,67 @@ sap.ui.define([
                     filters: [oFilterR],
                     success: function (oResponse) {
                         console.log(oResponse.results);
+
+                         this.flag=oResponse.results[0].DeliveryFeeCreated;
                         if (oResponse.results[0].DeliveryFeeCreated == 'N') {
                             that.getView().byId("delbtnButton").setVisible(true);
                             that.getView().byId("revertBtnButton").setVisible(false);
+                            if(flag===undefined){
+                                this.CRFlag();
+                            }
+                            
                         }
                         else {
                             that.getView().byId("delbtnButton").setVisible(false);
                             that.getView().byId("revertBtnButton").setVisible(true);
+                            if(flag===undefined){
+                            this.CRFlag();
+                            }
                         }
 
-                    },
+                       
+                    }.bind(this),
                     error: function (err) { }
                 });
+            },
+            
+            CRFlag:function()
+            {
+                var oModel = this.getOwnerComponent().getModel();                
+                
+                              var oFilterR = new sap.ui.model.Filter({
+                                     filters: [
+                                     new sap.ui.model.Filter("BTPCRNo_BTPCRNO", "EQ", BTP_CRNO),
+                                       new sap.ui.model.Filter("Material", "EQ", "DC"),
+                                       new sap.ui.model.Filter("StatusCode_Id", "NE", 10)
+                        
+                                     ],
+                                     and: true,
+                                   });
+                                   var that = this;
+                                   oModel.read("/CreditReqItem", {
+                                     filters: [oFilterR],
+                                     success: function (oResponse) {
+                                        if( that.flag== "Y" && oResponse.results.length == 0)
+                                        {
+                                            that.getView().byId("delbtnButton").setVisible(false);
+                                            that.getView().byId("revertBtnButton").setVisible(false);
+                                        }
+                                        if( that.flag== "N" && oResponse.results.length == 0)
+                                        {
+                                            that.getView().byId("delbtnButton").setVisible(false);
+                                            that.getView().byId("revertBtnButton").setVisible(false);
+                                        }
+                
+                                      
+                                      
+                                           
+                                     }.bind(that),
+                                     error: function (err) {},
+                                   });
+
+
+
             },
 
             checkComment: function () {
@@ -662,12 +711,12 @@ sap.ui.define([
                                     oModel.sDefaultUpdateMethod = "PATCH";
                                     oModel.update(path2, obj2, {
                                         success: function (oSuccess) {
-
+var flag=true;
                                             sap.m.MessageToast.show(" Delivery Fee Reverted");
                                             oModel.refresh();
 
                                             oModel.sDefaultUpdateMethod = "MERGE";
-                                            that.checkInvoiceHdr();
+                                            that.checkInvoiceHdr(flag);
                                             //     setTimeout(function () {
                                             //         if(CR_FLAG=="Y"){
                                             //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
@@ -763,12 +812,12 @@ sap.ui.define([
                                     oModel.sDefaultUpdateMethod = "PATCH";
                                     oModel.update(path, obj2, {
                                         success: function (oSuccess) {
-
+var flag=true;
                                             sap.m.MessageToast.show(" Delivery Fee Added");
                                             oModel.refresh();
                                             // this._DeliveryDialog.close();
                                             oModel.sDefaultUpdateMethod = "MERGE";
-                                            that.checkInvoiceHdr();
+                                            that.checkInvoiceHdr(flag);
                                             //     setTimeout(function () {
                                             //         if(CR_FLAG=="Y"){
                                             //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
