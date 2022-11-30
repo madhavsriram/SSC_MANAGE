@@ -413,21 +413,35 @@ sap.ui.define([
                         console.log(oResponse.results);
 
                          this.flag=oResponse.results[0].DeliveryFeeCreated;
-                        if (oResponse.results[0].DeliveryFeeCreated == 'N') {
-                            that.getView().byId("delbtnButton").setVisible(true);
-                            that.getView().byId("revertBtnButton").setVisible(false);
-                            if(flag===true){
-                                this.CRFlag();
+                         
+                       
+                            //that.getView().byId("delbtnButton").setVisible(true);
+                           // that.getView().byId("revertBtnButton").setVisible(false);
+                            if(flag===false){
+                                if (oResponse.results[0].DeliveryFeeCreated == 'N') {
+                                    that.getView().byId("delbtnButton").setVisible(true);
+                           that.getView().byId("revertBtnButton").setVisible(false);
+                                }
+                                return;
+                                
                             }
                             
-                        }
-                        else {
-                            that.getView().byId("delbtnButton").setVisible(false);
-                            that.getView().byId("revertBtnButton").setVisible(true);
+                        
+                        
+                            //that.getView().byId("delbtnButton").setVisible(false);
+                            //that.getView().byId("revertBtnButton").setVisible(true);
                             if(flag===true){
-                            this.CRFlag();
+                                if (oResponse.results[0].DeliveryFeeCreated == 'Y') {
+                                    that.getView().byId("delbtnButton").setVisible(false);
+                           that.getView().byId("revertBtnButton").setVisible(true);
+                                }
+                                return;
+                                
                             }
+                        if(flag===undefined){
+                            this.CRFlag();
                         }
+                        
 
                        
                     }.bind(this),
@@ -456,11 +470,18 @@ sap.ui.define([
                                         {
                                             that.getView().byId("delbtnButton").setVisible(false);
                                             that.getView().byId("revertBtnButton").setVisible(false);
-                                        }
-                                        if( that.flag== "N" && oResponse.results.length == 0)
+                                        } else  if( that.flag== "Y" && oResponse.results.length > 0)
                                         {
                                             that.getView().byId("delbtnButton").setVisible(false);
+                                            that.getView().byId("revertBtnButton").setVisible(true);
+                                        }
+                                       else if( that.flag== "N" && oResponse.results.length == 0)
+                                        {
+                                            that.getView().byId("delbtnButton").setVisible(true);
                                             that.getView().byId("revertBtnButton").setVisible(false);
+                                        }
+                                        else{
+                                            
                                         }
                 
                                       
