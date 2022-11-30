@@ -416,7 +416,7 @@ sap.ui.define([
                         if (oResponse.results[0].DeliveryFeeCreated == 'N') {
                             that.getView().byId("delbtnButton").setVisible(true);
                             that.getView().byId("revertBtnButton").setVisible(false);
-                            if(flag===undefined){
+                            if(flag===true){
                                 this.CRFlag();
                             }
                             
@@ -424,7 +424,7 @@ sap.ui.define([
                         else {
                             that.getView().byId("delbtnButton").setVisible(false);
                             that.getView().byId("revertBtnButton").setVisible(true);
-                            if(flag===undefined){
+                            if(flag===true){
                             this.CRFlag();
                             }
                         }
@@ -711,7 +711,7 @@ sap.ui.define([
                                     oModel.sDefaultUpdateMethod = "PATCH";
                                     oModel.update(path2, obj2, {
                                         success: function (oSuccess) {
-var flag=true;
+var flag=false;
                                             sap.m.MessageToast.show(" Delivery Fee Reverted");
                                             oModel.refresh();
 
