@@ -1,6 +1,25 @@
 sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
     onInit: function () {
         var that = this;
+        var oModel = this.getOwnerComponent().getModel();
+        // oModel.read("/GetCSR_ID", {
+
+        //     success: function (oResponse) {
+
+        //         var data=oResponse.results;
+        //       that.CSR=oResponse.results[0].CRS_ID;
+
+
+        //         //		this.busyDialog.close();
+
+        //     }.bind(this),
+        //     error: function (oError) {
+
+        //         console.log(oError);
+        //         //					that.busyDialog.close();
+
+        //     }
+        // });
         sap.ui.getCore().getConfiguration().getFormatSettings().setLegacyDateFormat(3);
         sap.ui.getCore().byId("sccmanagecr::sap.suite.ui.generic.template.ListReport.view.ListReport::GetCreditReqHdr--listReportFilter").setPersistencyKey(true);
         
@@ -32,7 +51,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
             "headerCommentsModel"
         );
 
-        var oModel = this.getOwnerComponent().getModel();
+       
 
         oModel.read("/CreditReqHdr", {
 
@@ -53,29 +72,34 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
             }
         });
 
-        oModel.read("/CreditReqItem", {
+        // oModel.read("/CreditReqItem", {
 
-            success: function (oResponse) {
-                oResponse.results=oResponse.results.filter((value, index, self) =>
-                index === self.findIndex((t) => (
-                  t.Description === value.Description 
-                ))
-              );
-                that.getView().setModel(new sap.ui.model.json.JSONModel({
-                    items: oResponse.results
-                }), "CreditReqItemModel");
+        //     success: function (oResponse) {
+        //         oResponse.results=oResponse.results.filter((value, index, self) =>
+        //         index === self.findIndex((t) => (
+        //           t.Description === value.Description 
+        //         ))
+        //       );
+        //         that.getView().setModel(new sap.ui.model.json.JSONModel({
+        //             items: oResponse.results
+        //         }), "CreditReqItemModel");
 
-                //		this.busyDialog.close();
+        //         //		this.busyDialog.close();
 
-            }.bind(this),
-            error: function (oError) {
+        //     }.bind(this),
+        //     error: function (oError) {
 
-                console.log(oError);
-                //					that.busyDialog.close();
+        //         console.log(oError);
+        //         //					that.busyDialog.close();
 
-            }
-        });
+        //     }
+        // });
         
+       
+    },
+    onInitSmartFilterBarExtension: function (oEvent) {
+        var that = this;
+        var oModel = this.getOwnerComponent().getModel();
         oModel.read("/GetCSR_ID", {
 
             success: function (oResponse) {
