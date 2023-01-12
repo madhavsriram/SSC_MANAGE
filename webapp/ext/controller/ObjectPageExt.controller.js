@@ -220,25 +220,25 @@ sap.ui.define([
                             var BTPCRNo = oEvent.context.getObject("ISSAP");
                             this.ISSAP = BTPCRNo;
 
-                            // if (BTPCRNo === "N") {
-                            //     //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
-                            //     //      this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
-                            //     var data1 = [
-                            //         {
-                            //             text: "Approve",
-                            //             id: "item12"
-                            //         },
-                            //         {
-                            //             text: "Cancelled",
-                            //             id: "item13"
-                            //         },
-                            //         {
-                            //             text: "Rejected",
-                            //             id: "item14"
-                            //         }];
-                            //     var AppStatus = new JSONModel(data1);
-                            //     this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                            // } else {
+                            if (BTPCRNo === "N") {
+                                //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
+                                //      this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
+                                var data1 = [
+                                    {
+                                        text: "Approve",
+                                        id: "item12"
+                                    },
+                                    {
+                                        text: "Cancelled",
+                                        id: "item13"
+                                    },
+                                    {
+                                        text: "Rejected",
+                                        id: "item14"
+                                    }];
+                                var AppStatus = new JSONModel(data1);
+                                this.getOwnerComponent().setModel(AppStatus, "StatModel");
+                            } else {
                                 //  sap.ui.getCore().byId("idcbox").getBinding("items").filter([])
                                 var data1 = [{
                                     text: "Pending Approval",
@@ -253,11 +253,7 @@ sap.ui.define([
                                     id: "item13"
                                 },
                                 {
-                                    text: "Redelivery",
-                                    id: "item15"
-                                },
-                                {
-                                    text: "Denied",
+                                    text: "Rejected",
                                     id: "item14"
                                 }];
                                 var AppStatus = new JSONModel(data1);
@@ -276,9 +272,7 @@ sap.ui.define([
                                 //     //    that.checkISSAP();
                                 //     }, 2000);
                                 // }
-
-                           // }
-
+                            }
                             // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
 
 
@@ -287,7 +281,7 @@ sap.ui.define([
                         }
                         if (StatusDescription == "Submitted") {
                             var BTPCRNo = oEvent.context.getObject("ISSAP");
-                            // if (BTPCRNo === "Y") {
+                            if (BTPCRNo === "Y") {
                                 var data1 = [{
                                     text: "Pending Approval",
                                     id: "item11"
@@ -301,11 +295,7 @@ sap.ui.define([
                                     id: "item13"
                                 },
                                 {
-                                    text: "Redelivery",
-                                    id: "item15"
-                                },
-                                {
-                                    text: "Denied",
+                                    text: "Rejected",
                                     id: "item14"
                                 }];
                                 var AppStatus = new JSONModel(data1);
@@ -324,32 +314,32 @@ sap.ui.define([
                                 //     }, 2000);
                                 // }
 
-                            // } else {
-                            //     var data1 = [
-                            //         {
-                            //             text: "Approve",
-                            //             id: "item12"
-                            //         },
-                            //         {
-                            //             text: "Cancelled",
-                            //             id: "item13"
-                            //         },
-                            //         {
-                            //             text: "Rejected",
-                            //             id: "item14"
-                            //         }];
-                            //     var AppStatus = new JSONModel(data1);
-                            //     this.getOwnerComponent().setModel(AppStatus, "StatModel");
+                            } else {
+                                var data1 = [
+                                    {
+                                        text: "Approve",
+                                        id: "item12"
+                                    },
+                                    {
+                                        text: "Cancelled",
+                                        id: "item13"
+                                    },
+                                    {
+                                        text: "Rejected",
+                                        id: "item14"
+                                    }];
+                                var AppStatus = new JSONModel(data1);
+                                this.getOwnerComponent().setModel(AppStatus, "StatModel");
                                 //       this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
-                            //}
+                            }
 
                         }
 
-                        if (StatusDescription == "Draft" || StatusDescription == "Denied" || StatusDescription == "Redelivery" || StatusDescription == "Closed" || StatusDescription == "Cancelled") {
+                        if (StatusDescription == "Draft" || StatusDescription == "Rejected" || StatusDescription == "Closed" || StatusDescription == "Cancelled") {
                             that.getView().byId("delbtnButton").setVisible(false);
                             that.getView().byId("revertBtnButton").setVisible(false);
                         }
-                        if (StatusDescription == "Under Review" || StatusDescription == "Closed" || StatusDescription == "Denied" ||  StatusDescription == "Cancelled" || StatusDescription == "Redelivery") {
+                        if (StatusDescription == "Under Review" || StatusDescription == "Closed" || StatusDescription == "Rejected" || StatusDescription == "Cancelled") {
                             this._table.setMultiSelectMode().mProperties.mode = "SingleSelectNone";
                         }
                         else {
@@ -790,7 +780,7 @@ var flag=false;
                                         }.bind(that),
                                         error: function (oError) {
                                             oModel.sDefaultUpdateMethod = "MERGE";
-                                            sap.m.MessageBox.alert("Techincal Error Occured -");
+                                            sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
 
 
 
@@ -802,7 +792,7 @@ var flag=false;
 
                                 },
                                 error: function (oError) {
-                                    sap.m.MessageBox.alert("Techincal Error Occured -");
+                                    sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
 
 
                                 }
@@ -850,8 +840,8 @@ var flag=false;
                                 "ItemType": ItemType,
                                 "CRType_Id": that.SelectedCRType[0].CRType_Id,
                                 // "CRTypeDesc": that.SelectedCRType[0].Description,
-                                // "StatusCode_Id": that.ISSAP == 'N' ? 9 : 12,
-                                "StatusCode_Id": 12,
+                                "StatusCode_Id": that.ISSAP == 'N' ? 9 : 12,
+                                //"StatusCode_Id": 12,
                                 "StatusCode_ObjectType_Id": 1,
                                 "UOM": "EA",
                                 "ApproveQty": 1,
@@ -892,7 +882,7 @@ var flag=true;
                                         }.bind(that),
                                         error: function (oError) {
                                             oModel.sDefaultUpdateMethod = "MERGE";
-                                            sap.m.MessageBox.alert("Techincal Error Occured -");
+                                            sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
 
 
 
@@ -904,7 +894,7 @@ var flag=true;
 
                                 },
                                 error: function (oError) {
-                                    sap.m.MessageBox.alert("Techincal Error Occured -");
+                                    sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
 
 
                                 }
@@ -1061,7 +1051,7 @@ var flag=true;
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                                     }
-                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
+                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved") {
                                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                                         sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(false);
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -1158,7 +1148,7 @@ var flag=true;
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                             }
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || StatusDescription == "Redelivery") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -1212,7 +1202,7 @@ var flag=true;
                                     console.log(oResponse.results);
                                     pressDialog.open();
 
-                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
+                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved") {
                                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                                         sap.ui.getCore().byId("attachmentUplSht").setUploadEnabled(false);
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -1285,7 +1275,7 @@ var flag=true;
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                             }
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || StatusDescription == "Redelivery") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -1371,7 +1361,7 @@ var flag=true;
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                             }
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("attachmentUpl1").setUploadEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -3783,7 +3773,7 @@ var flag=true;
                                         var oFilterR = new sap.ui.model.Filter({
                                             filters: [
                                                 new sap.ui.model.Filter("StatusType", "EQ", "Reject"),
-                                                new sap.ui.model.Filter("StatusDescription", "EQ", "Denied")
+                                                new sap.ui.model.Filter("StatusDescription", "EQ", "Rejected")
                                             ],
                                             and: true
                                         });
@@ -3824,117 +3814,6 @@ var flag=true;
                 var obj = {
                     StatusCode_Id: that.CR_Status[0].Id,
                     RejectionDateTime: DateTime
-                };
-                console.log(obj);
-                var path = "/CreditReqItem(BTPCRItem=" + pathdata.substring(pathdata.indexOf("'") + 1).replace("')", "") + ")";
-                console.log(path);
-                this.oModel.sDefaultUpdateMethod = "PATCH";
-
-                this.oModel.update(path, obj, {
-                    success: function (oSuccess) {
-                        sap.m.MessageToast.show("CreditReqItem Updated");
-                        that.OnItemReasonPost(this);
-                        if (that.LocObjPage.Material == 'DC') {
-                            //    that.onResetDeliveryFee();
-                        }
-                        that.byId("statusupdateObjectPage").destroy();
-                        that.getView().byId(that.comboboxid).setValue(""); this.oModel.refresh();
-                        this.oModel.sDefaultUpdateMethod = "MERGE";
-                        //     setTimeout(function () {
-                        //         if(CR_FLAG=="Y"){
-                        //         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(true);
-                        //         }
-                        //         else{
-                        //             that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setEnabled(false);
-
-                        //         }
-                        //   //             that.checkISSAP();
-                        //     }, 4000);
-                    }.bind(this),
-
-                    error: function (oError) {
-                        this.oModel.sDefaultUpdateMethod = "MERGE";
-                        sap.m.MessageBox.alert("Techincal Error Occured -");
-                    }
-                });
-            },
-            onPressRedelivery: function (oEvent) {
-                var that = this;
-                this.oModel = this.getView().getModel();
-                //    var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
-                var pathdata = that.LocObjPage.BTPCRItem;
-                var oFilterR = new sap.ui.model.Filter({
-                    filters: [
-                        new sap.ui.model.Filter("BTPCRItem", "EQ", pathdata.substring(pathdata.indexOf("'") + 1).replace("')", ""))
-                    ],
-                    and: true
-                });
-                var oModel = this.getOwnerComponent().getModel();
-                oModel.read("/CreditReqItem", {
-                    filters: [oFilterR],
-                    urlParameters: {
-                        $expand: "StatusCode",
-                    },
-                    success: function (oResponse) {
-                        var data = oResponse.results.filter(obj => obj.StatusCode.StatusType == "RTA");
-                        var data2 = oResponse.results.filter(obj => obj.StatusDescription == "Created");
-
-                        if (data.length != 0 || data2.length != 0) {
-                            var oModel = that.getOwnerComponent().getModel();
-                            sap.m.MessageBox.show("Are you sure, you want to change the status ?", {
-                                icon: sap.m.MessageBox.Icon.QUESTION,
-                                title: "Confirm",
-                                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-                                onClose: function (oAction) {
-                                    if (oAction === "OK") {
-                                        var oFilterR = new sap.ui.model.Filter({
-                                            filters: [
-                                                new sap.ui.model.Filter("StatusType", "EQ", "ReDel"),
-                                                new sap.ui.model.Filter("StatusDescription", "EQ", "Redelivery")
-                                            ],
-                                            and: true
-                                        });
-                                        oModel.read("/CRStatus", {
-                                            filters: [oFilterR],
-                                            success: function (oResponse) {
-                                                console.log(oResponse.results);
-                                                that.CR_Status = oResponse.results;
-                                                that.onFinalRedelivery(pathdata);
-                                            },
-                                            error: function (err) { }
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                        else {
-                            sap.m.MessageBox.alert("Status cannot be changed.");
-                        }
-                    },
-                    error: function (err) { }
-                });
-            },
-            onFinalRedelivery: function (pathdata) {
-                var that = this;
-                var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-
-                    pattern: "yyyy-MM-dd" + "T" + "HH:mm:ss" + "Z"
-
-                });
-
-            //    var DateTime = oDateFormat.format(new Date());
-            var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
-            DateTime = oDateFormat.format(DateTime);
-                var oModel = this.getOwnerComponent().getModel();
-                //var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
-                this.oModel = this.getView().getModel();
-                var obj = {
-                    StatusCode_Id: that.CR_Status[0].Id,
-                    RedeliveryDateTime: DateTime
-                 
-
-
-
                 };
                 console.log(obj);
                 var path = "/CreditReqItem(BTPCRItem=" + pathdata.substring(pathdata.indexOf("'") + 1).replace("')", "") + ")";
@@ -4342,15 +4221,9 @@ var flag=true;
                             oDialog.getContent()[1].getContent()[1].setEnabled(true);
 
                         }
-                        if (oSelectedkey == "Denied") {
-                            oDialog.setTitle("Denied Reason");
-                            oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for Denied status:");
-
-
-                        }
-                        if (oSelectedkey == "Redelivery") {
-                            oDialog.setTitle("Redelivery Reason");
-                            oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for Redelivery status:");
+                        if (oSelectedkey == "Rejected") {
+                            oDialog.setTitle("Rejection Reason");
+                            oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
 
 
                         }
@@ -4477,14 +4350,9 @@ var flag=true;
                     this.onPressCancelled();
 
                 }
-                if (text == "Denied") {
+                if (text == "Rejected") {
 
                     this.onPressRejected();
-
-                }
-                if (text == "Redelivery") {
-
-                    this.onPressRedelivery();
 
                 }
 
@@ -4758,25 +4626,25 @@ var flag=true;
             setDropDown: function (BTPCRNo) {
                 //  var BTPCRNo = this.getView().getModel("CreditReqHdrModel").getData().items[0].ISSAP;
 
-                // if (BTPCRNo === "N") {
-                //     //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
-                //     //          this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
-                //     var data1 = [
-                //         {
-                //             text: "Approve",
-                //             id: "item12"
-                //         },
-                //         {
-                //             text: "Cancelled",
-                //             id: "item13"
-                //         },
-                //         {
-                //             text: "Rejected",
-                //             id: "item14"
-                //         }];
-                //     var AppStatus = new JSONModel(data1);
-                //     this.getOwnerComponent().setModel(AppStatus, "StatModel");
-                // } else {
+                if (BTPCRNo === "N") {
+                    //  sap.ui.getCore().byId("box1").getBinding("items").filter([new sap.ui.model.Filter("text", "NE", "Ready To Approve")])
+                    //          this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(false);
+                    var data1 = [
+                        {
+                            text: "Approve",
+                            id: "item12"
+                        },
+                        {
+                            text: "Cancelled",
+                            id: "item13"
+                        },
+                        {
+                            text: "Rejected",
+                            id: "item14"
+                        }];
+                    var AppStatus = new JSONModel(data1);
+                    this.getOwnerComponent().setModel(AppStatus, "StatModel");
+                } else {
                     //  sap.ui.getCore().byId("idcbox").getBinding("items").filter([])
                     var data1 = [{
                         text: "Pending Approval",
@@ -4791,11 +4659,7 @@ var flag=true;
                         id: "item13"
                     },
                     {
-                        text: "Redelivery",
-                        id: "item15"
-                    },
-                    {
-                        text: "Denied",
+                        text: "Rejected",
                         id: "item14"
                     }];
                     var AppStatus = new JSONModel(data1);
@@ -4811,7 +4675,7 @@ var flag=true;
                     //         }
                     //   //             that.checkISSAP();
                     //     }, 4000);
-                //}
+                }
             },
             GetList: function () {
                 var that = this;
@@ -5043,7 +4907,7 @@ var flag=true;
                     }.bind(that),
                     error: function (oError) {
                         oModel.sDefaultUpdateMethod = "MERGE";
-                        sap.m.MessageBox.alert("Techincal Error Occured -");
+                        sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
 
 
 
