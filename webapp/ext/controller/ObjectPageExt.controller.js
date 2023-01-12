@@ -780,7 +780,7 @@ var flag=false;
                                         }.bind(that),
                                         error: function (oError) {
                                             oModel.sDefaultUpdateMethod = "MERGE";
-                                            sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
+                                            sap.m.MessageBox.alert("Techincal Error Occured -");
 
 
 
@@ -792,7 +792,7 @@ var flag=false;
 
                                 },
                                 error: function (oError) {
-                                    sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
+                                    sap.m.MessageBox.alert("Techincal Error Occured -");
 
 
                                 }
@@ -882,7 +882,7 @@ var flag=true;
                                         }.bind(that),
                                         error: function (oError) {
                                             oModel.sDefaultUpdateMethod = "MERGE";
-                                            sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
+                                            sap.m.MessageBox.alert("Techincal Error Occured -");
 
 
 
@@ -894,7 +894,7 @@ var flag=true;
 
                                 },
                                 error: function (oError) {
-                                    sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
+                                    sap.m.MessageBox.alert("Techincal Error Occured -");
 
 
                                 }
@@ -4907,7 +4907,7 @@ var flag=true;
                     }.bind(that),
                     error: function (oError) {
                         oModel.sDefaultUpdateMethod = "MERGE";
-                        sap.m.MessageBox.alert("TechincalÂ ErrorÂ OccuredÂ -");
+                        sap.m.MessageBox.alert("Techincal Error Occured -");
 
 
 
