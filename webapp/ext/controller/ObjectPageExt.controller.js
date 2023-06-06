@@ -132,6 +132,12 @@ sap.ui.define([
                         var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
                             pattern: "MM-dd-yyyy"
                         });
+                        //Beging of changes done by Bala on 5th June 2023
+
+                        this.oIsSap = oEvent.context.getObject("ISSAP");
+
+                        //End of changes done by Bala on 5th Jne 2023
+
 
                         //  this.InvoiceDate=oDateFormat.format(this.InvoiceDate);                   
 
@@ -153,8 +159,12 @@ sap.ui.define([
 
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(false);
 
-                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(false);
+                           // this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(false);
+// Begin of Change by Bala on 5th June 2023
 
+                        this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
+
+                        // End of Change by Bala on 5th June 2023
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
 
                             return;
@@ -1612,7 +1622,65 @@ var flag=true;
             onChange: function () {
                 var oValue = sap.ui.getCore().byId("idstep").getValue();
                 var max = sap.ui.getCore().byId("idstep").getMax();
-                
+                 // Begin of changes done by Bala on 5th June 2023
+
+                 var oValues2 = sap.ui.getCore().byId("idcbox");
+
+                 var oBoxItems = [], oProp = {};
+ 
+                 var oItems = oValues2.getItems();
+ 
+                 if(this.oIsSap == 'Y'){
+ 
+            
+ 
+                     if(this.getView().getModel('boxModel') == undefined){
+ 
+                       for (let index = 0; index < oItems.length; index++) {
+ 
+                         if(oValues2.getItems()[index].getProperty('key') != 4){
+ 
+                           oProp.key = oItems[index].getProperty("key");
+ 
+                           oProp.text = oItems[index].getProperty("text");
+ 
+                           oBoxItems.push(oProp);
+ 
+                           oProp = {};
+ 
+                         }
+ 
+                       }
+ 
+                       var oJson = new JSONModel();
+ 
+                       oJson.setData(oBoxItems);
+ 
+                       this.getView().setModel(oJson,"boxModel");
+ 
+                     }
+ 
+              
+ 
+                       oValues2.bindAggregation("items",{
+ 
+                         path:"boxModel>/",
+ 
+                         template: new sap.ui.core.Item({
+ 
+                           key:"{boxModel>key}",
+ 
+                           text:"{boxModel>text}"
+ 
+                         })
+ 
+                       });
+ 
+             }
+ 
+  
+ 
+                 //End of Changes done by Bala on 5the June 2023
                 if (DraftStatusFlg == true) {
                     if (oValue > max) {
                         sap.ui.getCore().byId("idstep").setValueState("Error");
