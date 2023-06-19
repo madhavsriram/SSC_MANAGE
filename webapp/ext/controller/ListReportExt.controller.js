@@ -340,11 +340,14 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
         var date = new Date();
         // var oModel = this.getOwnerComponent().getModel();
         var oFilterR = new sap.ui.model.Filter({
+            // Begin of Changes done by bala on 13th june 2023
             filters: [
                 new sap.ui.model.Filter("StatusType", "EQ", "Reject"),
-                new sap.ui.model.Filter("StatusDescription", "EQ", "Rejected")
+                new sap.ui.model.Filter("StatusDescription", "EQ", "Denied")
+                // new sap.ui.model.Filter("StatusDescription", "EQ", "Rejected")
             ],
             and: true
+            //End of changes done by bala on 13th june 2023
         });
         oModel.read("/CRStatus", {
             filters: [oFilterR],
@@ -531,8 +534,93 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
             this.onCancelled();
 
         }
-
+        // Begin of code changes done by bala on 15th june 2023
+        if(text == "Redelivery"){
+          this.onRedlivery();      
+        }
+        
     },
+
+
+  
+    onRedlivery: function(oEvent){
+        var that = this;
+        var oModel = this.getOwnerComponent().getModel();
+        var date = new Date();
+        var oFilterR = new sap.ui.model.Filter({
+            filters: [
+                new sap.ui.model.Filter("StatusType", "EQ", "ReDel"),
+                new sap.ui.model.Filter("StatusDescription", "EQ", "Redelivery")
+            ],
+            and: true
+        });
+        oModel.read("/CRStatus", {
+            filters: [oFilterR],
+            success: function (oResponse) {
+                console.log(oResponse.results);
+                that.CRStatus = oResponse.results;
+                that.onRedliveryData(that);
+            },
+            error: function (err) { }
+        });
+    },
+    onRedliveryData: function(that){
+        var that = this;
+        var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+
+            pattern: "yyyy-MM-dd" + "T" + "HH:mm:ss" + "Z"
+
+        });
+       var DateTime=new Date(new Date().toUTCString().substr(0, 25)) ;
+        DateTime = oDateFormat.format(DateTime);
+         var oModel = this.getOwnerComponent().getModel();
+        var obj = {
+            StatusCode_Id: that.CRStatus[0].Id,
+            CancelledDateTime: DateTime,
+            CSR_ID:that.CSR
+        };
+        console.log(obj);
+        var oFilterR = new sap.ui.model.Filter({
+            filters: [
+                new sap.ui.model.Filter("BTPCRNO", "EQ", that.LocObj.BTPCRNO)
+            ],
+            and: true
+        });
+        oModel.read("/CreditReqHdr", {
+            filters: [oFilterR],
+            success: function (oResponse) {
+                console.log(oResponse.results);
+                var path = "/CreditReqHdr(BTPCRNO=" + oResponse.results[0].BTPCRNO + ",OrgStrucEleCode_Id=" + oResponse.results[0].OrgStrucEleCode_Id + ")";
+                console.log(path);
+                oModel.sDefaultUpdateMethod = "PATCH";
+                oModel.update(path, obj, {
+                    success: function (oSuccess) {
+                        // sap.m.MessageToast.show("CreditReqHdr Updated");
+                        that.onHeaderCommentPost();
+                        oModel.refresh();
+                        oModel.sDefaultUpdateMethod = "MERGE";
+                    }.bind(this),
+                    error: function (oError) {
+                        oModel.sDefaultUpdateMethod = "MERGE";
+                        sap.m.MessageBox.alert("Techincal Error Occured -");
+
+                    }
+
+                });
+
+            },
+            error: function (err) {
+                console.log("Error");
+            }
+        });
+    },
+   // End of code changes done by bala on 15th june 2023
+
+
+
+
+
+
     onHeaderCommentPost: function (evt) {
         var that = this;
         var oModel = this.getOwnerComponent().getModel();
