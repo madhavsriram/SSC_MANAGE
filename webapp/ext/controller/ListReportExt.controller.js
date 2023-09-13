@@ -523,7 +523,7 @@ sap.ui.controller("sccmanagecr.ext.controller.ListReportExt", {
 
         }
 
-        if (text == "Rejected") {
+        if (text == "Denied") {
 
             this.onRejected();
 
@@ -757,7 +757,7 @@ if(oResponse.results[0].StatusCode_Id===6 || oResponse.results[0].StatusCode_Id=
             //     oDialog.getContent()[0].getItems()[1].getItems()[1].setVisible(false);
             //     oDialog.getContent()[1].getContent()[1].setEnabled(true);
             // }
-            if (oSelectedkey == "Rejected") {
+            if (oSelectedkey == "Denied") {
                 oDialog.setTitle("Rejection Reason");
                 oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
 

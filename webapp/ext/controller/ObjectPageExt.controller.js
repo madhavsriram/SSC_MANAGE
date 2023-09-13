@@ -122,7 +122,7 @@ sap.ui.define([
                         StatusDescription = oEvent.context.getObject().StatusDescription;
                         StatusType = oEvent.context.getObject().StatusType;
                          var StatusCode_Id= oEvent.context.getObject().StatusCode_Id  ;   
-                        BTP_CRNO = oEvent.context.getObject().BTPCRNO;
+                        BTP_CRNO = this.BTP_CRNO = oEvent.context.getObject().BTPCRNO;
                         invoiceNo = oEvent.context.getObject().PsplInvoice;
                         var invoiceNoHdr = oEvent.context.getObject().PSInvoiceHdr_PsplInvoice;
                         OrgStrucEleCode_Id = oEvent.context.getObject().OrgStrucEleCode_Id;
@@ -172,7 +172,7 @@ sap.ui.define([
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(true);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(true);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(true);
-                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(true);
+                            this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(false);  // changed  by bala on  3rd July 2023
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
                             this.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(true);
                         }
@@ -244,7 +244,7 @@ sap.ui.define([
                                         id: "item15"
                                     },
                                     {
-                                        text: "Rejected",
+                                        text: "Denied",
                                         id: "item14"
                                     }];
                                 var AppStatus = new JSONModel(data1);
@@ -270,7 +270,7 @@ sap.ui.define([
                                 },
                                 //End of changes done by bala on 13th june 2023
                                 {
-                                    text: "Rejected",
+                                    text: "Denied",
                                     id: "item14"
                                 }];
                                 var AppStatus = new JSONModel(data1);
@@ -318,7 +318,7 @@ sap.ui.define([
                                 },
                                 //End of changes done by bala on 13th june 2023
                                 {
-                                    text: "Rejected",
+                                    text: "Denied",
                                     id: "item14"
                                 }];
                                 var AppStatus = new JSONModel(data1);
@@ -352,7 +352,7 @@ sap.ui.define([
                                         id: "item15"
                                     },
                                     {
-                                        text: "Rejected",
+                                        text: "Denied",
                                         id: "item14"
                                     }];
                                 var AppStatus = new JSONModel(data1);
@@ -363,12 +363,12 @@ sap.ui.define([
                         }
                             //Begin of changes done by bala on 13th june 2023
 
-                        if (StatusDescription == "Draft" || StatusDescription == "Rejected" || StatusDescription == "Closed" || StatusDescription == "Cancelled" || StatusDescription == "Redelivery") {
+                        if (StatusDescription == "Draft" || StatusDescription == "Denied" || StatusDescription == "Closed" || StatusDescription == "Cancelled" || StatusDescription == "Redelivery") {
                             that.getView().byId("delbtnButton").setVisible(false);
                             that.getView().byId("revertBtnButton").setVisible(false);
                         }
                         
-                        if (StatusDescription == "Under Review" || StatusDescription == "Closed" || StatusDescription == "Rejected" || StatusDescription == "Cancelled" || StatusDescription == "Redelivery" ) {
+                        if (StatusDescription == "Under Review" || StatusDescription == "Closed" || StatusDescription == "Denied" || StatusDescription == "Cancelled" || StatusDescription == "Redelivery" ) {
                             this._table.setMultiSelectMode().mProperties.mode = "SingleSelectNone";
                         }
                         //End of changes done by bala on 13th june 2023
@@ -428,8 +428,8 @@ sap.ui.define([
 
             checkInvoiceHdr: function (flag) {
                 var that = this;
-                var oModel = this.getOwnerComponent().getModel();
-                var PSInvoiceHdr_PsplInvoice = this.getView().getModel("CreditReqHdrModel").getData().items[0].PSInvoiceHdr_PsplInvoice;
+                var oModel = this.oModel = this.getOwnerComponent().getModel();
+                var PSInvoiceHdr_PsplInvoice = this.PSInvoiceHdr_PsplInvoice = this.getView().getModel("CreditReqHdrModel").getData().items[0].PSInvoiceHdr_PsplInvoice;
 
                 var oFilterR = new sap.ui.model.Filter({
                     filters: [
@@ -441,7 +441,7 @@ sap.ui.define([
                     filters: [oFilterR],
                     success: function (oResponse) {
                         console.log(oResponse.results);
-
+                        var that = this;
                          this.flag=oResponse.results[0].DeliveryFeeCreated;
                          
                        
@@ -449,39 +449,57 @@ sap.ui.define([
                            // that.getView().byId("revertBtnButton").setVisible(false);
                             if(flag===false){
                                 if (oResponse.results[0].DeliveryFeeCreated == 'N') {
-                                    that.getView().byId("delbtnButton").setVisible(true);
+                                    // that.getView().byId("delbtnButton").setVisible(false); //commented by Bala on 3rd July 2023
                            that.getView().byId("revertBtnButton").setVisible(false);
                                 }
-                                return;
-                                
+                                return;   
                             }
-                            
-                        
-                        
-                            //that.getView().byId("delbtnButton").setVisible(false);
+                              //that.getView().byId("delbtnButton").setVisible(false);
                             //that.getView().byId("revertBtnButton").setVisible(true);
                             if(flag===true){
                                 if (oResponse.results[0].DeliveryFeeCreated == 'Y') {
-                                    that.getView().byId("delbtnButton").setVisible(false);
+                                 //   that.getView().byId("delbtnButton").setVisible(false);  //commented by Bala on 3rd July 2023
                            that.getView().byId("revertBtnButton").setVisible(true);
                                 }
                                 return;
                                 
                             }
                         if(flag===undefined){
-                            
+                // Begin of changes done by Bala on 3rd July 2023            
+                    var SalesOrderNo =  this.SalesOrderNo =  this.getView().getModel("CreditReqHdrModel").getData().items[0].SalesOrderNo  ;           
                 var oFilterR = new sap.ui.model.Filter({
                     filters: [
                         new sap.ui.model.Filter("PsplInvoice_PsplInvoice", "EQ", PSInvoiceHdr_PsplInvoice),
                         new sap.ui.model.Filter("ItemNo", "EQ", "DC"),
+                        new sap.ui.model.Filter("SalesOrderNo", "EQ", SalesOrderNo ) 
                     ],
                     and: true
                 });
+
+                // Begin of changes done by Bala on 19th July 2023..............................................................
+                oModel.read("/GET_PCINVOICE_ITEM_LIST", {
+                    filters: [oFilterR],
+                    success: function (oResponse) {
+                      if (oResponse.results.length > 0) {
+                        if(oResponse.results[0].ItemNo == 'DC' && oResponse.results[0].OpenQty > 0){
+                            that.getView().byId("delbtnButton").setVisible(true);
+                        }
+                        
+                      }
+                    }.bind(this),
+                    error: function (err) {},
+                  });
+                  
+                 //End of changes done by Bala on 19th July 2023 ..............................................................  
                 oModel.read("/PSInvoiceItems", {
                     filters: [oFilterR],
                     success: function (oResponse) {
-                        if(oResponse.results.length>0){
+                        if(oResponse.results.length>0){          
                             this.DcItem=oResponse.results[0].ItemNo;
+                            // if(oResponse.results[0].ItemNo == 'DC'){
+                            //     that.getView().byId("delbtnButton").setVisible(true);
+                            // }
+                // End of changes done by Bala on 3rd July 2023            
                         }
                         else{
                             this.DcItem="";
@@ -499,7 +517,32 @@ sap.ui.define([
                     error: function (err) { }
                 });
             },
-            
+            //Begin of code changes done by Bala on 19th July 2023
+            onDcButtonCheck: function(){
+                                var that = this;
+                       var oFilterR1 = new sap.ui.model.Filter({
+                                    filters: [
+                                        new sap.ui.model.Filter("BTPCRNo_BTPCRNO", "EQ", BTP_CRNO),
+                                        new sap.ui.model.Filter("Material", "EQ", "DC")
+                                    ],
+                                    and: true
+                                });
+                                   this.oModel.read("/GetCreditReqItem", {
+                                    filters: [oFilterR1],
+                                    success: function (oResponse) {
+                                      if (oResponse.results.length > 0) {
+                                        if(oResponse.results[0].Material == 'DC' && oResponse.results[0].OpenQty > 0){
+                                            that.getView().byId("delbtnButton").setVisible(true);
+                                        }else{
+                                            that.getView().byId("delbtnButton").setVisible(false);
+                                        }
+                                        
+                                      }
+                                    }.bind(this),
+                                    error: function (err) {},
+                                  }); 
+            },
+             //End of code changes done by Bala on 19th July 2023
             CRFlag:function()
             {
                 var oModel = this.getOwnerComponent().getModel();                
@@ -513,27 +556,27 @@ sap.ui.define([
                                      ],
                                      and: true,
                                    });
-                                   var that = this;
+                                   var that = this;                          
                                    oModel.read("/CreditReqItem", {
                                      filters: [oFilterR],
                                      success: function (oResponse) {
                                         if( that.flag== "Y" && oResponse.results.length == 0)
                                         {
-                                            that.getView().byId("delbtnButton").setVisible(false);
+                                        //    that.getView().byId("delbtnButton").setVisible(false);  // commented by Bala on 3rd July 2023
                                             that.getView().byId("revertBtnButton").setVisible(false);
                                         } else  if( that.flag== "Y" && oResponse.results.length > 0)
                                         {
-                                            that.getView().byId("delbtnButton").setVisible(false);
+                                        //    that.getView().byId("delbtnButton").setVisible(false);   //  commented by Bala on 3rd July 2023
                                             that.getView().byId("revertBtnButton").setVisible(true);
                                         }
                                        else if( that.flag== "N" && oResponse.results.length == 0)
                                         {
                                             if(that.DcItem=="DC"){
-                                                that.getView().byId("delbtnButton").setVisible(true);
+                                             //   that.getView().byId("delbtnButton").setVisible(true);   //commented by Bala on 3rd July 2023
                                                 that.getView().byId("revertBtnButton").setVisible(false);
                                             }
                                             else{
-                                                that.getView().byId("delbtnButton").setVisible(false);
+                                       //         that.getView().byId("delbtnButton").setVisible(false); //commented by Bala on 3rd July 2023
                                                 that.getView().byId("revertBtnButton").setVisible(false);
                                             }
                                            
@@ -541,15 +584,23 @@ sap.ui.define([
                                         else{
                                             
                                         }
-                
-                                      
+                                    // Begin of changes done by Bala on 3rd July 2023  
+                                    
+                                    //Begin of code commented by Bala on 19th July 2023
+                                    // if(oResponse.results.length != 0){
+                                    //     if(oResponse.results[0].Material == 'DC'){
+                                    //         that.getView().byId("delbtnButton").setVisible(true);
+                                    //     } 
+                                    // }
+                                     
+                                    //End of code commented by Bala on 19th July 2023
+
+                                    // End of changes done by Bala on 3rd July 2023    
                                       
                                            
                                      }.bind(that),
                                      error: function (err) {},
                                    });
-
-
 
             },
 
@@ -793,7 +844,7 @@ sap.ui.define([
 var flag=false;
                                             sap.m.MessageToast.show(" Delivery Fee Reverted");
                                             oModel.refresh();
-
+                                            that.getView().byId("delbtnButton").setVisible(true);
                                             oModel.sDefaultUpdateMethod = "MERGE";
                                             that.checkInvoiceHdr(flag);
                                             //     setTimeout(function () {
@@ -833,7 +884,7 @@ var flag=false;
                         }
                     }
                 });
-
+                // this.onDcButtonCheck();
 
             },
             onSave: function (oEvent) {
@@ -930,12 +981,12 @@ var flag=true;
                                 }
                             });
 
-
+                            that.onDcButtonCheck();
                         }
                     }
                 });
 
-
+              
 
             },
 
@@ -1083,7 +1134,7 @@ var flag=true;
                                     }
                                     //Begin of changes done by bala on 13th june 2023
 
-                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
+                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
                                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                                         sap.ui.getCore().byId("attachmentUpl").setUploadEnabled(false);
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -1181,7 +1232,7 @@ var flag=true;
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
                             }
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
 
@@ -1235,7 +1286,7 @@ var flag=true;
                                     console.log(oResponse.results);
                                     pressDialog.open();
 
-                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
+                                    if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
                                         sap.ui.getCore().byId("Idsave").setEnabled(false);
                                         sap.ui.getCore().byId("attachmentUplSht").setUploadEnabled(false);
                                         sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -1310,7 +1361,7 @@ var flag=true;
                             }
                             //Begin of changes done by bala on 13th june 2023
 
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || StatusDescription == "Redelivery") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || StatusDescription == "Redelivery") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
                              //End of changes done by bala on 13th june 2023
@@ -1398,7 +1449,7 @@ var flag=true;
                             }
                             //Begin of changes done by bala on 13th june 2023
 
-                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Rejected" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
+                            if (data.StatusDescription == "Cancelled" || data.StatusDescription == "Denied" || data.StatusDescription == "Approved" || StatusDescription == "Redelivery") {
                                 sap.ui.getCore().byId("Idsave").setEnabled(false);
                                 sap.ui.getCore().byId("attachmentUpl1").setUploadEnabled(false);
                                 sap.ui.getCore().byId("apprQty").setEnabled(false);
@@ -3843,7 +3894,7 @@ var flag=true;
                                         var oFilterR = new sap.ui.model.Filter({
                                             filters: [
                                                 new sap.ui.model.Filter("StatusType", "EQ", "Reject"),
-                                                new sap.ui.model.Filter("StatusDescription", "EQ", "Rejected")
+                                                new sap.ui.model.Filter("StatusDescription", "EQ", "Denied")
                                             ],
                                             and: true
                                         });
@@ -3990,8 +4041,8 @@ var flag=true;
                 //var pathdata = oEvent.oSource.oParent.oParent._aSelectedPaths[0];
                 this.oModel = this.getView().getModel();
                 var obj = {
-                    StatusCode_Id: that.CR_Status[0].Id,
-                    RedeliveryDateTime: DateTime
+                    StatusCode_Id: that.CR_Status[0].Id
+                   // RedeliveryDateTime: DateTime
 
 
 
@@ -4404,7 +4455,7 @@ var flag=true;
                             oDialog.getContent()[1].getContent()[1].setEnabled(true);
 
                         }
-                        if (oSelectedkey == "Rejected") {
+                        if (oSelectedkey == "Denied") {
                             oDialog.setTitle("Rejection Reason");
                             oDialog.getContent()[0].getItems()[0].getItems()[0].setText("Reason for rejection status:");
 
@@ -4542,7 +4593,7 @@ var flag=true;
                     this.onPressCancelled();
 
                 }
-                if (text == "Rejected") {
+                if (text == "Denied") {
 
                     this.onPressRejected();
 
@@ -4745,7 +4796,7 @@ var flag=true;
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--addItemIdButton").setVisible(true);
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--idDeleteCRDataButton").setVisible(true);
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--revertBtnButton").setVisible(true);
-                        that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(true);
+   //                     that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--delbtnButton").setVisible(false); //Changed by Bala on 3rd July 2023
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::REPLACE_WITH_ACTION_IDButton2").setVisible(true);
                         that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--action::idSubmitButton").setVisible(false);
                         //       that.getView().byId("sccmanagecr::sap.suite.ui.generic.template.ObjectPage.view.Details::GetCreditReqHdr--CreditMemobtnButton").setVisible(true);
@@ -4845,7 +4896,7 @@ var flag=true;
                             id: "item15"
                         },
                         {
-                            text: "Rejected",
+                            text: "Denied",
                             id: "item14"
                         }];
                     var AppStatus = new JSONModel(data1);
@@ -4873,7 +4924,7 @@ var flag=true;
                     
 
                     {
-                        text: "Rejected",
+                        text: "Denied",
                         id: "item14"
                     }];
                     var AppStatus = new JSONModel(data1);

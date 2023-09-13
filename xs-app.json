@@ -2,18 +2,11 @@
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
   "routes": [
-    { 
-        "source": "^/bpmworkflowruntime/(.*)$", 
-        "target": "/$1",   
-        "service": "com.sap.bpm.workflow",   
-        "endpoint": "workflow_rest_url",   
-        "authenticationType": "xsuaa"   
-      },
-      {
+    {
       "source": "^/v2/(.*)$",
       "target": "/v2/$1",
       "destination": "CreditTrackerV1",
-      "authenticationType": "none",
+      "authenticationType": "xsuaa",
       "csrfProtection": false
     },
     {

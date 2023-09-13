@@ -5,16 +5,20 @@
     <items>
       <!-- <core:Item xmlns:core="sap.ui.core" key="Under" 
            text="Under Review"  id="item0"/> -->
-      <core:Item xmlns:core="sap.ui.core" key="Reject" 
-           text="Rejected" id="item11"/>
+
+          <!-- Begin  of changes done by bala on 20th june 2023     -->
+      <!-- <core:Item xmlns:core="sap.ui.core" key="Reject" 
+           text="Rejected" id="item11"/> -->
+           <core:Item xmlns:core="sap.ui.core" key="Reject" 
+           text="Denied" id="item11" enabled="true"/>
+
+           <!-- End of changes done by bala on 20th june 2023 -->
              <core:Item xmlns:core="sap.ui.core" key="Cancel" 
            text="Cancelled" id="item12"/>
+
            <!-- Begin of changes done by bala on 15 june 2023 -->
-
-            <core:Item xmlns:core="sap.ui.core" key="ReDel"
-
+            <core:Item xmlns:core="sap.ui.core" key="ReDel" 
            text="Redelivery" id="item17"/>
-
            <!-- End of changes done by bala on 15 june 2023 -->
     </items>
    </ComboBox>
